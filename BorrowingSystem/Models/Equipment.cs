@@ -12,7 +12,6 @@ namespace BorrowingSystem.Models
         public enum EquipmentStatus
         {
             available,
-            reserved,
             repairing
         }
         [Key]
