@@ -11,7 +11,9 @@ namespace BorrowingSystem.Models
         public enum UserRole
         {
             admin,
-            user
+            user,
+            third_party_user,
+            third_party_admin,
         }
         public enum UserStatus
         {
@@ -22,8 +24,10 @@ namespace BorrowingSystem.Models
         public int Id { get; set; }
         public string FullName { get; set; }
         public string Email { get; set; }
+        public string Password { get; set; }
         public string PhoneNumber { get; set; }
         public UserRole Role { get; set; }
         public UserStatus Status { get; set; }
+        public string ProfileImage { get; set; }
     }
 }

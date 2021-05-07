@@ -1,0 +1,31 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+}
+
+<header>
+    <h1>Edit Profile</h1>
+    <span>09:22</span>
+    <img src="~/img/user-profile.svg" alt="user profile picture" width="50"/>
+</header>
+<section>
+    <img src="~/img/user-profile.svg" alt="user profile picture" width="200"/>
+    <div>Saitan Kittibullungkul</div>
+    <div>aomsaitan@gmail.com</div>
+    <div>096-094-3542</div>
+</section>
+<section>
+    <div>Edit</div>
+    <img src="~/img/user-profile.svg" alt="user profile picture" width="100"/>
+    <input type="image" name="profilePicture" value="" />
+    <form id="form">
+        <label for="fullName">Full Name</label>
+        <input type="text" name="fullName" id="fullName" value="" />
+        <label for="email">Email address</label>
+        <input type="email" name="email" id="email"  value="" />
+        <label for="email">Email address</label>
+        <input type="tel" name="phoneNumber" id="phoneNumber"  value="" />
+        <button type="submit">Save Profile</button>
+    </form>
+
+</section>

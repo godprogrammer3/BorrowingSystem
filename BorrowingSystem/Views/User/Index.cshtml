@@ -9,14 +9,27 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>Index</title>
+    <link rel="stylesheet" href="~/css/site.css" />
+    <script src="~/js/Utill.js"></script>
+    <script src="~/js/Api.js"></script>
+    <script src="~/js/LogIn.js"></script>
 </head>
 <body>
-    <form method="post" asp-action="Login">
-        <lable for="Email">Email address</lable>
-        <input id="Email" type="text" name="Email" value="" />
-        <lable for="Password">Password</lable>
-        <input id="Password" type="password" name="Password" value="" />
-        <button type="submit">Login</button>
-    </form>
+    <header>
+        <h1>Log in to Borrow</h1>
+    </header>
+    <section>
+        <form id="form">
+            <lable for="email">Email address</lable>
+            <input id="email" type="text" name="email" value="" />
+            <lable for="password">Password</lable>
+            <input id="password" type="password" name="password" value="" />
+            <button type="submit">Login</button>
+            <div class="loader" id="loader" style="visibility:hidden;"></div>
+        </form>
+    </section>
+    <footer>
+        <p>Not a member?<a href="/user/register">Register now</a></p>
+    </footer>
 </body>
 </html>

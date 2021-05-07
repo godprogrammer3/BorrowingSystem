@@ -20,5 +20,6 @@ namespace BorrowingSystem.Models
         public EquipmentStatus Status{ get; set; }
         [ForeignKey("Room")]
         public int RoomId { get; set; }
+        public string SerialNumber   { get; set; } 
     }
 }

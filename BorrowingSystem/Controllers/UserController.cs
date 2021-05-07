@@ -7,16 +7,11 @@ using System.Threading.Tasks;
 
 namespace BorrowingSystem.Controllers
 {
-    public class User : Controller
+    public class UserController : Controller
     {
         public IActionResult Index()
         {
             return View();
-        }
-        [HttpPost]
-        public IActionResult Login()
-        {
-            return StatusCode((int)HttpStatusCode.OK, Json("Sucess."));
         }
         public IActionResult Register()
         {
