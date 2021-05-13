@@ -8,8 +8,11 @@
     xmlhttp.onreadystatechange = function () {
         if (this.readyState == 4 && (this.status == 200 || this.status == 204)) {
             callback({ status: this.status, body: xmlhttp.responseText });
-        } else if (this.readyState == 4 ) {
-            callback({ status:-1, body: "Unknown Error." });
+        } else if (this.readyState == 4 && this.status == 401) {
+            callback({ status: this.status, body: "Unauthoried!" });
+        }
+        else if (this.readyState == 4) {
+            callback({ status: this.status, body: "Unknown Error." });
         }
     };
     xmlhttp.open(method, uri, true);
@@ -43,6 +46,6 @@ function refreshToken(refreshToken, callback) {
 function logout(callback) {
     ajax('/api/user/logout', 'post', null, callback, true);
 }
-function editProfile(fullName, email, phoneNumber, callback) {
-    ajax('/api/user/edit-profile', 'post', { fullName: fullName, email: email, phoneNumber: phoneNumber }, callback, true);
+function editProfile(newFullName, newEmail, newPhoneNumber, newProfileImage, newPassword, oldPassword,callback) {
+    ajax('/api/user/edit-profile', 'post', { newFullName: newFullName, newEmail: newEmail, newPhoneNumber: newPhoneNumber, newProfileImage: newProfileImage, newPassword: newPassword, oldPassword: oldPassword}, callback, true);
 }

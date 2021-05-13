@@ -10,7 +10,6 @@
     document.getElementById("form").addEventListener("submit", (event, context = this) => submitFormHandler(event, context));
 }
 function submitFormHandler(event, context) {
-
     event.preventDefault();
     var email = document.getElementById('email').value;
     var password = document.getElementById('password').value;
@@ -26,8 +25,11 @@ function submitFormHandler(event, context) {
         if (data.status == 200) {
             localStorage.setItem('UserData', data.body);
             window.location = "/dashboard";
-        } else {
-            console.log('Error!');
+        } else if (data.status == 403) {
+            alert('Email or password is incorrect!');
+            return -1;
+        }else {
+            console.log('Unkonw Error! : status code', data.status);
         }
 
 
@@ -50,8 +52,8 @@ function refreshTokenAndRedirecToDashboard(refreshToken_) {
             console.log('Success :', data.body);
             localStorage.setItem('UserData', data.body);
             window.location = "/dashboard";
-        } else {
-            console.log('Error!');
+        }else {
+            console.log('Unkonw Error! : status code',data.status);
         }
     }).catch(error => {
         document.getElementById('loader').style.visibility = "hidden";

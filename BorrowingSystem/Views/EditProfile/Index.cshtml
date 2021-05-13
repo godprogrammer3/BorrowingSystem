@@ -19,13 +19,22 @@
     <img src="~/img/user-profile.svg" alt="user profile picture" width="100"/>
     <input type="image" name="profilePicture" value="" />
     <form id="form">
-        <label for="fullName">Full Name</label>
-        <input type="text" name="fullName" id="fullName" value="" />
-        <label for="email">Email address</label>
-        <input type="email" name="email" id="email"  value="" />
-        <label for="email">Email address</label>
-        <input type="tel" name="phoneNumber" id="phoneNumber"  value="" />
+        <label for="newFullName">Full Name</label>
+        <input type="text" name="newFullName" id="newFullName" value="" />
+        <label for="newEmail">Email address</label>
+        <input type="email" name="newEmail" id="newEmail" value="" />
+        <label for="newPhoneNumber">Phone number</label>
+        <input type="tel" name="newPhoneNumber" id="newPhoneNumber" value="" />
+        <input type="file" accept="image/png,image/bmp,image/jpeg,image/gif" name="newProfileImage" id="newProfileImage" />
+        <label for="newPasswword">New Password</label>
+        <input type="password" name="newPassword" id="newPassword" value="" />
+        <label for="confirmNewPasswword">Confirm New Password</label>
+        <input type="password" name="confirmNewPassword" id="confirmNewPassword" value="" />
+        <label for="oldPasswword">Current Password</label>
+        <input type="password" name="oldPassword" id="oldPassword" value="" required/>
         <button type="submit">Save Profile</button>
+        <div class="loader" id="editProfileLoader" style="visibility:hidden;"></div>
     </form>
 
 </section>
+<script src="~/js/EditProfile.js"></script>

@@ -2,29 +2,57 @@
     document.getElementById('form').addEventListener('submit',(event)=>submitFormHandler(event));
 }
 
-function submitFormHandler(event) {
+async function submitFormHandler(event) {
     event.preventDefault();
-    var fullName = document.getElementById('fullName');
-    var email = document.getElementById('email');
-    var phoneNumber = document.getElementById('phoneNumber');
+    document.getElementById('editProfileLoader').style.visibility = "visible";
+    var newFullName = document.getElementById('newFullName').value;
+    var newEmail = document.getElementById('newEmail').value;
+    var newPhoneNumber = document.getElementById('newPhoneNumber').value;
+    var newPassword = document.getElementById('newPassword').value;
+    var confirmNewPassword = document.getElementById('confirmNewPassword').value;
+    var oldPassword = document.getElementById('oldPassword').value;
+
+    console.log('newPassword :', newPassword, ' :', 'confirmNewPassword :', confirmNewPassword);
+    if (newPassword && (newPassword != confirmNewPassword)) {
+        document.getElementById('editProfileLoader').style.visibility = "hidden";
+        alert('Confirm new password not match new password');
+        return -1;
+    }
+
+    var newProfileImage = await new Promise((resolve, reject) => {
+        var tmpImageFile = document.getElementById('newProfileImage');
+        var fileReader = new FileReader();
+        fileReader.onload = () => {
+            resolve(fileReader.result);
+        };
+        fileReader.onerror = (event) => {
+            reject(fileReader.error);
+        };
+        fileReader.readAsDataURL(tmpImageFile.files[0]);
+    });
     new Promise((resolve, reject) => {
         try {
-            register(email, password, fullName, resolve);
+            editProfile(newFullName, newEmail, newPhoneNumber, newProfileImage, newPassword, oldPassword , resolve);
         } catch (error) {
             reject({ status: -1, message: error.message });
         }
     }).then(data => {
-        document.getElementById('loader').style.visibility = "hidden";
+        document.getElementById('editProfileLoader').style.visibility = "hidden";
         if (data.status == 204) {
             console.log('Success.');
-            window.location = "/user";
-        } else {
-            console.log('Error!');
+        } else if (data.status == 401) {
+            console.log(data.body, 'redirect to log in page.');
+            window.location = "/user"
+        } else if ( data.status == 403) {
+            alert('Old password incorrect!');
+            return;
+        }else {
+            console.log('Unknow Error : status code',data.status);
         }
 
 
     }).catch(error => {
-        document.getElementById('loader').style.visibility = "hidden";
+        document.getElementById('editProfileLoader').style.visibility = "hidden";
         console.log('Error :', error.message);
     });
 }

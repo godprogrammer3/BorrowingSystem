@@ -63,7 +63,7 @@ namespace BorrowingSystem.Controllers
                     new Claim(ClaimTypes.Name,user.FullName),
                     new Claim(ClaimTypes.Role, user.Role.ToString()),
                     new Claim(ClaimTypes.Email,user.Email),
-                    new Claim(ClaimTypes.MobilePhone,user.PhoneNumber)
+                    new Claim(ClaimTypes.MobilePhone,user.PhoneNumber??"")
                 };
                 var jwtResult = _jwtAuthManager.GenerateTokens(request.Email, claims, DateTime.Now);                
                 _logger.LogInformation($"User [{user.FullName}] logged in successfully.");
@@ -77,7 +77,7 @@ namespace BorrowingSystem.Controllers
                 });
 
             }
-            return Unauthorized();
+            return Forbid();
         }
         [HttpPost("logout")]
         [Authorize]
@@ -121,10 +121,14 @@ namespace BorrowingSystem.Controllers
             }
         }
 
-        [HttpPost("logout")]
+        [HttpPost("edit-profile")]
         [Authorize]
         public async Task<ActionResult> EditProfile([FromBody] EditProfileRequest request)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
             var accessToken = await HttpContext.GetTokenAsync("Bearer", "access_token");
             try
             {
