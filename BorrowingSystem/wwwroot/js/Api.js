@@ -63,3 +63,19 @@ function deleteRoom(id, callback) {
 function editRoom(id, name,callback) {
     ajax('/api/room/edit', 'post', { id: id ,name:name }, callback, true);
 }
+
+function getAllBannedUser(callback) {
+    ajax('/api/user/get-all-banned-user', 'get', null, callback, true);
+}
+
+function getAllNormalUser(callback) {
+    ajax('/api/user/get-all-normal-user', 'get', null, callback, true);
+}
+
+function banUser(id,callback) {
+    ajax('/api/user/ban-user', 'post', { id: id }, callback, true);
+}
+
+function unBanUser(id, callback) {
+    ajax('/api/user/un-ban-user', 'post', { id: id }, callback, true);
+}

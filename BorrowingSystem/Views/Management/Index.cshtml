@@ -10,27 +10,26 @@
 </header>
 <nav>
     <ul class="tab-ul">
-        <li class="tab-li"><a href="#" id="laboratory">Laboratory</a></li>
-        <li class="tab-li"><a href="#" id="blacklist">Blacklist</a></li>
+        <li class="tab-li"><a href="" id="laboratory">Laboratory</a></li>
+        <li class="tab-li"><a href="" id="blacklist">Blacklist</a></li>
     </ul>
 </nav>
 <section>
-    <section id="loadingTab" style="display: block;">
+    <section id="loadingTab" style="display: none;">
         <div class="loader" id="loadingTabLoader"></div>
     </section>
     <section id="laboratoryTab" style="display: none;">
        
     </section>
     <section id="blacklistTab" style="display:none;">
-        <table>
-            <tr>
-                <th><input type="checkbox"/></th>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Phone number</th>
-                <th>Search Icon</th>
-            </tr>
-        </table>
+
+    </section>
+    <section id="searchBlacklistTab" style="display:none;">
+        <input type="text" name="searchBlacklistTabInput" id="searchBlacklistTabInput" placeholder="Search for name or email..." value="" oninput="updateSearchBlacklistTab(event)"/>
+        <span class="material-icons" onclick="initialBlacklist()">
+            close
+        </span>
+        <section id="searchBlacklistTabBody"></section>
     </section>
 </section>
 <section class="popup" id="popup">
@@ -77,6 +76,43 @@
             </footer>
         </section>
     </section>       
+</section>
+<section id="blacklistPopup" class="popup">
+    <section class="popup-content">
+        <section id="onLoadingBlacklistPopup" style="display:none">
+            <header>
+                <h3>Add people to blacklist</h3>
+            </header>
+            <section>
+                <h3>Please wait a moment...</h3>
+            </section>
+            <div class="loader"></div>
+        </section>
+        <section id="onSuccessBlacklistPopup" style="display:none;">
+            <header>
+                <h3>Add people to blacklist</h3>
+                <input type="text" name="searchNameOrEmailPopup" id="searchNameOrEmailPopup" placeholder="Search for name or email..." value=""/>
+            </header>
+            <span class="onsuccess-blacklist-popup-content" id="onSuccessBlcklistPopupContent">
+                
+            </span>
+            <footer>
+                <button onclick="document.getElementById('blacklistPopup').style.display = 'none';initialBlacklist();">close</button>
+            </footer>
+        </section>
+        <section id="onErrorBlacklistPopup" style="display:none;">
+            <header>
+                <h3>Add people to blacklist</h3>
+                <h4>Failed! Please try again.</h4>
+            </header>
+            <i class="material-icons">
+                cancel
+            </i>
+            <footer>
+                <button onclick="document.getElementById('blacklistPopup').style.display = 'none';">ok</button>
+            </footer>
+        </section>
+    </section>
 </section>
 <script src="~/js/Management.js">
 </script>

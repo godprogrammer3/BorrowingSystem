@@ -53,7 +53,7 @@ namespace BorrowingSystem.Services
 
         public void Edit(int id, string name)
         {
-            Room room = _db.Room.FirstOrDefault(c => c.Id == id);
+            Room room = _db.Room.Find(id);
             if (room != null)
             {
                 room.Name = name;

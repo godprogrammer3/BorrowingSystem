@@ -21,6 +21,10 @@ namespace BorrowingSystem.Services
         void RegisterUser(string email, string password , string fullName);
         User Login(string email, string password);
         void EditProfile(string newFullName, string newEmail, string newPhoneNumber, string newProfilePicture, string newPassword, string oldPassword, string accessToken);
+        IEnumerable<User> GetAllBannedUser();
+        IEnumerable<User> GetAllNormalUser();
+        void BanUser(int id);
+        void UnBanUser(int id);
     }
     public class UserService : IUserService
     {
@@ -62,7 +66,7 @@ namespace BorrowingSystem.Services
         public void EditProfile(string newFullName, string newEmail, string newPhoneNumber,string newProfileImage, string newPassword,string oldPassword,string accessToken)
         {
             var (principal, jwtToken) = _jwtAuthManager.DecodeJwtToken(accessToken);
-            var user = _db.User.FirstOrDefault(c => c.Id.ToString() == principal.FindFirst(ClaimTypes.NameIdentifier).Value);
+            var user = _db.User.Find(int.Parse(principal.FindFirst(ClaimTypes.NameIdentifier).Value));
             if (user!=null)
             {
                 if (BCrypt.Net.BCrypt.Verify(oldPassword, user.Password))
@@ -103,6 +107,7 @@ namespace BorrowingSystem.Services
                         //_logger.LogInformation(fullPath);
                         image.Save(fullPath);
                         _logger.LogInformation($"User[{user.FullName}] changed profile image.");
+                        user.ProfileImage = user.Email + '.' + format.FileExtensions.ElementAt(0);
                     }
                     _db.User.Update(user);
                     _db.SaveChanges();
@@ -114,6 +119,34 @@ namespace BorrowingSystem.Services
                 }
             }
             throw new Exception("Unauthoried!");
+        }
+
+        public IEnumerable<User> GetAllBannedUser()
+        {
+            return _db.User.Where(c => c.Status == User.UserStatus.banned);
+        }
+
+        public IEnumerable<User> GetAllNormalUser()
+        {
+            return _db.User.Where(c => c.Status == User.UserStatus.normal);
+        }
+
+        public void BanUser(int id)
+        {
+            User user = _db.User.Find(id);
+            user.Status = User.UserStatus.banned;
+            _db.User.Update(user);
+            _db.SaveChanges();
+            return;
+        }
+
+        public void UnBanUser(int id)
+        {
+            User user = _db.User.Find(id);
+            user.Status = User.UserStatus.normal;
+            _db.User.Update(user);
+            _db.SaveChanges();
+            return;
         }
     }
 }

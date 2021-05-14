@@ -25,7 +25,7 @@ namespace BorrowingSystem.Controllers
         private readonly ILogger<ApiUserController> _logger;
         private readonly IUserService _userService;
         private readonly IJwtAuthManager _jwtAuthManager;
-        public ApiUserController(ILogger<ApiUserController> logger , IUserService userService , IJwtAuthManager jwtAuthManager)
+        public ApiUserController(ILogger<ApiUserController> logger, IUserService userService, IJwtAuthManager jwtAuthManager)
         {
             _logger = logger;
             _userService = userService;
@@ -40,10 +40,10 @@ namespace BorrowingSystem.Controllers
             {
                 return BadRequest();
             }
-            _userService.RegisterUser(request.Email,request.Password,request.FullName);
+            _userService.RegisterUser(request.Email, request.Password, request.FullName);
             _logger.LogInformation($"User [{request.FullName}] registered successfully.");
             return NoContent();
-            
+
         }
 
         [AllowAnonymous]
@@ -55,7 +55,7 @@ namespace BorrowingSystem.Controllers
             {
                 return BadRequest();
             }
-           User user = _userService.Login(request.Email, request.Password);
+            User user = _userService.Login(request.Email, request.Password);
             if (user != null)
             {
                 var claims = new[]
@@ -66,7 +66,7 @@ namespace BorrowingSystem.Controllers
                     new Claim(ClaimTypes.MobilePhone,user.PhoneNumber??""),
                     new Claim(ClaimTypes.NameIdentifier,user.Id.ToString())
                 };
-                var jwtResult = _jwtAuthManager.GenerateTokens(request.Email, claims, DateTime.Now);                
+                var jwtResult = _jwtAuthManager.GenerateTokens(request.Email, claims, DateTime.Now);
                 _logger.LogInformation($"User [{user.FullName}] logged in successfully.");
                 return Ok(new LoginResult
                 {
@@ -87,7 +87,7 @@ namespace BorrowingSystem.Controllers
             string email = User.FindFirst(ClaimTypes.Email)?.Value;
             _jwtAuthManager.RemoveRefreshTokenByEmail(email);
             _logger.LogInformation($"User [{User.Identity?.Name}] logged out successfully.");
-            return NoContent() ;
+            return NoContent();
         }
         [HttpPost("refresh-token")]
         [Authorize]
@@ -118,7 +118,7 @@ namespace BorrowingSystem.Controllers
             catch (SecurityTokenException e)
             {
                 _logger.LogError(e.Message);
-                return Unauthorized(e.Message); 
+                return Unauthorized(e.Message);
             }
         }
 
@@ -138,11 +138,11 @@ namespace BorrowingSystem.Controllers
             }
             catch (Exception error)
             {
-                if(error.Message == "Unauthoried!")
+                if (error.Message == "Unauthoried!")
                 {
                     return Unauthorized();
                 }
-                else if(error.Message == "InvalidCredential!")
+                else if (error.Message == "InvalidCredential!")
                 {
                     return Forbid();
                 }
@@ -152,6 +152,71 @@ namespace BorrowingSystem.Controllers
                 }
             }
         }
+
+        [Authorize(Roles = "admin")]
+        [HttpGet("get-all-banned-user")]
+        public ActionResult GetAllBannedUser()
+        {
+            try
+            {
+                IEnumerable<User> users = _userService.GetAllBannedUser();
+                return Ok(users);
+            }
+            catch (Exception error)
+            {
+                _logger.LogError(error.ToString());
+                return BadRequest();
+            }
+        }
+
+        [Authorize(Roles = "admin")]
+        [HttpGet("get-all-normal-user")]
+        public ActionResult GetAllNormalUser()
+        {
+            try
+            {
+                IEnumerable<User> users = _userService.GetAllNormalUser();
+                return Ok(users);
+            }
+            catch (Exception error)
+            {
+                _logger.LogError(error.ToString());
+                return BadRequest();
+            }
+        }
+
+        [Authorize(Roles = "admin")]
+        [HttpPost("ban-user")]
+        public ActionResult BanUser([FromBody] BanUserRequest request)
+        {
+            try
+            {
+               _userService.BanUser(request.Id);
+                return NoContent();
+            }
+            catch (Exception error)
+            {
+                _logger.LogError(error.ToString());
+                return BadRequest();
+            }
+        }
+
+        [Authorize(Roles = "admin")]
+        [HttpPost("un-ban-user")]
+        public ActionResult UnBanUser([FromBody] UnBanUserRequest request)
+        {
+            try
+            {
+                _userService.UnBanUser(request.Id);
+                return NoContent();
+            }
+            catch (Exception error)
+            {
+                _logger.LogError(error.ToString());
+                return BadRequest();
+            }
+        }
+
         public class RegisterRequest
         {
             [Required]
@@ -192,12 +257,12 @@ namespace BorrowingSystem.Controllers
             public string RefreshToken { get; set; }
         }
 
-        public class RefreshTokenRequest 
+        public class RefreshTokenRequest
         {
             [JsonPropertyName("refreshToken")]
             public string RefreshToken { get; set; }
         }
-        
+
         public class EditProfileRequest
         {
             [Required]
@@ -214,6 +279,20 @@ namespace BorrowingSystem.Controllers
             [JsonPropertyName("newProfileImage")]
             public string NewProfileImage { get; set; }
 
+        }
+
+        public class BanUserRequest
+        {
+            [Required]
+            [JsonPropertyName("id")]
+            public int Id { get; set; }
+        }
+
+        public class UnBanUserRequest
+        {
+            [Required]
+            [JsonPropertyName("id")]
+            public int Id { get; set; }
         }
     }
 }

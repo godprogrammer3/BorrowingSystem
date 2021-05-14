@@ -32,3 +32,8 @@
     color: #0da789;
     box-shadow: 5px 5px 5px #857d7b;
 }
+
+.onsuccess-blacklist-popup-content {
+    overflow-y: scroll;
+    height: 20rem;
+}
