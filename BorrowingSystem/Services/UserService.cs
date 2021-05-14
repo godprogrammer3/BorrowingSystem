@@ -62,7 +62,7 @@ namespace BorrowingSystem.Services
         public void EditProfile(string newFullName, string newEmail, string newPhoneNumber,string newProfileImage, string newPassword,string oldPassword,string accessToken)
         {
             var (principal, jwtToken) = _jwtAuthManager.DecodeJwtToken(accessToken);
-            var user = _db.User.FirstOrDefault(c => c.Email == principal.FindFirst(ClaimTypes.Email).Value);
+            var user = _db.User.FirstOrDefault(c => c.Id.ToString() == principal.FindFirst(ClaimTypes.NameIdentifier).Value);
             if (user!=null)
             {
                 if (BCrypt.Net.BCrypt.Verify(oldPassword, user.Password))
@@ -70,18 +70,22 @@ namespace BorrowingSystem.Services
                     if (!String.IsNullOrEmpty(newFullName))
                     {
                         user.FullName = newFullName;
+                        _logger.LogInformation($"User[{user.FullName}] full name.");
                     }
                     if (!String.IsNullOrEmpty(newEmail))
                     {
                         user.Email = newEmail;
+                        _logger.LogInformation($"User[{user.FullName}] changed email.");
                     }
                     if (!String.IsNullOrEmpty(newPhoneNumber))
                     {
                         user.PhoneNumber = newPhoneNumber;
+                        _logger.LogInformation($"User[{user.FullName}] changed phone number.");
                     }
                     if (!String.IsNullOrEmpty(newPassword))
                     {
                         user.Password = BCrypt.Net.BCrypt.HashPassword(newPassword);
+                        _logger.LogInformation($"User[{user.FullName}] changed password.");
                     }
                     if (!String.IsNullOrEmpty(newProfileImage))
                     {     
@@ -90,14 +94,15 @@ namespace BorrowingSystem.Services
                         {
                             throw new Exception("Bad format of profile image!");
                         }
-                        _logger.LogInformation(newProfileImage);
-                        _logger.LogInformation(base64String);
+                        //_logger.LogInformation(newProfileImage);
+                        //_logger.LogInformation(base64String);
                         byte[] bytes = Convert.FromBase64String(base64String);
                         using var image = Image.Load(bytes, out IImageFormat format);
                         var fileName = user.Email + '.'+format.FileExtensions.ElementAt(0);
                         var fullPath = Path.Combine(_webHostEnvironment.WebRootPath, "img/"+ fileName);
-                        _logger.LogInformation(fullPath);
+                        //_logger.LogInformation(fullPath);
                         image.Save(fullPath);
+                        _logger.LogInformation($"User[{user.FullName}] changed profile image.");
                     }
                     _db.User.Update(user);
                     _db.SaveChanges();

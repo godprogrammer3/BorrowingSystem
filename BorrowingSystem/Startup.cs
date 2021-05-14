@@ -59,8 +59,9 @@ namespace BorrowingSystem
                 };
             });
             services.AddSingleton<IJwtAuthManager, JwtAuthManager>();
-            services.AddHostedService<JwtRefreshTokenCache>();
+            services.AddHostedService<JwtRefreshTokenCache>(); 
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IRoomService, RoomService>();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Borrowing System Api", Version = "v1" });

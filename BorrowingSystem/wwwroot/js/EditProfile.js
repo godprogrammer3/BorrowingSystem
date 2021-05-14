@@ -12,7 +12,6 @@ async function submitFormHandler(event) {
     var confirmNewPassword = document.getElementById('confirmNewPassword').value;
     var oldPassword = document.getElementById('oldPassword').value;
 
-    console.log('newPassword :', newPassword, ' :', 'confirmNewPassword :', confirmNewPassword);
     if (newPassword && (newPassword != confirmNewPassword)) {
         document.getElementById('editProfileLoader').style.visibility = "hidden";
         alert('Confirm new password not match new password');

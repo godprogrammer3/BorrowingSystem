@@ -1,9 +1,18 @@
 ﻿window.onload = function () {
     document.getElementById('logOut').addEventListener('click', (event) => logOutHandler(event));
+    var userData = JSON.parse(localStorage.getItem('UserData'));
+    if (userData.role == 'admin') {
+        document.getElementById('myBorrowNavigation').style.display = 'none';
+        document.getElementById('managementNavigation').style.display = 'block';
+    } else {
+        document.getElementById('myBorrowNavigation').style.display = 'block';
+        document.getElementById('managementNavigation').style.display = 'none';
+    }
 }
 
 function logOutHandler(event) {
     event.preventDefault();
+    document.getElementById('logOutLoader').style.visibility = "visible";
     new Promise((resolve, reject) => {
         try {
             logout(resolve);
@@ -11,7 +20,7 @@ function logOutHandler(event) {
             reject({ status: -1, message: error.message });
         }
     }).then(data => {
-        document.getElementById('loader').style.visibility = "hidden";
+        document.getElementById('logOutLoader').style.visibility = "hidden";
         if (data.status == 204) {
             console.log('Success :', data.body);
             localStorage.removeItem('UserData');
@@ -20,7 +29,7 @@ function logOutHandler(event) {
             console.log('Error!');
         }
     }).catch(error => {
-        document.getElementById('loader').style.visibility = "hidden";
+        document.getElementById('logOutLoader').style.visibility = "hidden";
         console.log('Error :', error.message);
     });
 }

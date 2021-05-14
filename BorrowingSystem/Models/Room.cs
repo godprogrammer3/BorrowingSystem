@@ -11,5 +11,7 @@ namespace BorrowingSystem.Models
         [Key]
         public int Id { get; set; }
         public string Name { get; set; }
+        public string CreateBy { get; set; }
+        public DateTime DateModified { get; set; }
     }
 }

@@ -1,0 +1,84 @@
+﻿
+@{
+    ViewData["Title"] = "Management";
+}
+
+<header>
+    <h1>Management</h1>
+    <output>09:22</output>
+    <img src="~/img/user-profile.svg" alt="user profile picture" width="100" />
+</header>
+<nav>
+    <ul class="tab-ul">
+        <li class="tab-li"><a href="#" id="laboratory">Laboratory</a></li>
+        <li class="tab-li"><a href="#" id="blacklist">Blacklist</a></li>
+    </ul>
+</nav>
+<section>
+    <section id="loadingTab" style="display: block;">
+        <div class="loader" id="loadingTabLoader"></div>
+    </section>
+    <section id="laboratoryTab" style="display: none;">
+       
+    </section>
+    <section id="blacklistTab" style="display:none;">
+        <table>
+            <tr>
+                <th><input type="checkbox"/></th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Phone number</th>
+                <th>Search Icon</th>
+            </tr>
+        </table>
+    </section>
+</section>
+<section class="popup" id="popup">
+    <section class="popup-content">
+        <section id="onInitialPopup" style="display:none">
+            <header id="headerOnInitialPopupContent">
+
+            </header>
+            <section id="bodyOnInitialPopupContent">
+
+            </section>
+            <footer>
+                <button onclick="document.getElementById('popup').style.display = 'none';">cancel</button>
+                <button id="confirmButtonOnInitialPopupContent"></button>
+            </footer>
+        </section>
+        <section id="onLoadingPopup" style="display:none">
+            <hgroup>
+                <h3>Please wait a moment...</h3>
+            </hgroup>
+            <div class="loader" id="createLaboratoryLoader"></div>
+        </section>
+        <section id="onSuccessPopup" style="display:none;">
+            <hgroup>
+                <h3>Successed.</h3>
+            </hgroup>
+            <span class="material-icons">
+                check_circle
+            </span>
+            <footer>
+                <button onclick="postPopupProcess();">ok</button>
+            </footer>
+        </section>
+        <section id="onErrorPopup" style="display:none;">
+            <hgroup>
+                <h3>Failed!</h3>
+                <h4>Please try again.</h4>
+            </hgroup>
+            <i class="material-icons">
+                cancel
+            </i>
+            <footer>
+                <button onclick="document.getElementById('popup').style.display = 'none';document.getElementById('onErrorPopup').style.display='none'">ok</button>
+            </footer>
+        </section>
+    </section>       
+</section>
+<script src="~/js/Management.js">
+</script>
+
+

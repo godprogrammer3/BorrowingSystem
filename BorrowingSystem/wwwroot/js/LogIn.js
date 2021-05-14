@@ -13,7 +13,7 @@ function submitFormHandler(event, context) {
     event.preventDefault();
     var email = document.getElementById('email').value;
     var password = document.getElementById('password').value;
-    document.getElementById('loader').style.visibility = "visible";
+    document.getElementById('logInLoader').style.visibility = "visible";
     new Promise((resolve, reject) => {
         try {
             login(email, password, resolve);
@@ -21,7 +21,7 @@ function submitFormHandler(event, context) {
             reject({ status: -1, message: error.message });
         }
     }).then(data => {
-        document.getElementById('loader').style.visibility = "hidden";
+        document.getElementById('logInLoader').style.visibility = "hidden";
         if (data.status == 200) {
             localStorage.setItem('UserData', data.body);
             window.location = "/dashboard";
@@ -34,7 +34,7 @@ function submitFormHandler(event, context) {
 
 
     }).catch(error => {
-        document.getElementById('loader').style.visibility = "hidden";
+        document.getElementById('logInLoader').style.visibility = "hidden";
         console.log('Error :', error.message);
     });
 }
@@ -47,7 +47,7 @@ function refreshTokenAndRedirecToDashboard(refreshToken_) {
             reject({ status: -1, message: error.message });
         }
     }).then(data => {
-        document.getElementById('loader').style.visibility = "hidden";
+        document.getElementById('logInLoader').style.visibility = "hidden";
         if (data.status == 200) {
             console.log('Success :', data.body);
             localStorage.setItem('UserData', data.body);
@@ -56,7 +56,7 @@ function refreshTokenAndRedirecToDashboard(refreshToken_) {
             console.log('Unkonw Error! : status code',data.status);
         }
     }).catch(error => {
-        document.getElementById('loader').style.visibility = "hidden";
+        document.getElementById('logInLoader').style.visibility = "hidden";
         console.log('Error :', error.message);
     });
 }

@@ -4,7 +4,13 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - BorrowingSystem</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined">
+
     <link rel="stylesheet" href="~/css/site.css" />
+    @if (ViewContext.RouteData.Values["Controller"].ToString().ToLower() == "management")
+    {
+        <link rel="stylesheet" href="~/css/Management.css" />
+    }
     <script src="~/js/Utill.js"></script>
     <script src="~/js/Api.js"></script>
     <script src="~/js/Layout.js"></script>
@@ -14,10 +20,11 @@
         <img src="~/img/user-profile.svg" alt="user profile picture" width="100" />
         <nav>
             <a href="/dashbaord">Dashboard</a>
-            <a href="/myborrow">My borrow</a>
+            <a href="/myborrow" id="myBorrowNavigation">My borrow</a>
+            <a href="/management" id="managementNavigation">Management</a>
             <a href="/editprofile">Edit profile</a>
-            <a href="#" id="logOut">Log out</a>
-            <div class="loader" id="loader" style="visibility:hidden;"></div>
+            <a href="" id="logOut">Log out</a>
+            <div class="loader" id="logOutLoader" style="visibility:hidden;"></div>
         </nav>
     </section>
     <div class="container">

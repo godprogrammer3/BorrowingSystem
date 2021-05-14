@@ -26,7 +26,6 @@
         xmlhttp.setRequestHeader('Authorization', 'Bearer ' + userData.accessToken);
     }
     if (body) {
-        console.log('body :', JSON.stringify(body));
         xmlhttp.send(JSON.stringify(body));
     } else {
        xmlhttp.send();
@@ -48,4 +47,19 @@ function logout(callback) {
 }
 function editProfile(newFullName, newEmail, newPhoneNumber, newProfileImage, newPassword, oldPassword,callback) {
     ajax('/api/user/edit-profile', 'post', { newFullName: newFullName, newEmail: newEmail, newPhoneNumber: newPhoneNumber, newProfileImage: newProfileImage, newPassword: newPassword, oldPassword: oldPassword}, callback, true);
+}
+function createRoom(name,callback) {
+    ajax('/api/room/create', 'post', { name: name }, callback, true);
+}
+
+function getAllRoom(callback) {
+    ajax('/api/room/get-all', 'get',null,callback, true);
+}
+
+function deleteRoom(id, callback) {
+    ajax('/api/room/delete', 'post', {id:id}, callback, true);
+}
+
+function editRoom(id, name,callback) {
+    ajax('/api/room/edit', 'post', { id: id ,name:name }, callback, true);
 }

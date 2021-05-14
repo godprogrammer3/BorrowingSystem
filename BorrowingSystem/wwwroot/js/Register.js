@@ -7,7 +7,7 @@ async function submitFormHandler(event, context) {
     var fullName = document.getElementById('fullName').value;
     var email = document.getElementById('email').value;
     var password = document.getElementById('password').value;
-    document.getElementById('loader').style.visibility = "visible";
+    document.getElementById('registerLoader').style.visibility = "visible";
     new Promise((resolve, reject) => {
         try {
             register(email, password, fullName, resolve);
@@ -15,7 +15,7 @@ async function submitFormHandler(event, context) {
             reject({ status: -1, message: error.message });
         }
     }).then(data => {
-        document.getElementById('loader').style.visibility = "hidden";
+        document.getElementById('registerLoader').style.visibility = "hidden";
         if (data.status == 204) {
             console.log('Success.');
             window.location = "/user";
@@ -25,7 +25,7 @@ async function submitFormHandler(event, context) {
         
           
     }).catch(error => {
-        document.getElementById('loader').style.visibility = "hidden";
+        document.getElementById('registerLoader').style.visibility = "hidden";
         console.log('Error :', error.message);
     });
 }

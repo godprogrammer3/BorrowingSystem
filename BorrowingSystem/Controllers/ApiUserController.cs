@@ -63,7 +63,8 @@ namespace BorrowingSystem.Controllers
                     new Claim(ClaimTypes.Name,user.FullName),
                     new Claim(ClaimTypes.Role, user.Role.ToString()),
                     new Claim(ClaimTypes.Email,user.Email),
-                    new Claim(ClaimTypes.MobilePhone,user.PhoneNumber??"")
+                    new Claim(ClaimTypes.MobilePhone,user.PhoneNumber??""),
+                    new Claim(ClaimTypes.NameIdentifier,user.Id.ToString())
                 };
                 var jwtResult = _jwtAuthManager.GenerateTokens(request.Email, claims, DateTime.Now);                
                 _logger.LogInformation($"User [{user.FullName}] logged in successfully.");
