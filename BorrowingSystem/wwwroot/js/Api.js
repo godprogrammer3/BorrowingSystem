@@ -79,3 +79,19 @@ function banUser(id,callback) {
 function unBanUser(id, callback) {
     ajax('/api/user/un-ban-user', 'post', { id: id }, callback, true);
 }
+
+function getAllEquipmentByRoom(id, callback) {
+    ajax('/api/equipment/get-all-equipment-by-room', 'post', { id: id }, callback, true);
+}
+
+function createEquipment(roomId,name,serialNumber, callback) {
+    ajax('/api/equipment/create', 'post', { roomId: roomId, name:name , serialNumber:serialNumber}, callback, true);
+}
+
+function deleteEquipment(id,callback) {
+    ajax(`/api/equipment/delete?id=${id}`, 'delete', null , callback, true);
+}
+
+function patchEquipment(id,name,serialNumber, callback) {
+    ajax(`/api/equipment/patch`, 'patch', {id:id, name:name , serialNumber:serialNumber}, callback, true);
+}

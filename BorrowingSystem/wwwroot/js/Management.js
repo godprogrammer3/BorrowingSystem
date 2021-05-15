@@ -42,7 +42,7 @@ function initialRooms(event) {
                     var bits = room.dateModified.split(/\D/);
                     var date = new Date(bits[0], --bits[1], bits[2], bits[3], bits[4], bits[5]);
                     insideContent += `
-                     <tr>
+                     <tr onclick="window.location = '/management/room?id=${room.id}&name=${encodeURI(room.name)}'">
                        <td>${room.name}</td>
                        <td>${date.toLocaleString()}</td>
                        <td>${room.createBy}</td>

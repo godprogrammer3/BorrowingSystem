@@ -14,5 +14,12 @@ namespace BorrowingSystem.Controllers
         {
             return View();
         }
+        public IActionResult Room([FromQuery(Name = "id")] int id, [FromQuery(Name = "name")] string name)
+        {
+            ViewBag.id = id;
+            ViewBag.name = name;
+            return View();
+        }
     }
+
 }

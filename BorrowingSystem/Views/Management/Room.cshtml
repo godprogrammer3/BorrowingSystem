@@ -1,0 +1,71 @@
+﻿
+@{
+    ViewData["Title"] = "Room";
+}
+
+<header>
+    <span class="material-icons" onclick="window.location = '/management';">
+        arrow_back
+    </span>
+    <h1>@ViewBag.name</h1>
+    <output>09:22</output>
+    <img src="~/img/user-profile.svg" alt="user profile picture" width="100" />
+</header>
+
+<section id="bodyContentOnloading" style="display:block;">
+    <div class="loader" id="loadingTabLoader"></div>
+</section>
+<section id="bodyContentOnSuccess" style="display:none;">
+</section>
+<section id="bodyContentOnError" style="display:none;">
+    <header>Failed! Please try again.</header>
+    <section>
+        <button onclick="initialBodyContent();"></button>
+    </section>
+</section>
+<section class="popup" id="popup">
+    <section class="popup-content">
+        <section id="popupOnInitial" style="display:none">
+            <header id="popupOnInitialHeader">
+            </header>
+            <section id="popupOnInitialBody">
+            </section>
+            <footer>
+                <button onclick="document.getElementById('popup').style.display = 'none';">cancel</button>
+                <button id="popupOnInitialCofirmButton"></button>
+            </footer>
+        </section>
+        <section id="popupOnLoading" style="display:none">
+            <hgroup>
+                <h3>Please wait a moment...</h3>
+            </hgroup>
+            <div class="loader"></div>
+        </section>
+        <section id="popupOnSuccess" style="display:none;">
+            <hgroup>
+                <h3>Successed.</h3>
+            </hgroup>
+            <span class="material-icons">
+                check_circle
+            </span>
+            <footer>
+                <button id="popupOnSuccessConfirmButton";">ok</button>
+            </footer>
+        </section>
+        <section id="popupOnError" style="display:none;">
+            <hgroup>
+                <h3>Failed!</h3>
+                <h4>Please try again.</h4>
+            </hgroup>
+            <i class="material-icons">
+                cancel
+            </i>
+            <footer>
+                <button onclick="document.getElementById('popup').style.display = 'none';document.getElementById('popupOnError').style.display='none'">ok</button>
+            </footer>
+        </section>
+    </section>
+</section>
+<script src="~/js/ManagementRoom.js"></script>
+
+

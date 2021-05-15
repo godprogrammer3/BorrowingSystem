@@ -62,6 +62,7 @@ namespace BorrowingSystem
             services.AddHostedService<JwtRefreshTokenCache>(); 
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IRoomService, RoomService>();
+            services.AddScoped<IEquipmentService, EquipmentService>();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Borrowing System Api", Version = "v1" });

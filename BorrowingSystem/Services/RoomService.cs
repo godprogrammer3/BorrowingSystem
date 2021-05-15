@@ -17,6 +17,7 @@ namespace BorrowingSystem.Services
         IEnumerable<Room> GetAll();
         void Delete(int id);
         void Edit(int id, string name);
+
     }
     public class RoomService : IRoomService
     {
