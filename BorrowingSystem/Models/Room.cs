@@ -13,5 +13,6 @@ namespace BorrowingSystem.Models
         public string Name { get; set; }
         public string CreateBy { get; set; }
         public DateTime DateModified { get; set; }
+        public string EquipmentName { get; set; }
     }
 }

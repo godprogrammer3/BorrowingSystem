@@ -11,6 +11,10 @@
     {
         <link rel="stylesheet" href="~/css/Management.css" />
     }
+    @if (ViewContext.RouteData.Values["Controller"].ToString().ToLower() == "dashboard")
+    {
+        <link rel="stylesheet" href="~/css/Dashboard.css" />
+    }
     <script src="~/js/Utill.js"></script>
     <script src="~/js/Api.js"></script>
     <script src="~/js/Layout.js"></script>
@@ -19,7 +23,7 @@
     <section>
         <img src="~/img/user-profile.svg" alt="user profile picture" width="100" />
         <nav>
-            <a href="/dashbrd">Dashboard</a>
+            <a href="/dashboard">Dashboard</a>
             <a href="/myborrow" id="myBorrowNavigation">My borrow</a>
             <a href="/management" id="managementNavigation">Management</a>
             <a href="/editprofile">Edit profile</a>

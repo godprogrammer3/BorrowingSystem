@@ -33,6 +33,7 @@ function initialRooms(event) {
                 let insideContent = `<table>
                  <tr>
                      <th>Name</th>
+                     <th>Equipment Name</th>
                      <th>Date Modified</th>                     
                      <th>Create By</th>
                      <th>Action</th>
@@ -42,12 +43,13 @@ function initialRooms(event) {
                     var bits = room.dateModified.split(/\D/);
                     var date = new Date(bits[0], --bits[1], bits[2], bits[3], bits[4], bits[5]);
                     insideContent += `
-                     <tr onclick="window.location = '/management/room?id=${room.id}&name=${encodeURI(room.name)}'">
-                       <td>${room.name}</td>
+                     <tr >
+                       <td onclick="window.location = '/management/room?id=${room.id}&name=${encodeURI(room.name)}'">${room.name}</td>
+                       <td>${room.equipmentName}</td>
                        <td>${date.toLocaleString()}</td>
                        <td>${room.createBy}</td>
                        <td>
-                            <span class="material-icons-outlined" onclick="editRoomHandler({id:${room.id},name:'${room.name}'})">
+                            <span class="material-icons-outlined" onclick="updateRoomHandler({id:${room.id},name:'${room.name}',equipmentName: '${room.equipmentName}'})">
                                 edit
                             </span>
                             <span class="material-icons-outlined" onclick="deleteRoomHandler({id:${room.id},name:'${room.name}'});">
@@ -101,7 +103,10 @@ var afterPostPupupProcess = ()=>{
 
 function createRoomHandler() {
     document.getElementById('headerOnInitialPopupContent').innerHTML = `<h3>New Laboratory</h3>`;
-    document.getElementById('bodyOnInitialPopupContent').innerHTML = `<input type="text" name="roomName" id="roomName" value="" placeholder="Enter room's name..." />`;
+    document.getElementById('bodyOnInitialPopupContent').innerHTML = `
+        <input type="text" name="roomName" id="roomName" value="" placeholder="Enter room's name..." />
+        <input type="text" name="equipmentName" id="equipmentName" value="" placeholder="Enter equipment's name..." />                                                      
+`;
     document.getElementById('confirmButtonOnInitialPopupContent').innerHTML = 'Create';
     document.getElementById('confirmButtonOnInitialPopupContent').onclick = function (event) {
         confirmCreateRoom(event);
@@ -112,11 +117,12 @@ function createRoomHandler() {
 
 function confirmCreateRoom(event) {
     var name = document.getElementById('roomName').value;
+    var equipmentName = document.getElementById('equipmentName').value;
     document.getElementById('onInitialPopup').style.display = 'none';
     document.getElementById('onLoadingPopup').style.display = 'block';
     new Promise((resolve, reject) => {
         try {
-            createRoom(name, resolve);
+            createRoom(name,equipmentName, resolve);
         } catch (error) {
             reject({ status: -1, message: error.message });
         }
@@ -184,24 +190,28 @@ function confirmDeleteRoom(room) {
     });
 }
 
-function editRoomHandler(room) {
+function updateRoomHandler(room) {
     document.getElementById('headerOnInitialPopupContent').innerHTML = `<h3>Edit name</h3>`;
-    document.getElementById('bodyOnInitialPopupContent').innerHTML = `<input type="text" name="roomName" id="roomName" value="${room.name}" placeholder="Enter room's name..."  />`;
+    document.getElementById('bodyOnInitialPopupContent').innerHTML = `
+        <input type="text" name="roomName" id="roomName" value="${room.name}" placeholder="Enter room's name..."  required />
+        <input type="text" name="equipmentName" id="equipmentName" value="${room.equipmentName}" placeholder="Enter equipment's name..." required />
+    `;
     document.getElementById('confirmButtonOnInitialPopupContent').innerHTML = 'Edit';
     document.getElementById('confirmButtonOnInitialPopupContent').onclick = function (event) {
-        confirmEditRoom(room);
+        confirmUpdateRoom(room);
     };
     document.getElementById('onInitialPopup').style.display = 'block';
     document.getElementById('popup').style.display = 'block';
 }
 
-function confirmEditRoom(room) {
+function confirmUpdateRoom(room) {
     document.getElementById('onInitialPopup').style.display = 'none';
     document.getElementById('onLoadingPopup').style.display = 'block';
     var newName = document.getElementById('roomName').value;
+    var newEquipmentName = document.getElementById('equipmentName').value;
     new Promise((resolve, reject) => {
         try {
-            editRoom(room.id, newName,resolve);
+            updateRoom(room.id, newName, newEquipmentName,resolve);
         } catch (error) {
             reject({ status: -1, message: error.message });
         }

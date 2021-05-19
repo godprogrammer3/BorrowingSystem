@@ -13,10 +13,10 @@ namespace BorrowingSystem.Services
     
     public interface IRoomService
     {
-        void Create(string name ,  DateTime now,string accessToken);
+        void Create(string name , string equipmentName,DateTime now,string accessToken);
         IEnumerable<Room> GetAll();
         void Delete(int id);
-        void Edit(int id, string name);
+        void Patch(int id, string name, string equipmentName);
 
     }
     public class RoomService : IRoomService
@@ -30,11 +30,11 @@ namespace BorrowingSystem.Services
             _logger = logger;
             _jwtAuthManager = jwtAuthManager;
         }
-        public void Create(string name, DateTime now,string accessToken )
+        public void Create(string name, string equipmentName,DateTime now,string accessToken )
         {
             var (principal, jwtToken) = _jwtAuthManager.DecodeJwtToken(accessToken);
             var createBy = principal.FindFirst(ClaimTypes.Name).Value;
-            Room room = new() { Name = name , CreateBy = createBy , DateModified = now};
+            Room room = new() { Name = name , EquipmentName = equipmentName ,CreateBy = createBy , DateModified = now};
             _db.Room.Add(room);
             _db.SaveChanges();
         }
@@ -52,12 +52,19 @@ namespace BorrowingSystem.Services
             return _db.Room;
         }
 
-        public void Edit(int id, string name)
+        public void Patch(int id, string name , string equipmentName)
         {
             Room room = _db.Room.Find(id);
             if (room != null)
             {
-                room.Name = name;
+                if (!String.IsNullOrEmpty(name))
+                {
+                    room.Name = name;
+                }
+                if(!String.IsNullOrEmpty(equipmentName))
+                {
+                    room.EquipmentName = equipmentName;
+                }
                 _db.Room.Update(room);
                 _db.SaveChanges();
                 return;

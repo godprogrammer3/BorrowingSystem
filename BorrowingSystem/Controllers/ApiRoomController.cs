@@ -37,7 +37,7 @@ namespace BorrowingSystem.Controllers
             try
             {
                 var accessToken = await HttpContext.GetTokenAsync("Bearer", "access_token");
-                _roomService.Create(request.Name, DateTime.Now ,accessToken);
+                _roomService.Create(request.Name, request.EquipmentName ,DateTime.Now ,accessToken);
                 return NoContent();
             }
             catch (Exception error)
@@ -48,7 +48,7 @@ namespace BorrowingSystem.Controllers
             }
         }
 
-        [Authorize(Roles = "admin")]
+        [Authorize]
         [HttpGet("get-all")]
         public ActionResult GetAll()
         {
@@ -86,8 +86,8 @@ namespace BorrowingSystem.Controllers
         }
 
         [Authorize(Roles = "admin")]
-        [HttpPost("edit")]
-        public ActionResult Edit([FromBody] EditRequest request)
+        [HttpPatch("update")]
+        public ActionResult Update([FromBody] UpdateRequest request)
         {
             if (!ModelState.IsValid)
             {
@@ -95,7 +95,7 @@ namespace BorrowingSystem.Controllers
             }
             try
             {
-                _roomService.Edit(request.Id,request.Name);
+                _roomService.Patch(request.Id, request.Name, request.EquipmentName);
                 return NoContent();
             }
             catch (Exception error)
@@ -110,6 +110,9 @@ namespace BorrowingSystem.Controllers
             [Required]
             [JsonPropertyName("name")]
             public string Name { get; set; }
+            [Required]
+            [JsonPropertyName("equipmentName")]
+            public string EquipmentName { get; set; }
         }
         public class DeleteRequest
         {
@@ -117,14 +120,16 @@ namespace BorrowingSystem.Controllers
             [JsonPropertyName("id")]
             public int Id { get; set; }
         }
-        public class EditRequest
+        public class UpdateRequest
         {
             [Required]
             [JsonPropertyName("id")]
             public int Id { get; set; }
-            [Required]
             [JsonPropertyName("name")]
             public string Name { get; set; }
+            [JsonPropertyName("equipmentName")]
+            public string EquipmentName { get; set; }
+
         }
 
     }
