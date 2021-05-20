@@ -20,7 +20,7 @@
 <section id="bodyContentOnError" style="display:none;">
     <header>Failed! Please try again.</header>
     <section>
-        <button onclick="initialBodyContent();"></button>
+        <button onclick="initialBodyContent();">Try again.</button>
     </section>
 </section>
 <section class="popup" id="popup">
@@ -36,15 +36,15 @@
             </footer>
         </section>
         <section id="popupOnLoading" style="display:none">
-            <hgroup>
+            <header>
                 <h3>Please wait a moment...</h3>
-            </hgroup>
+            </header>
             <div class="loader"></div>
         </section>
         <section id="popupOnSuccess" style="display:none;">
-            <hgroup>
+            <header>
                 <h3>Successed.</h3>
-            </hgroup>
+            </header>
             <span class="material-icons">
                 check_circle
             </span>
@@ -53,10 +53,10 @@
             </footer>
         </section>
         <section id="popupOnError" style="display:none;">
-            <hgroup>
+            <hader>
                 <h3>Failed!</h3>
                 <h4>Please try again.</h4>
-            </hgroup>
+            </hader>
             <i class="material-icons">
                 cancel
             </i>

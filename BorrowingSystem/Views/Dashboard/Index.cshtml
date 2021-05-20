@@ -9,6 +9,34 @@
     <span>Saitan Kittibullungkul</span>
     <img src="~/img/user-profile.svg" alt="user profile picture" width="100"/>
 </header>
-<section></section>
-<section></section>
+<section id="bodySection">
+    <section id="roomSection">
+        <header>Main Room</header>
+        <section id="roomSectionOnLoading" style="display:block">
+            <div class="loader"></div>
+        </section>
+        <section id="roomSectionOnSuccess" style="display:none">
+        </section>
+        <section id="roomSectionOnError" style="display:none">
+            <header>Failed! Please try again.</header>
+            <section>
+                <button onclick="initialMainRoom();">Try again.</button>
+            </section>
+        </section>
+    </section>
+    <section id="roomSectionDetail">
+        <section id="roomSectionDetailOnLoading" style="display:block">
+            <div class="loader"></div>
+        </section>
+        <section id="roomSectionDetailOnSuccess" style="display:none">
+        </section>
+        <section id="roomSectionOnDetailError" style="display:none">
+            <header>Failed! Please try again.</header>
+            <section>
+                <button onclick="initialRoomDetail();">Try again.</button>
+            </section>
+        </section>
+    </section>
+</section>
+<script src="~/js/Dashboard.js"></script>
 

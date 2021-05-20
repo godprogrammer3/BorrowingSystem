@@ -35,9 +35,9 @@ async function initialBodyContent() {
                     <tr>
                         <td>${equipment.name}</td>
                         <td>${equipment.serialNumber}</td>
-                        <td>${equipment.status == 0 ?'Available':'Repairing'}</td>
+                        <td>${equipment.status == 0 ? 'Available' : 'Repairing'}</td>
                         <td>
-                            <span class="material-icons" onclick="editEquipmentHandler({ id: ${equipment.id} , name:'${equipment.name}' , serialNumber: '${equipment.serialNumber}' })">
+                            <span class="material-icons" onclick="editEquipmentHandler({ id: ${equipment.id} , name:'${equipment.name}' , serialNumber: '${equipment.serialNumber}' , status: '${equipment.status}'})">
                                 edit
                             </span>
                             <span class="material-icons" onclick="deleteEquipmentHandler({ id: ${equipment.id} , name:'${equipment.name}' })">
@@ -66,6 +66,8 @@ async function initialBodyContent() {
             document.getElementById('bodyContentOnloading').style.display = 'none';
             document.getElementById('bodyContentOnSuccess').style.display = 'block';
             document.getElementById('bodyContentOnError').style.display = 'none';
+        } else if (result.status == 401) {
+            window.location = "/user";
         }
     } else {
         document.getElementById('bodyContentOnloading').style.display = 'none';
@@ -205,6 +207,11 @@ function initalEditEquipmentPopup(equipment) {
         <input type="text" id="popupOnInitialBodyNameInput" value = "${equipment.name}" />
         <label for="popupOnInitialBodyEquipmentNumberInput">Equipment Number</lable>
         <input type="text" id="popupOnInitialBodyEquipmentNumberInput" value = "${equipment.serialNumber}" />
+        <input type="radio" id="available" name="equipmentStatus" value="0" ${equipment.status == 0 ? 'checked' : ''}>
+        <label for="available">Available</label>
+        <input type="radio" id="repairing" name="equipmentStatus" value="1" ${equipment.status == 1 ? 'checked' : ''}>
+        <label for="repairing">Repairing</label><br>
+        
     `;
     document.getElementById('popupOnInitialCofirmButton').innerHTML = 'Edit'
     document.getElementById('popupOnInitialCofirmButton').onclick = function (event) { confirmEditEquipmentHandler(equipment) };
@@ -218,10 +225,11 @@ async function confirmEditEquipmentHandler(equipment) {
     document.getElementById('popupOnInitial').style.display = 'none';
     var newName = document.getElementById('popupOnInitialBodyNameInput').value
     var newEquipmentNumber = document.getElementById('popupOnInitialBodyEquipmentNumberInput').value
+    var newStatus = document.querySelector('input[name="equipmentStatus"]:checked').value;
     console.log('newEquipmentNumber :', newEquipmentNumber);
     var result = await new Promise((resolve, reject) => {
         try {
-            patchEquipment(equipment.id, newName, newEquipmentNumber , resolve);
+            patchEquipment(equipment.id, newName, newEquipmentNumber, newStatus, resolve);
         } catch (error) {
             coonsole.log('Error ! :', error.message);
             reject(null);
