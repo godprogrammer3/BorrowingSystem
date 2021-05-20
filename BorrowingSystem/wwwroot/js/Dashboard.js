@@ -52,6 +52,31 @@ async function initialMainRoom(event) {
 }
 
 async function initialRoomDetail(room) {
-
+    var result = new Promise((resolve,reject) => {
+        try {
+            getAvailableEquipmentInMonth(room.id, resolve);
+        } catch (error) {
+            console.log('Error ! :', error.message);
+            reject(null);
+        }
+    });
+    if (result) {
+        var days = JSON.parse(result.body);
+        console.log(days);
+        let insideContent;
+        if (days.length > 0) {
+            sideContent = `<h3>Succeess.</h3>`
+        } else {
+            insideContent = `<h3>Error Empty content !</h3>`
+        }
+        document.getElementById('roomDetailSectionOnSuccess').innerHTML = insideContent;
+        document.getElementById('roomDetailSectionOnLoading').style.display = 'none';
+        document.getElementById('roomDetailSectionOnSuccess').style.display = 'block';
+        document.getElementById('roomDetailSectionOnError').style.display = 'none';
+    } else {
+        document.getElementById('roomDetailSectionOnLoading').style.display = 'none';
+        document.getElementById('roomDetailSectionOnSuccess').style.display = 'none';
+        document.getElementById('roomDetailSectionOnError').style.display = 'block';
+    }
 }
 
