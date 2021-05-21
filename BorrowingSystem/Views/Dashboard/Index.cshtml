@@ -39,42 +39,93 @@
             </section>
         </section>
         <section id="roomReservation">
-            <h4>Borrow</h4>
-            <form onsubmit="createReservationHandler(event);">
-                <label for="startDate">Date</label>
-                <input type="date" id="startDate" value="2018-07-22" min="2018-01-01" max="2018-12-31">
-                <br />
-                <label for="startTime">Start at</label>
-                <select id="startTime">
-                    <option value="9">0 9 : 0 0 </option>
-                    <option value="10">1 0 : 0 0 </option>
-                    <option value="11">1 1 : 0 0 </option>
-                    <option value="12">1 2 : 0 0 </option>
-                    <option value="13">1 3 : 0 0 </option>
-                    <option value="14">1 4 : 0 0 </option>
-                    <option value="15">1 5 : 0 0 </option>
-                    <option value="16">1 6 : 0 0 </option>
-                    <option value="17">1 7 : 0 0 </option>
-                    <option value="18">1 8 : 0 0 </option>
-                    <option value="19">1 9 : 0 0 </option>
-                    <option value="20">2 0 : 0 0 </option>
-                    <option value="21">2 1 : 0 0 </option>
-                </select> 
-                <section id="durationTimeSection">
-                    <label for="durationTime">Duration of time</label>
-                    <span class="material-icons">
-                        add
-                    </span>
-                    <input type="text" id="durationTime" />
-                    <span class="material-icons">
-                        remove
-                    </span>
-                </section>
-                <button type="submit">Reserve</button>
-            </form>
+            <section id="roomReservationOnLoading" style="display:block">
+            </section>
+            <section id="roomReservationOnSuccess" style="display:none">
+                <h4>Borrow</h4>
+                <form onsubmit="createReservationHandler(event);">
+                    <label for="startDate">Date</label>
+                    <input type="date" id="startDate">
+                    <br />
+                    <label for="startTime">Start at</label>
+                    <select id="startTime">
+                        <option value="9">0 9 : 0 0 </option>
+                        <option value="10">1 0 : 0 0 </option>
+                        <option value="11">1 1 : 0 0 </option>
+                        <option value="12">1 2 : 0 0 </option>
+                        <option value="13">1 3 : 0 0 </option>
+                        <option value="14">1 4 : 0 0 </option>
+                        <option value="15">1 5 : 0 0 </option>
+                        <option value="16">1 6 : 0 0 </option>
+                        <option value="17">1 7 : 0 0 </option>
+                        <option value="18">1 8 : 0 0 </option>
+                        <option value="19">1 9 : 0 0 </option>
+                        <option value="20">2 0 : 0 0 </option>
+                        <option value="21">2 1 : 0 0 </option>
+                    </select>
+                    <section id="durationTimeSection" style="display:block">
+                        <label for="durationTime">Duration of time</label>
+                        <span class="material-icons" onclick="decreaseTimeDutationHandler(event);">
+                            remove
+                        </span>
+                        <input type="text" id="durationTime" value="1"/>
+                        <label for="durationTime">Hours</label>
+                        <span class="material-icons" onclick="increaseTimeDutationHandler(event);">
+                            add
+                        </span>
+                    </section>
+                    <button type="submit">Reserve</button>
+                </form>
+            </section>
+            <section id="roomReservationOnError">
+            </section>
         </section>
     </section>
     
+</section>
+<section class="popup" id="popup">
+    <section class="popup-content">
+        <section id="popupOnInitial" style="display:none">
+            <header id="popupOnInitialHeader">
+            </header>
+            <section id="popupOnInitialBody">
+            </section>
+            <footer>
+                <button onclick="document.getElementById('popup').style.display = 'none';">cancel</button>
+                <button id="popupOnInitialCofirmButton"></button>
+            </footer>
+        </section>
+        <section id="popupOnLoading" style="display:none">
+            <header>
+                <h3>Please wait a moment...</h3>
+            </header>
+            <div class="loader"></div>
+        </section>
+        <section id="popupOnSuccess" style="display:none;">
+            <header>
+                <h3>Successed.</h3>
+            </header>
+            <span class="material-icons">
+                check_circle
+            </span>
+            <footer>
+                <button id="popupOnSuccessConfirmButton" ;">ok</button>
+            </footer>
+        </section>
+        <section id="popupOnError" style="display:none;">
+            <hader>
+                <h3>Failed!</h3>
+                <h4 id="popupOnErrorMessage"></h4>
+                <h4>Please try again.</h4>
+            </hader>
+            <i class="material-icons">
+                cancel
+            </i>
+            <footer>
+                <button onclick="document.getElementById('popup').style.display = 'none';document.getElementById('popupOnError').style.display='none'">ok</button>
+            </footer>
+        </section>
+    </section>
 </section>
 <script src="~/js/Dashboard.js"></script>
 

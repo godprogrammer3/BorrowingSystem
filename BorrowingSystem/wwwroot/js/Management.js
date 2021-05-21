@@ -137,6 +137,8 @@ function confirmCreateRoom(event) {
             window.location = '/user';
         }else {
             console.log('Unkonw Error! : status code', data.status);
+            document.getElementById('onLoadingPopup').style.display = 'none';
+            document.getElementById('onErrorPopup').style.display = 'block';
         }
     }).catch(error => {
         console.log('Error :', error.message);

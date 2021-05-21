@@ -1,5 +1,4 @@
 ﻿window.onload = function () {
-    document.getElementById('logOut').addEventListener('click', (event) => logOutHandler(event));
     var userData = JSON.parse(localStorage.getItem('UserData'));
     if (userData.role == 'admin') {
         document.getElementById('myBorrowNavigation').style.display = 'none';

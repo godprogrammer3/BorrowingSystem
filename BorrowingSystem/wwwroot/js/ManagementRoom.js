@@ -147,6 +147,10 @@ function deleteEquipmentHandler(equipment) {
 }
 
 function initalDeleteEquipmentPopup(equipment) {
+    document.getElementById('popupOnLoading').style.display = 'none';
+    document.getElementById('popupOnSuccess').style.display = 'none';
+    document.getElementById('popupOnError').style.display = 'none';
+    document.getElementById('popupOnInitial').style.display = 'block';
     document.getElementById('popupOnInitialHeader').innerHTML = `Remove ${equipment.name} ?`;
     document.getElementById('popupOnInitialBody').innerHTML = ``;
     document.getElementById('popupOnInitialCofirmButton').innerHTML = 'Remove'
