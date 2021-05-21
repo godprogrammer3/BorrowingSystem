@@ -72,6 +72,51 @@ namespace BorrowingSystem.Controllers
             }
 
         }
+
+        [Authorize]
+        [HttpGet("get-reservation-by-user")]
+        public async Task<ActionResult> GetReservationByUserId()
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+            try
+            {
+                var token = await HttpContext.GetTokenAsync("Bearer", "access_token");
+                return Ok(_reservationService.GetReservationByUserId(token));
+            }
+            catch (Exception error)
+            {
+                _logger.LogError(error.ToString());
+                return BadRequest();
+            }
+
+        }
+
+        [Authorize]
+        [HttpDelete("delete")]
+        public async Task<ActionResult> Delete([FromQuery] DeleteReservationRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+            try
+            {
+                var token = await HttpContext.GetTokenAsync("Bearer", "access_token");
+                _reservationService.Delete(request.Id,token);
+                return NoContent();
+            }
+            catch (Exception error)
+            {
+                _logger.LogError(error.ToString());
+                return BadRequest();
+            }
+        }
+
+
+
         public class GetAvailableEquipmentInMonthRequest
         {
             [Required]
@@ -86,6 +131,13 @@ namespace BorrowingSystem.Controllers
             [Required]
             public int HourPeriod { get; set; }
 
+        }
+
+        public class DeleteReservationRequest
+        {
+            [Required]
+            [FromQuery(Name = "id")]
+            public int Id { get; set; }
         }
     }
 }

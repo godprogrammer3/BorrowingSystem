@@ -23,11 +23,20 @@ namespace BorrowingSystem.Services
         public int Hour { get; set; }
         public int Quantity { get; set; }
     }
-
+    public class ReservationByUserId 
+    {
+        public int ReservationId { get; set; }
+        public string EquipmentName { get; set; }
+        public string RoomName { get; set; }
+        public DateTime StartDateTime { get; set; }
+        public DateTime EndDateTime { get; set; }
+    }
 
     public interface IReservationService {
         List<AvailableEquipmentInMonth> GetAvailableEquipmentInMonth(int roomId);
         void Create(int roomId, DateTime startDateTime, int hourPeriod, string accessToken);
+        List<ReservationByUserId> GetReservationByUserId(string accessToken);
+        void Delete(int reservationId, string accessToken);
     }
 
     public class ReservationService : IReservationService
@@ -71,16 +80,35 @@ namespace BorrowingSystem.Services
             return;
         }
 
+        public void Delete(int reservationId, string accessToken)
+        {
+            var (principal, jwtToken) = _jwtAuthManager.DecodeJwtToken(accessToken); 
+            int userId = int.Parse(principal.FindFirst(ClaimTypes.NameIdentifier).Value);
+            string userRole = principal.FindFirst(ClaimTypes.Role).Value;
+            Reservation reservation = _db.Reservation.Find(reservationId);
+            if(reservation == null)
+            {
+                throw new Exception("This reservation id not found!");
+            }
+            if( userRole == "admin" || reservation.UserId == userId)
+            {
+                _db.Reservation.Remove(reservation);
+                _db.SaveChanges();
+                return;
+            }
+            throw new Exception("Your user id is not match this reservation!");
+        }
+
         public List<AvailableEquipmentInMonth> GetAvailableEquipmentInMonth(int roomId)
         {
             
             DateTime firstDate = new (DateTime.Now.Year , DateTime.Now.Month ,1 );
             IEnumerable<Equipment> equipments = _db.Equipment.Where(c => c.RoomId == roomId );
-            List<AvailableEquipmentInMonth> availableEquipmentInMonth = new List<AvailableEquipmentInMonth>();
+            List<AvailableEquipmentInMonth> availableEquipmentInMonth = new ();
             int equipmentQuentity =  equipments.Count();
             for(var dateIndex = 1; dateIndex <= DateTime.DaysInMonth(firstDate.Year, firstDate.Month); dateIndex++)
             {
-                List<AvailableEquipmentInDay> availableEquipmentInDay = new List<AvailableEquipmentInDay>();
+                List<AvailableEquipmentInDay> availableEquipmentInDay = new ();
                 for (var hourIndex = 9; hourIndex <= 21; hourIndex++)
                 {
                     availableEquipmentInDay.Add(new() { Hour = hourIndex , Quantity = equipmentQuentity}); 
@@ -97,6 +125,32 @@ namespace BorrowingSystem.Services
                 }
             }
             return availableEquipmentInMonth;
+        }
+
+        public List<ReservationByUserId> GetReservationByUserId(string accessToken)
+        {
+            var (principal, jwtToken) = _jwtAuthManager.DecodeJwtToken(accessToken);
+
+            var tmpResult = _db.Reservation.Join(
+                _db.Room,
+                reservation => reservation.RoomId,
+                room => room.Id,
+                (reservation, room) => new
+                {
+                    reservation.UserId,
+                    reservation.Id,
+                    room.EquipmentName,
+                    room.Name,
+                    reservation.StartDateTime,
+                    reservation.EndDateTime
+                }
+            ).Where( c=>c.UserId == int.Parse(principal.FindFirst(ClaimTypes.NameIdentifier).Value));
+            List<ReservationByUserId> result = new();
+            foreach(var item in tmpResult)
+            {
+                result.Add(new ReservationByUserId() { ReservationId = item.Id , EquipmentName = item.EquipmentName , RoomName = item.Name , StartDateTime = item.StartDateTime , EndDateTime = item.EndDateTime });
+            }
+            return result;
         }
     }
 }

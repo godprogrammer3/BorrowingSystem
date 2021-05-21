@@ -102,3 +102,11 @@ function getAvailableEquipmentInMonth(id, callback) {
 function createReservation(roomId, startDateTime, hourPeriod, callback) {
     ajax(`/api/reservation/create`, 'post', { roomId:roomId , startDateTime:startDateTime , hourPeriod:hourPeriod }, callback, true);
 }
+
+function getReservationByUser(callback) {
+    ajax(`/api/reservation/get-reservation-by-user`, 'get', null, callback, true);
+}
+
+function deleteReservation(id, callback) {
+    ajax(`/api/reservation/delete?id=${id}`, 'delete', null, callback, true);
+}

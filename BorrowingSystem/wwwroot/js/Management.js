@@ -1,13 +1,6 @@
 ﻿window.onload = function () {
+    checkDisplayNavigationBar();
     document.getElementById('logOut').addEventListener('click', (event) => logOutHandler(event));
-    var userData = JSON.parse(localStorage.getItem('UserData'));
-    if (userData.role == 'admin') {
-        document.getElementById('myBorrowNavigation').style.display = 'none';
-        document.getElementById('managementNavigation').style.display = 'block';
-    } else {
-        document.getElementById('myBorrowNavigation').style.display = 'block';
-        document.getElementById('managementNavigation').style.display = 'none';
-    }
     initialRooms();
     document.getElementById('laboratory').addEventListener('click', initialRooms);
     document.getElementById('blacklist').addEventListener('click', initialBlacklist);

@@ -28,7 +28,7 @@ namespace BorrowingSystem.Controllers
         } 
         [Authorize( Roles = "admin")]
         [HttpPost("create")]
-        public async Task<ActionResult> Create([FromBody] CreateRequest request) {
+        public async Task<ActionResult> Create([FromBody] CreateRoomRequest request) {
             if (!ModelState.IsValid)
             {
                 return BadRequest();
@@ -66,7 +66,7 @@ namespace BorrowingSystem.Controllers
 
         [Authorize(Roles = "admin")]
         [HttpPost("delete")]
-        public ActionResult Delete([FromBody] DeleteRequest request)
+        public ActionResult Delete([FromBody] DeleteRoomRequest request)
         {
             if (!ModelState.IsValid)
             {
@@ -105,7 +105,7 @@ namespace BorrowingSystem.Controllers
             }
 
         }
-        public class CreateRequest
+        public class CreateRoomRequest
         {
             [Required]
             [JsonPropertyName("name")]
@@ -114,7 +114,7 @@ namespace BorrowingSystem.Controllers
             [JsonPropertyName("equipmentName")]
             public string EquipmentName { get; set; }
         }
-        public class DeleteRequest
+        public class DeleteRoomRequest
         {
             [Required]
             [JsonPropertyName("id")]

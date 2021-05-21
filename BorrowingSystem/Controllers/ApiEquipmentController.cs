@@ -44,7 +44,7 @@ namespace BorrowingSystem.Controllers
 
         [Authorize(Roles = "admin")]
         [HttpPost("create")]
-        public ActionResult Create([FromBody] CreateRequest request)
+        public ActionResult Create([FromBody] CreateEquipmentRequest request)
         {
             if (!ModelState.IsValid)
             {
@@ -65,7 +65,7 @@ namespace BorrowingSystem.Controllers
 
         [Authorize(Roles = "admin")]
         [HttpDelete("delete")]
-        public ActionResult Delete([FromQuery]DeleteRequest request)
+        public ActionResult Delete([FromQuery]DeleteEquipmentRequest request)
         {
             if (!ModelState.IsValid)
             {
@@ -85,7 +85,7 @@ namespace BorrowingSystem.Controllers
 
         [Authorize(Roles = "admin")]
         [HttpPatch("patch")]
-        public ActionResult Patch([FromBody] PatchRequest request)
+        public ActionResult Patch([FromBody] UpdateEquipmentRequest request)
         {
             if (!ModelState.IsValid)
             {
@@ -111,7 +111,7 @@ namespace BorrowingSystem.Controllers
             public int Id { get; set; }
         }
 
-        public class CreateRequest
+        public class CreateEquipmentRequest
         {
             [Required]
             [JsonPropertyName("roomId")]
@@ -124,7 +124,7 @@ namespace BorrowingSystem.Controllers
             public string SerialNumber { get; set; }
         }
 
-        public class DeleteRequest
+        public class DeleteEquipmentRequest
         {
             [Required]
             [FromQuery(Name = "id")]
@@ -132,7 +132,7 @@ namespace BorrowingSystem.Controllers
 
         }
 
-        public class PatchRequest
+        public class UpdateEquipmentRequest
         {
             [Required]
             [JsonPropertyName("id")]
