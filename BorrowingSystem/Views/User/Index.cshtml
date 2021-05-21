@@ -16,20 +16,20 @@
 </head>
 <body>
     <header>
-        <h1>Log in to Borrow</h1>
+        <h1>Log in to <span style="color:#9D0042">Borrow</span></h1>
     </header>
     <section>
         <form id="form">
-            <lable for="email">Email address</lable>
-            <input id="email" type="text" name="email" value="" />
-            <lable for="password">Password</lable>
-            <input id="password" type="password" name="password" value="" />
-            <button type="submit">Login</button>
+            <lable for="email">Email address</lable><br>
+            <input id="email" type="text" name="email" value="" /><br>
+            <lable for="password">Password</lable> <lable for="password" style="margin-left:300px;color: #0373B3">Forgot password?</lable><br>
+            <input id="password" type="password" name="password" value="" /><br>
+            <button class="submit" type="submit">Login</button>
             <div class="loader" id="logInLoader" style="visibility:hidden;"></div>
         </form>
     </section>
     <footer>
-        <p>Not a member?<a href="/user/register">Register now</a></p>
+        <p>Not a member?<a href="/user/register"> Register now</a></p>
     </footer>
 </body>
 </html>
