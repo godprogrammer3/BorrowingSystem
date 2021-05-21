@@ -62,6 +62,7 @@ async function initialMainRoom(event) {
     }
 }
 
+var globalAvailableAllDay = null;
 async function initialRoomDetail(room) {
     document.getElementById('roomDetailAvailableSectionOnLoading').style.display = 'block';
     document.getElementById('roomDetailAvailableSectionOnSuccess').style.display = 'none';
@@ -79,6 +80,7 @@ async function initialRoomDetail(room) {
     });
     if (result) {
         var days = JSON.parse(result.body);
+        globalAvailableAllDay = days;
         let insideContent;
         if (days.length > 0) {
             insideContent = `
@@ -88,15 +90,20 @@ async function initialRoomDetail(room) {
                 <section style="display:flex;">
             `;
             var nowDate = new Date();
+            var lastDateOfMonth = new Date(nowDate.getFullYear(), nowDate.getMonth() + 1, 0);
+            lastDateOfMonth = lastDateOfMonth.getDate();
             nowDate = nowDate.getDate();
             var firstDateOfWeek = nowDate - days[nowDate - 1].dayOfWeek + 1;
+            var saveFirstDateOfweek = firstDateOfWeek;
+            insideContent += `<span class="material-icons" style="visibility:hidden;">arrow_back_ios</span>`;
             for (var countDay = 0; countDay < 7; countDay++) {
-                insideContent += `<span><section><p>`;
-                insideContent += dayOfWeekToString(days[firstDateOfWeek-1].dayOfWeek) + '</p>';
-                insideContent += `<p>${firstDateOfWeek}</p>`;
+                insideContent += `<span style="margin:5px;"><section><p>`;
+                insideContent += dayOfWeekToString(countDay) + '</p>';
+                insideContent += `<p style="${firstDateOfWeek < nowDate || firstDateOfWeek > lastDateOfMonth ? 'visibility:hidden;' : ''}${firstDateOfWeek == nowDate ? 'color:red;' : ''}"   onclick="updateRoomDetail( { id : ${room.id}, name:  '${room.name}', equipmentName :  '${room.equipmentName}' } , ${saveFirstDateOfweek} , ${firstDateOfWeek});">${firstDateOfWeek}</p>`;
                 insideContent += `</section></span>`;
                 firstDateOfWeek++;  
             }
+            insideContent += `<span class="material-icons" style="${(firstDateOfWeek > lastDateOfMonth) ? 'visibility:hidden;' : ''}" onclick="updateRoomDetail( { id : ${room.id}, name:  '${room.name}', equipmentName :  '${room.equipmentName}' } , ${firstDateOfWeek} , ${nowDate});">arrow_forward_ios</span>`;
             insideContent += '</section>'
             insideContent += `<p>Today</p>`
             insideContent += `<section><ul style="list-style-type:none;" >`;
@@ -111,7 +118,7 @@ async function initialRoomDetail(room) {
             insideContent = `<h3>Error Empty content !</h3>`
         }
         let startDate = document.getElementById('startDate');
-        var nowDate = new Date();
+        nowDate = new Date();
         startDate.value = dateToYYYMMDD(nowDate);
         startDate.min = dateToYYYMMDD(nowDate);
         startDate.max = dateToYYYMMDD(new Date(nowDate.getFullYear(), nowDate.getMonth()+1, 0));
@@ -134,15 +141,50 @@ async function initialRoomDetail(room) {
     }
 }
 
+function updateRoomDetail(room, firstDateOfWeek, currentSelectedDate) {
+    let days = globalAvailableAllDay;
+    let insideContent = ` 
+     <span>${room.name}</span>
+     <span>${room.equipmentName}</span>
+     <h4>${new Date().toLocaleDateString("en-US")}</h4>
+     <section style="display:flex;">`;
+    var nowDate = new Date();
+    var lastDateOfMonth = new Date(nowDate.getFullYear(), nowDate.getMonth() + 1, 0);
+    lastDateOfMonth = lastDateOfMonth.getDate();
+    nowDate = nowDate.getDate();
+    saveFirstDateOfweek = firstDateOfWeek;
+    insideContent += `<span class="material-icons" style="${saveFirstDateOfweek - 1 < nowDate ? 'visibility:hidden;' : ''}"  onclick="updateRoomDetail( { id : ${room.id}, name:  '${room.name}', equipmentName :  '${room.equipmentName}' } , ${saveFirstDateOfweek-7} , ${currentSelectedDate});" >arrow_back_ios</span>`;
+    for (var countDay = 0; countDay < 7; countDay++) {
+        insideContent += `<span style="margin:5px;"><section><p>`;
+        insideContent += dayOfWeekToString(countDay)+`</p>`;
+        insideContent += `<p style="${firstDateOfWeek < nowDate || firstDateOfWeek > lastDateOfMonth ? 'visibility:hidden;' : ''}${firstDateOfWeek == currentSelectedDate ? 'color:red;' : ''}"  onclick="updateRoomDetail( { id : ${room.id}, name:  '${room.name}', equipmentName :  '${room.equipmentName}' } , ${saveFirstDateOfweek} , ${firstDateOfWeek});">${firstDateOfWeek}</p>`;
+        insideContent += `</section></span>`;
+        firstDateOfWeek++;
+    }
+    insideContent += `<span class="material-icons" style="${(firstDateOfWeek > lastDateOfMonth) ? 'visibility:hidden;' : ''}"  onclick="updateRoomDetail( { id : ${room.id}, name:  '${room.name}', equipmentName :  '${room.equipmentName}' } , ${firstDateOfWeek} , ${currentSelectedDate});">arrow_forward_ios</span>`;
+    insideContent += '</section>'
+    insideContent += `<p>Today</p>`
+    insideContent += `<section><ul style="list-style-type:none;" >`;
+    for (var timeIndex = 9; timeIndex <= 21; timeIndex++) {
+        insideContent += '<li>'
+        insideContent += `<span>${(timeIndex == 9) ? '09' : timeIndex}:00-${timeIndex + 1}:00</span>`;
+        insideContent += `<span style="margin-left:10px;">${availableQuantityToString(days[currentSelectedDate - 1].availableEquipments[timeIndex - 9].quantity)}</span>`;
+        insideContent += '</li>'
+    }
+    insideContent += `</section></ul>`;
+    document.getElementById('roomDetailAvailableSectionOnSuccess').innerHTML = insideContent; 
+
+}
+
 function dayOfWeekToString( dayOfWeek ) {
     var listDays = [        
-        'Su',
         'Mo',
         'Tu',
         'We',
         'Th',
         'Fr',
-        'Sa'
+        'Sa',
+        'Su'
     ];
     return listDays[dayOfWeek];
 }

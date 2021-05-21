@@ -86,7 +86,7 @@ body {
     animation: spin 2s linear infinite;
 }
 
-h1 {
+/*h1 {
     font-weight: bold;
     font-size: 36px;
     line-height: 44px;
@@ -126,7 +126,7 @@ p {
     font-weight: normal;
     font-size: 18px;
     text-align: right;
-}
+}*/
 
 /* Safari */
 @-webkit-keyframes spin {
