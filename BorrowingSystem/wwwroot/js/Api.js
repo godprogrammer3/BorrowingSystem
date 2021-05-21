@@ -99,3 +99,7 @@ function deleteEquipment(id,callback) {
 function patchEquipment(id,name,serialNumber, status ,callback) {
     ajax(`/api/equipment/patch`, 'patch', {id:id, name:name , serialNumber:serialNumber , status:status}, callback, true);
 }
+
+function getAvailableEquipmentInMonth(id, callback) {
+    ajax(`/api/reservation/get-available-equipment-in-month?id=${id}`, 'get', null, callback, true);
+}

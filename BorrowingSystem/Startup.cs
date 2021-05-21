@@ -63,6 +63,7 @@ namespace BorrowingSystem
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IRoomService, RoomService>();
             services.AddScoped<IEquipmentService, EquipmentService>();
+            services.AddScoped<IReservationService, ReservationService>();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Borrowing System Api", Version = "v1" });
@@ -111,9 +112,10 @@ namespace BorrowingSystem
             app.UseDefaultFiles();   
             app.UseStaticFiles();
             app.UseHttpsRedirection();
-         
 
-            app.UseSwagger(c => {
+
+            app.UseSwagger(c =>
+            {
                 c.RouteTemplate = "api/swagger/{documentname}/swagger.json";
             });
             app.UseSwaggerUI(c =>

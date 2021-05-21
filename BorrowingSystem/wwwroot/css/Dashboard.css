@@ -1,3 +1,6 @@
 ﻿#bodySection{
     display: flex;
 }
+#roomDetailSection{
+    display: flex;
+}

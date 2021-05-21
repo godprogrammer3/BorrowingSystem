@@ -13,8 +13,8 @@ namespace BorrowingSystem.Models
         public int Id { get; set; }
         [ForeignKey("User")]
         public int UserId { get; set; }
-        [ForeignKey("Equipment")]
-        public int EquipmentId { get; set; }
+        [ForeignKey("Room")]
+        public int RoomId { get; set; }
         public DateTime StartDateTime { get; set; }
         public DateTime EndDateTime { get; set; }
     }
