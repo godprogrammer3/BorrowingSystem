@@ -1,4 +1,5 @@
 ﻿window.onload = function () {
+    checkDisplayNavigationBar();
     initialBodyContent();
 }
 

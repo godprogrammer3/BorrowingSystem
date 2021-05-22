@@ -1,4 +1,5 @@
 ﻿window.onload = function () {
+    checkDisplayNavigationBar();
     document.getElementById('form').addEventListener('submit',(event)=>submitFormHandler(event));
 }
 

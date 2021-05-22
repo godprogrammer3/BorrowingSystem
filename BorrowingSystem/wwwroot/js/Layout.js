@@ -1,12 +1,5 @@
 ﻿window.onload = function () {
-    var userData = JSON.parse(localStorage.getItem('UserData'));
-    if (userData.role == 'admin') {
-        document.getElementById('myBorrowNavigation').style.display = 'none';
-        document.getElementById('managementNavigation').style.display = 'block';
-    } else {
-        document.getElementById('myBorrowNavigation').style.display = 'block';
-        document.getElementById('managementNavigation').style.display = 'none';
-    }
+ 
 }
 
 function logOutHandler(event) {
@@ -31,4 +24,15 @@ function logOutHandler(event) {
         document.getElementById('logOutLoader').style.visibility = "hidden";
         console.log('Error :', error.message);
     });
+}
+
+function checkDisplayNavigationBar() {
+    var userData = JSON.parse(localStorage.getItem('UserData'));
+    if (userData.role == 'admin') {
+        document.getElementById('myBorrowNavigation').style.display = 'none';
+        document.getElementById('managementNavigation').style.display = 'block';
+    } else {
+        document.getElementById('myBorrowNavigation').style.display = 'block';
+        document.getElementById('managementNavigation').style.display = 'none';
+    }
 }

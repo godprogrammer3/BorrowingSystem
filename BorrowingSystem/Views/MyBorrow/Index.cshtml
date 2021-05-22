@@ -1,0 +1,73 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+}
+
+<header>
+    <h1>MY BORROW</h1>
+    <output>09:22</output>
+    <img src="~/img/user-profile.svg" alt="user profile picture" width="100" />
+</header>
+<section id="bodySection">
+    <section id="bodySectionOnLoading" style="display:block">
+        <div class="loader"></div>
+    </section>
+    <section id="bodySectionOnSuccess" style="display:none">
+    </section>
+    <section id="bodySectionOnError" style="display:none">
+        <header>Failed! Please try again.</header>
+        <section>
+            <button onclick="initialMyBorrow();">Try again.</button>
+        </section>
+    </section>
+</section>
+<section class="popup" id="popup">
+    <section class="popup-content">
+        <section id="popupOnInitial" style="display:none">
+            <header id="popupOnInitialHeader">
+            </header>
+            <section id="popupOnInitialBody">
+            </section>
+            <footer>
+                <button onclick="document.getElementById('popup').style.display = 'none';">cancel</button>
+                <button id="popupOnInitialCofirmButton"></button>
+            </footer>
+        </section>
+        <section id="popupOnLoading" style="display:none">
+            <header>
+                <h3>Please wait a moment...</h3>
+            </header>
+            <div class="loader"></div>
+        </section>
+        <section id="popupOnSuccess" style="display:none;">
+            <header>
+                <h3>Successed.</h3>
+            </header>
+            <span class="material-icons">
+                check_circle
+            </span>
+            <footer>
+                <button id="popupOnSuccessConfirmButton" ;">ok</button>
+            </footer>
+        </section>
+        <section id="popupOnError" style="display:none;">
+            <hader>
+                <h3>Failed!</h3>
+                <h4 id="popupOnErrorMessage"></h4>
+                <h4>Please try again.</h4>
+            </hader>
+            <i class="material-icons">
+                cancel
+            </i>
+            <footer>
+                <button onclick="document.getElementById('popup').style.display = 'none';document.getElementById('popupOnError').style.display='none'">ok</button>
+            </footer>
+        </section>
+    </section>
+</section>
+
+<script src="~/js/MyBorrow.js">
+</script>
+
+
+
