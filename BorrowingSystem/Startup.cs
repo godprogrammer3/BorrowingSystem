@@ -39,7 +39,7 @@ namespace BorrowingSystem
             services.AddControllersWithViews();
             var jwtTokenConfig = Configuration.GetSection("jwtTokenConfig").Get<JwtTokenConfig>();
             var jwtSecret = Configuration.GetValue<string>("BorrowingSystemJwtSecret");
-            services.AddSingleton(jwtTokenConfig);
+            //services.AddSingleton(jwtTokenConfig);
             services.AddAuthentication(x =>
             {
                 x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
