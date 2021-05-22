@@ -7,6 +7,7 @@ using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json.Serialization;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 
 namespace BorrowingSystem.Jwt
@@ -27,12 +28,11 @@ namespace BorrowingSystem.Jwt
         private readonly ConcurrentDictionary<string, RefreshToken> _usersRefreshTokens;  // can store in a database or a distributed cache
         private readonly JwtTokenConfig _jwtTokenConfig;
         private readonly byte[] _secret;
-
-        public JwtAuthManager(JwtTokenConfig jwtTokenConfig)
+        public JwtAuthManager(JwtTokenConfig jwtTokenConfig , IConfiguration configuration)
         {
             _jwtTokenConfig = jwtTokenConfig;
             _usersRefreshTokens = new ConcurrentDictionary<string, RefreshToken>();
-            _secret = Encoding.ASCII.GetBytes(jwtTokenConfig.Secret);
+            _secret = Encoding.ASCII.GetBytes(configuration.GetValue<string>("BorrowingSystemJwtSecret"));
         }
 
         // optional: clean up expired refresh tokens
