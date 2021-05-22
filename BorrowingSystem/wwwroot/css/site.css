@@ -24,8 +24,69 @@ for details on configuring this project to bundle and minify static web assets. 
   border-color: #1861ac;
 }*/
 
+/* ------------------------sidenav-------------------------------*/
+.sidenav {
+    height: 100%;
+    width: auto;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: #030303;
+    padding-top: 60px;
+}
+
+.navbutton {
+    padding: 8px 30px 5vh 32px;
+    display: block;
+    white-space: nowrap;
+}
+
+.navbutton img {
+    width: 1.5em;
+    padding-right: 8%;
+    transform: translateY(15%);
+}
+
+.navbutton[logout] {
+    position: absolute;
+    width:auto;
+    bottom: 10px;
+    transform: translateY(-50px);
+}
+
+.sidenav a {
+    text-decoration: none;
+    font-size: 2.5vh;
+    color: #FFFFFF;
+    word-wrap: break-word;
+}
+
+.sidenav > img {
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 7vh;
+    display: block;
+}
+/* ------------------------edit-profile-------------------------------*/
+
+.pre-profile-block {
+    float: left;
+    width: 30%;
+    padding: 10px;
+    background-color:antiquewhite;
+}
+
+edit-profile-block {
+    float: left;
+    padding: 10px;
+    background-color: bisque;
+}
+
 /* Sticky footer styles
 -------------------------------------------------- */
+html {
+    font-size: 14px;
 /*html {
   font-size: 14px;
 }
@@ -62,7 +123,6 @@ body {*/
     /* Margin bottom by footer height */
     /*position: absolute;
     margin-bottom: 60px;
-    background-image: url("../img/BGLogin.png");
     font-family: Arial, Helvetica, sans-serif;
     font-style: normal;
     left: 20%;
@@ -85,48 +145,6 @@ body {*/
     -webkit-animation: spin 2s linear infinite; /* Safari */
     animation: spin 2s linear infinite;
 }
-
-/*h1 {
-    font-weight: bold;
-    font-size: 36px;
-    line-height: 44px;
-    margin-bottom: 80px;
-}
-
-button {
-    width: 250px;
-    height: 48px;
-    border-radius: 16px;
-    font-weight: normal;
-    font-size: 20px;
-    line-height: 24px;
-    text-align: center;
-    background: #9D0042;
-    color: white;
-    border: none;
-}
-
-input {
-    background: rgba(60, 60, 67, 0.18);
-    border-radius: 16px;
-    width: 500px;
-    height: 45px;
-    border: none;
-    margin-bottom: 30px;
-}
-
-label {
-    font-weight: normal;
-    line-height: 24px;
-}
-
-p {
-    position: relative;
-    left: 50%;
-    font-weight: normal;
-    font-size: 18px;
-    text-align: right;
-}*/
 
 /* Safari */
 @-webkit-keyframes spin {
