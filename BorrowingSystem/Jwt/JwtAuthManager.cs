@@ -28,6 +28,7 @@ namespace BorrowingSystem.Jwt
         private readonly ConcurrentDictionary<string, RefreshToken> _usersRefreshTokens;  // can store in a database or a distributed cache
         private readonly JwtTokenConfig _jwtTokenConfig;
         private readonly byte[] _secret;
+
         public JwtAuthManager(JwtTokenConfig jwtTokenConfig , IConfiguration configuration)
         {
             _jwtTokenConfig = jwtTokenConfig;
