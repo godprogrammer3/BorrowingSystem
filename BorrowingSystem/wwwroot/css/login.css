@@ -1,0 +1,45 @@
+﻿body {
+    background-image: url("../img/BGLogin.png");
+}
+
+h1 {
+    font-weight: bold;
+    font-size: 36px;
+    line-height: 44px;
+    margin-bottom: 80px;
+}
+
+button {
+    width: 250px;
+    height: 48px;
+    border-radius: 16px;
+    font-weight: normal;
+    font-size: 20px;
+    line-height: 24px;
+    text-align: center;
+    background: #9D0042;
+    color: white;
+    border: none;
+}
+
+input {
+    background: rgba(60, 60, 67, 0.18);
+    border-radius: 16px;
+    width: 500px;
+    height: 45px;
+    border: none;
+    margin-bottom: 30px;
+}
+
+label {
+    font-weight: normal;
+    line-height: 24px;
+}
+
+p {
+    position: relative;
+    left: 50%;
+    font-weight: normal;
+    font-size: 18px;
+    text-align: right;
+}

@@ -20,14 +20,33 @@
     <script src="~/js/Layout.js"></script>
 </head>
 <body>
-    <section>
-        <img src="~/img/user-profile.svg" alt="user profile picture" width="100" />
+    <section class="sidenav">
+        <img src="~/img/Logo.png" alt="logo picture" width="100" />
         <nav>
-            <a href="/dashboard">Dashboard</a>
-            <a href="/myborrow" id="myBorrowNavigation">My borrow</a>
-            <a href="/management" id="managementNavigation">Management</a>
-            <a href="/editprofile">Edit profile</a>
-            <a href="" id="logOut" onclick="logOutHandler(event)">Log out</a>
+            <div class="navbutton">
+                <img src="~/img/Category.png" alt="Dashboard icon" />
+                <a href="/dashboard">Dashboard</a>
+            </div>
+            <div class="navbutton">
+                <img src="~/img/Swap.png" alt="My borrow icon" />
+                <a href="/myborrow" id="myBorrowNavigation">My borrow</a>
+            </div>
+            <div class="navbutton">
+                <img src="~/img/Profile.png" alt="Edit profile icon" />
+                <a href="/editprofile">Edit profile</a>
+            </div>
+            <div class="navbutton">
+                <img src="~/img/Graph.png" alt="Management icon" />
+                <a href="/management" id="managementNavigation">Management</a>
+            </div>
+            <div class="navbutton">
+                <img src="~/img/Setting.png" alt="Setting icon" />
+                <a href="/editprofile">Setting</a>
+            </div>
+            <div class="navbutton" logout>
+                <img src="~/img/Logout.png" alt="Log out icon" />
+                <a href="" id="logOut" onclick="logOutHandler(event)">Log out</a>
+            </div>
             <div class="loader" id="logOutLoader" style="visibility:hidden;"></div>
         </nav>
     </section>
