@@ -12,31 +12,25 @@ namespace BorrowingSystem.Services
 {
   
 
-    public class AvailableEquipmentInMonth 
+    public class ReservationRoom
     {
-        public int Date { get; set; }
-        public int DayOfWeek { get; set; }
-        public List<AvailableEquipmentInDay> AvailableEquipments { get; set; }
-    }  
-    public class AvailableEquipmentInDay
-    {
-        public int Hour { get; set; }
-        public int Quantity { get; set; }
+        public Reservation Reservation { get; set; }
+        public Room Room { get; set; }
     }
-    public class ReservationByUserId 
-    {
-        public int ReservationId { get; set; }
-        public string EquipmentName { get; set; }
-        public string RoomName { get; set; }
-        public DateTime StartDateTime { get; set; }
-        public DateTime EndDateTime { get; set; }
+
+    public class ReservationUser
+    { 
+        public Reservation Reservation { get; set; }
+        public User User { get; set; }
+       
     }
 
     public interface IReservationService {
-        List<AvailableEquipmentInMonth> GetAvailableEquipmentInMonth(int roomId);
+        List<List<int>> GetAvailableEquipmentInMonth(int roomId);
         void Create(int roomId, DateTime startDateTime, int hourPeriod, string accessToken);
-        List<ReservationByUserId> GetReservationByUserId(string accessToken);
+        List<ReservationRoom> GetReservationByUserId(string accessToken);
         void Delete(int reservationId, string accessToken);
+        List<ReservationUser> GetReservationByRoomDateHour(int roomId, int date, int hour);
     }
 
     public class ReservationService : IReservationService
@@ -63,6 +57,11 @@ namespace BorrowingSystem.Services
                 throw new Exception("Invalid start or end time!");
             }
             var (principal, jwtToken) = _jwtAuthManager.DecodeJwtToken(accessToken);
+            User user = _db.User.Find(int.Parse(principal.FindFirst(ClaimTypes.NameIdentifier).Value));
+            if(user.Status == User.UserStatus.banned)
+            {
+                throw new Exception("You are in banned status! Please contact admin.");
+            }
             IEnumerable<Equipment> equipments = _db.Equipment.Where(c => c.RoomId == roomId);
             int equipmentQuentity = equipments.Count();
             IEnumerable<Reservation> reservarions= _db.Reservation.Where(c => (( c.StartDateTime >= startDateTime && c.StartDateTime < endDateTime ) || ( c.EndDateTime > startDateTime && c.EndDateTime <= endDateTime )) && c.RoomId == roomId );
@@ -99,58 +98,62 @@ namespace BorrowingSystem.Services
             throw new Exception("Your user id is not match this reservation!");
         }
 
-        public List<AvailableEquipmentInMonth> GetAvailableEquipmentInMonth(int roomId)
+        public List<List<int>> GetAvailableEquipmentInMonth(int roomId)
         {
             
-            DateTime firstDate = new (DateTime.Now.Year , DateTime.Now.Month ,1 );
             IEnumerable<Equipment> equipments = _db.Equipment.Where(c => c.RoomId == roomId );
-            List<AvailableEquipmentInMonth> availableEquipmentInMonth = new ();
+            List<List<int>> availableEquipmentInMonth = new ();
             int equipmentQuentity =  equipments.Count();
-            for(var dateIndex = 1; dateIndex <= DateTime.DaysInMonth(firstDate.Year, firstDate.Month); dateIndex++)
+            for(var dateIndex = DateTime.Now.Day; dateIndex <= DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month); dateIndex++)
             {
-                List<AvailableEquipmentInDay> availableEquipmentInDay = new ();
+                List<int> availableEquipmentInDay = new ();
                 for (var hourIndex = 9; hourIndex <= 21; hourIndex++)
                 {
-                    availableEquipmentInDay.Add(new() { Hour = hourIndex , Quantity = equipmentQuentity}); 
+                    availableEquipmentInDay.Add(equipmentQuentity); 
                 }
-                availableEquipmentInMonth.Add(new() {Date = dateIndex,DayOfWeek = (int)firstDate.DayOfWeek , AvailableEquipments = availableEquipmentInDay });
-                firstDate = firstDate.AddDays(1);
+                availableEquipmentInMonth.Add(availableEquipmentInDay);
             }
             IEnumerable<Reservation> reservations = _db.Reservation.Where(c => (c.StartDateTime.Year == DateTime.Now.Year && c.StartDateTime.Month == DateTime.Now.Month) && c.RoomId == roomId);
-            foreach(Reservation reservation in reservations)
+            for(var reservationIndex = 0; reservationIndex < reservations.Count(); reservationIndex ++)
             {
-                for(var hourIndex = reservation.StartDateTime.Hour; hourIndex < reservation.EndDateTime.Hour; hourIndex++)
+                for(var hourIndex = reservations.ElementAt(reservationIndex).StartDateTime.Hour ; hourIndex < reservations.ElementAt(reservationIndex).EndDateTime.Hour; hourIndex++)
                 {
-                    availableEquipmentInMonth[reservation.StartDateTime.Day-1].AvailableEquipments[hourIndex - 9].Quantity--;
+                    availableEquipmentInMonth[reservations.ElementAt(reservationIndex).StartDateTime.Day-DateTime.Now.Day][hourIndex-9]--;
                 }
             }
             return availableEquipmentInMonth;
         }
 
-        public List<ReservationByUserId> GetReservationByUserId(string accessToken)
+        public List<ReservationUser> GetReservationByRoomDateHour(int roomId, int date, int hour)
+        {
+            return _db.Reservation.Join(
+                _db.User,
+                reservation => reservation.UserId,
+                user => user.Id,
+                (reservation,user) => new { 
+                   reservation,
+                   user,
+                            }
+               ).Where(c => c.reservation.RoomId == roomId && c.reservation.StartDateTime.Day == date && c.reservation.StartDateTime.Hour == hour)
+               .Select( c => new ReservationUser() { User = c.user , Reservation = c.reservation} )
+               .ToList() ;
+        }
+
+        public List<ReservationRoom> GetReservationByUserId(string accessToken)
         {
             var (principal, jwtToken) = _jwtAuthManager.DecodeJwtToken(accessToken);
 
-            var tmpResult = _db.Reservation.Join(
+            return _db.Reservation.Join(
                 _db.Room,
                 reservation => reservation.RoomId,
                 room => room.Id,
                 (reservation, room) => new
                 {
-                    reservation.UserId,
-                    reservation.Id,
-                    room.EquipmentName,
-                    room.Name,
-                    reservation.StartDateTime,
-                    reservation.EndDateTime
+                    reservation,
+                    room
                 }
-            ).Where( c=>c.UserId == int.Parse(principal.FindFirst(ClaimTypes.NameIdentifier).Value));
-            List<ReservationByUserId> result = new();
-            foreach(var item in tmpResult)
-            {
-                result.Add(new ReservationByUserId() { ReservationId = item.Id , EquipmentName = item.EquipmentName , RoomName = item.Name , StartDateTime = item.StartDateTime , EndDateTime = item.EndDateTime });
-            }
-            return result;
+            ).Where( c=>c.reservation.UserId == int.Parse(principal.FindFirst(ClaimTypes.NameIdentifier).Value)).Select( c => new ReservationRoom() { Reservation = c.reservation , Room = c.room }).ToList();
+         
         }
     }
 }

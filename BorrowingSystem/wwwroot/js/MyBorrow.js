@@ -36,12 +36,12 @@ async function initialMyBorrow() {
                 `;
                 reservations.forEach((reservation) => {
                     insideContent += `<tr>`;
-                    insideContent += `<td>${reservation.equipmentName}</td><td>${reservation.roomName}</td><td>${getDDMMYYYYFromUtcDateTimeString(reservation.startDateTime)}</td>
+                    insideContent += `<td>${reservation.room.equipmentName}</td><td>${reservation.room.name}</td><td>${getDDMMYYYYFromUtcDateTimeString(reservation.reservation.startDateTime)}</td>
                     <td>
-                        ${getHoursFromUtcDateTimeString(reservation.startDateTime)}:00 - ${getHoursFromUtcDateTimeString(reservation.endDateTime)}:00
+                        ${getHoursFromUtcDateTimeString(reservation.reservation.startDateTime)}:00 - ${getHoursFromUtcDateTimeString(reservation.reservation.endDateTime)}:00
                     </td>
                     <td>
-                        <span class="material-icons" onclick="initialDeleteReservationPopupContent({  reservationId : ${reservation.reservationId},  roomName:  '${reservation.roomName}', equipmentName: '${reservation.equipmentName}',  startDateTime:  '${reservation.startDateTime}',  endDateTime: '${reservation.endDateTime}',});">
+                        <span class="material-icons" onclick="initialDeleteReservationPopupContent({  reservationId : ${reservation.reservation.id},  roomName:  '${reservation.room.name}', equipmentName: '${reservation.room.equipmentName}',  startDateTime:  '${reservation.reservation.startDateTime}',  endDateTime: '${reservation.reservation.endDateTime}',});">
                             delete
                         </span>
                     </td>`;

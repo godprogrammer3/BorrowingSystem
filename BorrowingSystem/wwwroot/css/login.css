@@ -1,5 +1,10 @@
 ﻿body {
     background-image: url("../img/BGLogin.png");
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-content:center;
+    padding-left:20%;
 }
 
 h1 {
@@ -34,12 +39,4 @@ input {
 label {
     font-weight: normal;
     line-height: 24px;
-}
-
-p {
-    position: relative;
-    left: 50%;
-    font-weight: normal;
-    font-size: 18px;
-    text-align: right;
 }

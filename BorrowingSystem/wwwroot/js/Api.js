@@ -92,7 +92,7 @@ function deleteEquipment(id,callback) {
 }
 
 function patchEquipment(id,name,serialNumber, status ,callback) {
-    ajax(`/api/equipment/patch`, 'patch', {id:id, name:name , serialNumber:serialNumber , status:status}, callback, true);
+    ajax(`/api/equipment/update`, 'patch', {id:id, name:name , serialNumber:serialNumber , status:status}, callback, true);
 }
 
 function getAvailableEquipmentInMonth(id, callback) {
@@ -110,3 +110,9 @@ function getReservationByUser(callback) {
 function deleteReservation(id, callback) {
     ajax(`/api/reservation/delete?id=${id}`, 'delete', null, callback, true);
 }
+
+function getReservationByRoomDateHour(roomId,date,hour,callback) {
+    ajax(`/api/reservation/get-reservation-by-room-date-hour?roomId=${roomId}&date=${date}&hour=${hour}`, 'get', null, callback, true);
+}
+
+

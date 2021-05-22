@@ -84,8 +84,8 @@ namespace BorrowingSystem.Controllers
         }
 
         [Authorize(Roles = "admin")]
-        [HttpPatch("patch")]
-        public ActionResult Patch([FromBody] UpdateEquipmentRequest request)
+        [HttpPatch("update")]
+        public ActionResult Update([FromBody] UpdateEquipmentRequest request)
         {
             if (!ModelState.IsValid)
             {

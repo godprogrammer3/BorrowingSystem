@@ -68,6 +68,10 @@ namespace BorrowingSystem.Controllers
                 {
                     return StatusCode((int)HttpStatusCode.Gone,error.Message);
                 }
+                if( error.Message == "You are in banned status! Please contact admin.")
+                {
+                    return BadRequest(error.Message);
+                }
                 return BadRequest();
             }
 
@@ -116,6 +120,26 @@ namespace BorrowingSystem.Controllers
         }
 
 
+        [Authorize( Roles = "admin" )]
+        [HttpGet("get-reservation-by-room-date-hour")]
+        public ActionResult GetReservationByRoomDateHour([FromQuery] GetReservationByRoomDateHourRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+            try
+            {
+                return Ok(_reservationService.GetReservationByRoomDateHour( request.RoomId , request.Date , request.Hour ));
+            }
+            catch (Exception error)
+            {
+                _logger.LogError(error.ToString());
+                return BadRequest();
+            }
+
+        }
+
 
         public class GetAvailableEquipmentInMonthRequest
         {
@@ -138,6 +162,18 @@ namespace BorrowingSystem.Controllers
             [Required]
             [FromQuery(Name = "id")]
             public int Id { get; set; }
+        }
+        public class GetReservationByRoomDateHourRequest
+        {
+            [Required]
+            [FromQuery(Name = "roomId")]
+            public int RoomId { get; set; }
+            [Required]
+            [FromQuery(Name = "date")]
+            public int Date { get; set; }
+            [Required]
+            [FromQuery(Name = "hour")]
+            public int Hour { get; set; }
         }
     }
 }

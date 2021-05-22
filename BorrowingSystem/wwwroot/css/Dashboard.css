@@ -4,3 +4,10 @@
 #roomDetailSection{
     display: flex;
 }
+.dropDownActionMenu {
+    z-index: 1;
+    position: relative;
+    background-color: grey;
+    top: -10px;
+    left: -70px;
+}
