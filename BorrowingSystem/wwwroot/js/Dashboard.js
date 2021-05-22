@@ -29,7 +29,9 @@ async function initialMainRoom(event) {
             if (rooms.length > 0) {
                 insideContent = '<ul style="list-style-type:none;">'
                 rooms.forEach((room) => {
-                    insideContent += `<li>${room.name}</li>`;
+                    insideContent += `<li onclick="initialRoomDetail({  id:  ${room.id}, name: '${room.name}', equipmentName : '${room.equipmentName}'})"
+
+                    >${room.name}</li>`;
                 });
                 insideContent += '</ul>';
             } else {
@@ -65,6 +67,7 @@ async function initialMainRoom(event) {
 
 var globalAvailableAllDay = null;
 async function initialRoomDetail(room) {
+    globalCurrentRoom = room;
     document.getElementById('roomDetailAvailableSectionOnLoading').style.display = 'block';
     document.getElementById('roomDetailAvailableSectionOnSuccess').style.display = 'none';
     document.getElementById('roomDetailAvailableSectionOnError').style.display = 'none';
@@ -255,7 +258,7 @@ async function confirmCreateReservationPopupHandler(requestParameter) {
             document.getElementById('popupOnInitial').style.display = 'none';
             document.getElementById('popupOnSuccessConfirmButton').onclick = (event) => {
                 document.getElementById('popup').style.display = 'none';
-                initialMainRoom();
+                initialRoomDetail(globalCurrentRoom);
             };
         }else if (result.status == 409 || result.status == 410) {
             console.log('Error ! : status code', result.status);

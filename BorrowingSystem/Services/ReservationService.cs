@@ -65,7 +65,7 @@ namespace BorrowingSystem.Services
             var (principal, jwtToken) = _jwtAuthManager.DecodeJwtToken(accessToken);
             IEnumerable<Equipment> equipments = _db.Equipment.Where(c => c.RoomId == roomId);
             int equipmentQuentity = equipments.Count();
-            IEnumerable<Reservation> reservarions= _db.Reservation.Where(c => ( c.StartDateTime >= startDateTime && c.StartDateTime < endDateTime ) || ( c.EndDateTime > startDateTime && c.EndDateTime <= endDateTime ) );
+            IEnumerable<Reservation> reservarions= _db.Reservation.Where(c => (( c.StartDateTime >= startDateTime && c.StartDateTime < endDateTime ) || ( c.EndDateTime > startDateTime && c.EndDateTime <= endDateTime )) && c.RoomId == roomId );
             _logger.LogInformation(reservarions.Count().ToString());
             if(reservarions.Count() >= equipmentQuentity)
             {
