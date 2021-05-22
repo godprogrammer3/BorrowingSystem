@@ -29,9 +29,9 @@ namespace BorrowingSystem.Jwt
         private readonly JwtTokenConfig _jwtTokenConfig;
         private readonly byte[] _secret;
 
-        public JwtAuthManager(JwtTokenConfig jwtTokenConfig , IConfiguration configuration)
+        public JwtAuthManager(IConfiguration configuration)
         {
-            _jwtTokenConfig = jwtTokenConfig;
+            _jwtTokenConfig = configuration.GetSection("jwtTokenConfig").Get<JwtTokenConfig>();
             _usersRefreshTokens = new ConcurrentDictionary<string, RefreshToken>();
             _secret = Encoding.ASCII.GetBytes(configuration.GetValue<string>("BorrowingSystemJwtSecret"));
         }
