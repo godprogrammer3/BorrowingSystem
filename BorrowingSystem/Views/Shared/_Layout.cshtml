@@ -15,6 +15,10 @@
     {
         <link rel="stylesheet" href="~/css/Dashboard.css" />
     }
+    @if (ViewContext.RouteData.Values["Controller"].ToString().ToLower() == "editprofile")
+    {
+        <link rel="stylesheet" href="~/css/EditProfile.css" />
+    }
     <script src="~/js/Utill.js"></script>
     <script src="~/js/Api.js"></script>
     <script src="~/js/Layout.js"></script>
