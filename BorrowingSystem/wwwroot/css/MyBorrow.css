@@ -20,6 +20,7 @@
 #myborrowTable {
     width: 100%;
     color: #333333;
+    align-self: start;
 }
 
 #layoutMainContent{
@@ -53,7 +54,7 @@
     border-radius: 50px;
 }
 
-#myBrroeHeaderTitle {
+#myBrrowHeaderTitle {
     margin-left: 8%;
     color: #333333;
 }
