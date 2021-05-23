@@ -101,12 +101,16 @@ function initialDeleteReservationPopupContent(reservation) {
     document.getElementById('popupOnSuccess').style.display = 'none';
     document.getElementById('popupOnError').style.display = 'none';
     document.getElementById('popupOnInitial').style.display = 'block';
-    document.getElementById('popupOnInitialHeader').innerHTML = `Confirm remove this reservation?`;
+    document.getElementById('popupOnInitialHeader').innerHTML = `<h2 id="popupConfirmDeleteHeader">Confirm remove this reservation ?<h2>`;
     document.getElementById('popupOnInitialBody').innerHTML = `
-        <p><span> ${reservation.roomName} </span><span> ${reservation.equipmentName} </span></p>
-        <p>Date :<span> ${getDDMMYYYYFromUtcDateTimeString(reservation.startDateTime)} </span></p>
-        <p>Start at :<span> ${getHoursFromUtcDateTimeString(reservation.startDateTime)}:00
-        <p>Untill :<span> ${getHoursFromUtcDateTimeString(reservation.endDateTime)}:00 </span></p>
+        <div id="popupOnInitialBodyDetail" >
+            <div>
+                <p><span> ${reservation.roomName} </span><span> ${reservation.equipmentName} </span></p>
+                <p>Date :<span> ${getDDMMYYYYFromUtcDateTimeString(reservation.startDateTime)} </span></p>
+                <p>Start at :<span> ${getHoursFromUtcDateTimeString(reservation.startDateTime)}:00
+                <p>Untill :<span> ${getHoursFromUtcDateTimeString(reservation.endDateTime)}:00 </span></p>
+            </div>
+        </div>
     `;
     document.getElementById('popupOnInitialCofirmButton').innerHTML = 'Remove'
     document.getElementById('popupOnInitialCofirmButton').onclick = function (event) { confirmDeleteReservationPopupHandler(reservation); };

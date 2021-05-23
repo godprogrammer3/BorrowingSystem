@@ -102,13 +102,14 @@ edit-profile-block {
 }
 
 .popup-content {
-    background-color: #f4f1bc;
-    margin: auto;
-    padding: 20px;
-    border: 1px solid #888;
-    width: 80%;
-    color: #0da789;
-    box-shadow: 5px 5px 5px #857d7b;
+    background: #FFFEFF;
+    border-radius: 16px;
+    margin-left:25%;
+    margin-right:25%;
+    padding-top:5%;
+    padding-bottom:5%;
+    display:flex;
+   justify-content:center;
 }
 
 .verticle-display {
@@ -152,4 +153,8 @@ body {
 }
 #mainContainer {
     width:100%;
+}
+#popupOnInitialBodyFooter{
+    display:flex;
+    justify-content:center;
 }

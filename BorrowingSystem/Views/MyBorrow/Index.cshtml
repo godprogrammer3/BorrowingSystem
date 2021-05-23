@@ -29,39 +29,45 @@
             </header>
             <section id="popupOnInitialBody">
             </section>
-            <footer>
-                <button onclick="document.getElementById('popup').style.display = 'none';">cancel</button>
+            <footer id="popupOnInitialBodyFooter">
+                <button id="popupOnInitialCancelButton" onclick="document.getElementById('popup').style.display = 'none';">cancel</button>
                 <button id="popupOnInitialCofirmButton"></button>
             </footer>
         </section>
         <section id="popupOnLoading" style="display:none">
-            <header>
-                <h3>Please wait a moment...</h3>
+            <header class="popup-header">
+                <h2 >Please wait a moment...</h2>
             </header>
-            <div class="loader"></div>
+            <div class="center-flex">
+                <div class="loader"></div>
+            </div>
+            
         </section>
         <section id="popupOnSuccess" style="display:none;">
-            <header>
-                <h3>Successed.</h3>
+            <header class="popup-header">
+                <h2>Successed.</h2>
             </header>
-            <span class="material-icons">
-                check_circle
-            </span>
+            <div class="center-flex">
+                <span class="material-icons" id="correctIcon">
+                    check_circle
+                </span>
+            </div>
+           
             <footer>
-                <button id="popupOnSuccessConfirmButton" ;">ok</button>
+                <button id="popupOnSuccessConfirmButton" class="popupButton popupButton-primary">ok</button>
             </footer>
         </section>
-        <section id="popupOnError" style="display:none;">
-            <hader>
+        <section id="popupOnError" style="display:none;" class="center-flex">
+            <hader class="popup-header">
                 <h3>Failed!</h3>
                 <h4 id="popupOnErrorMessage"></h4>
                 <h4>Please try again.</h4>
             </hader>
-            <i class="material-icons">
+            <i class="material-icons popupIcon" id="popupFaildIcon">
                 cancel
             </i>
-            <footer>
-                <button onclick="document.getElementById('popup').style.display = 'none';document.getElementById('popupOnError').style.display='none'">ok</button>
+            <footer class="center-flex">
+                <button onclick="document.getElementById('popup').style.display = 'none';document.getElementById('popupOnError').style.display='none'" class="popupButton popupButton-primary">ok</button>
             </footer>
         </section>
     </section>
