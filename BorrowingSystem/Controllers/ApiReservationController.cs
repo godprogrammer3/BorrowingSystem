@@ -54,8 +54,8 @@ namespace BorrowingSystem.Controllers
             try
             {
                 var token = await HttpContext.GetTokenAsync("Bearer", "access_token");
-                _reservationService.Create(request.RoomId, request.StartDateTime, request.HourPeriod, token);
-                return NoContent();
+                var result = _reservationService.Create(request.RoomId, request.StartDateTime, request.HourPeriod, token);
+                return Created("NotSpecified", result);
             }
             catch (Exception error)
             {
@@ -78,7 +78,7 @@ namespace BorrowingSystem.Controllers
         }
 
         [Authorize]
-        [HttpGet("get-reservation-by-user")]
+        [HttpGet("get-all-reservation-by-user")]
         public async Task<ActionResult> GetReservationByUserId()
         {
             if (!ModelState.IsValid)
@@ -94,6 +94,34 @@ namespace BorrowingSystem.Controllers
             {
                 _logger.LogError(error.ToString());
                 return BadRequest();
+            }
+
+        }
+
+        [Authorize]
+        [HttpGet("get-reservation-by-id")]
+        public async Task<ActionResult> GetReservationById([FromQuery] GetReservationByIdRequest request )
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+            try
+            {
+                var token = await HttpContext.GetTokenAsync("Bearer", "access_token");
+                return Ok(_reservationService.GetReservationById(request.Id, token));
+            }
+            catch (Exception error)
+            {
+                _logger.LogError(error.ToString());
+                if(error.Message == "Not found this reservation!")
+                {
+                    return NotFound();
+                }else if (error.Message == "Forbidden this is not your reservation!" )
+                {
+                    return BadRequest("Retricted access this is not your reservation!");
+                }
+                return BadRequest("Unknown error!");
             }
 
         }
@@ -174,6 +202,14 @@ namespace BorrowingSystem.Controllers
             [Required]
             [FromQuery(Name = "hour")]
             public int Hour { get; set; }
+        }
+
+        public class GetReservationByIdRequest
+        {
+            [Required]
+            [FromQuery(Name = "id")]
+            public int Id { get; set; }
+
         }
     }
 }

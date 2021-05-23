@@ -27,10 +27,11 @@ namespace BorrowingSystem.Services
 
     public interface IReservationService {
         List<List<int>> GetAvailableEquipmentInMonth(int roomId);
-        void Create(int roomId, DateTime startDateTime, int hourPeriod, string accessToken);
+        Reservation Create(int roomId, DateTime startDateTime, int hourPeriod, string accessToken);
         List<ReservationRoom> GetReservationByUserId(string accessToken);
         void Delete(int reservationId, string accessToken);
         List<ReservationUser> GetReservationByRoomDateHour(int roomId, int date, int hour);
+        ReservationRoom GetReservationById(int id,string accessToken);
     }
 
     public class ReservationService : IReservationService
@@ -45,7 +46,7 @@ namespace BorrowingSystem.Services
             _jwtAuthManager = jwtAuthManager;
         }
 
-        public void Create(int roomId, DateTime startDateTime, int hourPeriod , string accessToken)
+        public Reservation Create(int roomId, DateTime startDateTime, int hourPeriod , string accessToken)
         {
             TimeZoneInfo asiaThTimeZone = TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time");
             startDateTime = TimeZoneInfo.ConvertTimeFromUtc(startDateTime, asiaThTimeZone);
@@ -76,7 +77,7 @@ namespace BorrowingSystem.Services
             Reservation newReservation = new() { UserId = int.Parse(principal.FindFirst(ClaimTypes.NameIdentifier).Value), RoomId = roomId, StartDateTime = startDateTime, EndDateTime = endDateTime };
             _db.Reservation.Add(newReservation);
             _db.SaveChanges();
-            return;
+            return newReservation;
         }
 
         public void Delete(int reservationId, string accessToken)
@@ -122,6 +123,38 @@ namespace BorrowingSystem.Services
                 }
             }
             return availableEquipmentInMonth;
+        }
+
+        public ReservationRoom GetReservationById(int id , string accessToken)
+        {
+            var (principal, jwtToken) = _jwtAuthManager.DecodeJwtToken(accessToken);
+            int userId = int.Parse(principal.FindFirst(ClaimTypes.NameIdentifier).Value);
+            string userRole = principal.FindFirst(ClaimTypes.Role).Value;
+
+           var result = _db.Reservation.Join(
+              _db.Room,
+              reservation => reservation.RoomId,
+              room => room.Id,
+              (reservation, room) => new
+              {
+                  reservation,
+                  room,
+              }
+             ).FirstOrDefault(c => c.reservation.Id == id);
+            if (result != null)
+            {
+               
+                if (userRole == "admin")
+                {
+                    return new() { Reservation = result.reservation , Room = result.room };
+                }else if( userId == result.reservation.UserId)
+                {
+                    return new() { Reservation = result.reservation, Room = result.room };
+                }
+                throw new Exception("Forbidden this is not your reservation!");
+            }
+            throw new Exception("Not found this reservation!");
+
         }
 
         public List<ReservationUser> GetReservationByRoomDateHour(int roomId, int date, int hour)

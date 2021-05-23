@@ -1,6 +1,4 @@
-﻿
-
-window.onload = function () {
+﻿window.onload = function () {
     checkDisplayNavigationBar();
     initialMainRoom();
 }
@@ -40,8 +38,9 @@ async function initialMainRoom(event) {
             if (rooms.length > 0) {
                 globalCurrentRoom = rooms[0];
                 initialRoomDetail(globalCurrentRoom);
-             
+                document.getElementById('roomReservation').style.display = 'block';
             } else {
+                document.getElementById('roomReservation').style.display = 'none';
                 document.getElementById('roomDetailAvailableSectionOnLoading').style.display = 'none';
                 document.getElementById('roomDetailAvailableSectionOnSuccess').style.display = 'none';
                 document.getElementById('roomDetailAvailableSectionOnError').style.display = 'none';
@@ -66,6 +65,7 @@ async function initialMainRoom(event) {
 }
 
 var globalAvailableAllDay = null;
+var globalCurrentHourSelect = null;
 async function initialRoomDetail(room) {
     globalCurrentRoom = room;
     document.getElementById('roomDetailAvailableSectionOnLoading').style.display = 'block';
@@ -94,6 +94,7 @@ async function initialRoomDetail(room) {
                 <h4>${new Date().toLocaleDateString("en-US")}</h4>
                 <section style="display:flex;">
             `;
+                var userData = JSON.parse(localStorage.getItem('UserData'));
                 var nowDate = new Date();
                 var lastDateOfMonth = new Date(nowDate.getFullYear(), nowDate.getMonth() + 1, 0);
                 lastDateOfMonth = lastDateOfMonth.getDate();
@@ -112,8 +113,9 @@ async function initialRoomDetail(room) {
                 insideContent += '</section>'
                 insideContent += `<p>Today</p>`
                 insideContent += `<section><ul style="list-style-type:none;" >`;
+                globalCurrentHourSelect = 9;
                 for (var timeIndex = 9; timeIndex <= 21; timeIndex++) {
-                    insideContent += '<li>'
+                    insideContent += `<li id="hourSelect${timeIndex}"  ${userData.role == 'admin' ? 'onclick="adminSelectHour('+  room.id  +',' + nowDate  +','+ timeIndex + ');"' : ''}   style="${(userData.role == 'admin' && timeIndex == globalCurrentHourSelect) ? 'color:red;' : ''}" >`
                     insideContent += `<span>${(timeIndex == 9) ? '09' : timeIndex}:00-${timeIndex + 1}:00</span>`;
                     insideContent += `<span style="margin-left:10px;">${availableQuantityToString(days[0][timeIndex - 9])}</span>`;
                     insideContent += '</li>'
@@ -122,7 +124,7 @@ async function initialRoomDetail(room) {
             } else {
                 insideContent = `<h3>Error Empty content !</h3>`
             }
-            var userData = JSON.parse(localStorage.getItem('UserData'));
+           
             if (userData.role == 'admin') {
                 document.getElementById('roomReservationOnSuccessUser').style.display = 'none';
                 document.getElementById('roomReservationOnSuccessAdmin').style.display = 'block';
@@ -192,8 +194,9 @@ function updateRoomDetail(room, firstDateOfWeek, currentSelectedDate) {
     insideContent += '</section>'
     insideContent += `<p>Today</p>`
     insideContent += `<section><ul style="list-style-type:none;" >`;
+    globalCurrentHourSelect = 9; 
     for (var timeIndex = 9; timeIndex <= 21; timeIndex++) {
-        insideContent += '<li>'
+        insideContent += `<li id="hourSelect${timeIndex}"  ${userData.role == 'admin' ? 'onclick="adminSelectHour(' + room.id + ',' + nowDate + ',' + timeIndex + ');"' : ''}   style="${(userData.role == 'admin' && timeIndex == globalCurrentHourSelect) ? 'color:red;' : ''}" >`
         insideContent += `<span>${(timeIndex == 9) ? '09' : timeIndex}:00-${timeIndex + 1}:00</span>`;
         insideContent += `<span style="margin-left:10px;">${availableQuantityToString(days[currentSelectedDate - nowDate][timeIndex - 9])}</span>`;
         insideContent += '</li>'
@@ -274,7 +277,7 @@ async function confirmCreateReservationPopupHandler(requestParameter) {
         }
     });
     if (result) {
-        if (result.status == 204) {
+        if (result.status == 204 || result.status == 201) {
             document.getElementById('popupOnLoading').style.display = 'none';
             document.getElementById('popupOnSuccess').style.display = 'block';
             document.getElementById('popupOnError').style.display = 'none';
@@ -560,4 +563,11 @@ async function confirmBanUserPopupHandler(user,reservation) {
         document.getElementById('popupOnError').style.display = 'block';
         document.getElementById('popupOnInitial').style.display = 'none';
     }
+}
+
+function adminSelectHour(roomId, date , timeIndex) {
+    document.getElementById(`hourSelect${globalCurrentHourSelect}`).style.color = 'black';
+    document.getElementById(`hourSelect${timeIndex}`).style.color = 'red';
+    globalCurrentHourSelect = timeIndex;
+    initalUserReservation(roomId, date, timeIndex)
 }

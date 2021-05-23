@@ -104,7 +104,7 @@ function createReservation(roomId, startDateTime, hourPeriod, callback) {
 }
 
 function getReservationByUser(callback) {
-    ajax(`/api/reservation/get-reservation-by-user`, 'get', null, callback, true);
+    ajax(`/api/reservation/get-all-reservation-by-user`, 'get', null, callback, true);
 }
 
 function deleteReservation(id, callback) {
