@@ -23,7 +23,7 @@ namespace BorrowingSystem
 
         public static IHostBuilder CreateHostBuilder(string[] args)
         {
-           if(IsProduction)
+           if(IsProduction && false)
            {
              return Host.CreateDefaultBuilder(args)
                             .ConfigureWebHostDefaults(webBuilder =>

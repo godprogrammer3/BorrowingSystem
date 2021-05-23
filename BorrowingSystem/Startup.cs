@@ -41,7 +41,7 @@ namespace BorrowingSystem
             services.AddControllersWithViews();
             var jwtTokenConfig = Configuration.GetSection("jwtTokenConfig").Get<JwtTokenConfig>();
             string jwtSecret;
-            if (_env.IsProduction())
+            if (_env.IsProduction() && false)
             {
                 jwtSecret = Configuration.GetValue<string>("BorrowingSystemJwtSecret");
                 services.AddAuthentication(x =>
