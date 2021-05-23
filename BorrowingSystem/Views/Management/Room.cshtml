@@ -4,68 +4,70 @@
 }
 
 <header>
-    <span class="material-icons" onclick="window.location = '/management';">
-        arrow_back
+    <span class="material-icons" id="roomIcon" onclick="window.location = '/management';">
+            arrow_back
     </span>
-    <h1>@ViewBag.name</h1>
+    <h1 class="roomHeader">Room @ViewBag.name</h1>
     <output>09:22</output>
-    <img src="~/img/user-profile.svg" alt="user profile picture" width="100" />
+    <img src="~/img/user-profile.svg" alt="user profile picture" width="50" />
 </header>
 
-<section id="bodyContentOnloading" style="display:block;">
-    <div class="loader" id="loadingTabLoader"></div>
-</section>
-<section id="bodyContentOnSuccess" style="display:none;">
-</section>
-<section id="bodyContentOnError" style="display:none;">
-    <header>Failed! Please try again.</header>
-    <section>
-        <button onclick="initialBodyContent();">Try again.</button>
+<div class="managementPage">
+    <section id="bodyContentOnloading" style="display:block;">
+        <div class="loader" id="loadingTabLoader"></div>
     </section>
-</section>
-<section class="popup" id="popup">
-    <section class="popup-content">
-        <section id="popupOnInitial" style="display:none">
-            <header id="popupOnInitialHeader">
-            </header>
-            <section id="popupOnInitialBody">
+    <section id="bodyContentOnSuccess" style="display:none;">
+    </section>
+    <section id="bodyContentOnError" style="display:none;">
+        <header>Failed! Please try again.</header>
+        <section>
+            <button onclick="initialBodyContent();">Try again.</button>
+        </section>
+    </section>
+    <section class="popup" id="popup">
+        <section class="popup-content">
+            <section id="popupOnInitial" style="display:none">
+                <header id="popupOnInitialHeader">
+                </header>
+                <section id="popupOnInitialBody">
+                </section>
+                <footer>
+                    <button onclick="document.getElementById('popup').style.display = 'none';">cancel</button>
+                    <button id="popupOnInitialCofirmButton"></button>
+                </footer>
             </section>
-            <footer>
-                <button onclick="document.getElementById('popup').style.display = 'none';">cancel</button>
-                <button id="popupOnInitialCofirmButton"></button>
-            </footer>
-        </section>
-        <section id="popupOnLoading" style="display:none">
-            <header>
-                <h3>Please wait a moment...</h3>
-            </header>
-            <div class="loader"></div>
-        </section>
-        <section id="popupOnSuccess" style="display:none;">
-            <header>
-                <h3>Successed.</h3>
-            </header>
-            <span class="material-icons">
-                check_circle
-            </span>
-            <footer>
-                <button id="popupOnSuccessConfirmButton";">ok</button>
-            </footer>
-        </section>
-        <section id="popupOnError" style="display:none;">
-            <hader>
-                <h3>Failed!</h3>
-                <h4>Please try again.</h4>
-            </hader>
-            <i class="material-icons">
-                cancel
-            </i>
-            <footer>
-                <button onclick="document.getElementById('popup').style.display = 'none';document.getElementById('popupOnError').style.display='none'">ok</button>
-            </footer>
+            <section id="popupOnLoading" style="display:none">
+                <header>
+                    <h3>Please wait a moment...</h3>
+                </header>
+                <div class="loader"></div>
+            </section>
+            <section id="popupOnSuccess" style="display:none;">
+                <header>
+                    <h3>Successed.</h3>
+                </header>
+                <span class="material-icons">
+                    check_circle
+                </span>
+                <footer>
+                    <button id="popupOnSuccessConfirmButton" ;">ok</button>
+                </footer>
+            </section>
+            <section id="popupOnError" style="display:none;">
+                <hader>
+                    <h3>Failed!</h3>
+                    <h4>Please try again.</h4>
+                </hader>
+                <i class="material-icons">
+                    cancel
+                </i>
+                <footer>
+                    <button onclick="document.getElementById('popup').style.display = 'none';document.getElementById('popupOnError').style.display='none'">ok</button>
+                </footer>
+            </section>
         </section>
     </section>
-</section>
+</div>
 <script src="~/js/ManagementRoom.js"></script>
 
 

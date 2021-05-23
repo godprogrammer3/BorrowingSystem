@@ -13,3 +13,140 @@
     overflow-y: scroll;
     height: 20rem;
 }
+
+.pageHeader {
+    color: #333333;
+    position: absolute;
+    left: 15%;
+    top: 3.5%;
+    font-size: 48px;
+}
+
+#roomIcon {
+    color: #333333;
+    position: absolute;
+    left: 15%;
+    top: 10.5%;
+}
+
+.roomHeader {
+    color: #333333;
+    position: absolute;
+    left: 18%;
+    top: 4%;
+    font-size: 48px;
+}
+
+output {
+    color: #9D0042;
+    background-color: #FFEFF8;
+    font-size: 28px;
+    padding: 8px 25px;
+    text-align: center;
+    border-radius: 16px;
+    position: absolute;
+    right: 9%;
+    top: 8%;
+}
+
+header img {
+    position: absolute;
+    right: 3%;
+    top: 8%;
+}
+
+.managementPage {
+    background-color: #FFFEFF;
+    width: 1220px;
+    height: 530px;
+    box-shadow: 0px 0px 16px rgba(0, 0, 0, 0.16);
+    padding-left: 40px;
+    padding-top: 50px;
+    border-radius: 16px;
+    position: absolute;
+    left: 15%;
+    top: 20%;
+}
+
+.tab-li a {
+    color: rgba(60, 60, 67, 0.6);
+    font-size: 28px;
+    padding-right: 30px;
+}
+
+#laboratoryTab table {
+    color: #333333;
+    font-size: 24px;
+    padding-left: 40px;
+}
+
+#bodyContentOnSuccess table {
+    color: #333333;
+    font-size: 24px;
+    padding-left: 20px;
+}
+
+
+td {
+    padding: 30px 80px 0px 0px;
+    text-align: left;
+}
+
+th {
+    padding: 30px 80px 15px 0px;
+    border-bottom: 1px solid #ddd;
+    text-align: left;
+}
+
+td button, #bodyContentOnSuccess td button {
+    color: #9D0042;
+    background-color: #FFFEFF;
+    border: 2px solid #9D0042;
+    border-radius: 16px;
+    font-size: 20px;
+    padding: 10px 30px;
+    position: absolute;
+    right: 3%;
+    bottom: 4%
+}
+
+#bodyContentOnSuccess h3 {
+    font-size: 24px;
+    position: absolute;
+    left: 35%;
+    top: 35%;
+}
+
+#laboratoryTab p, #blacklistTab p{
+    color: #333333;
+    font-size: 24px;
+    position: absolute;
+    left: 38%;
+    top: 35%;
+}
+
+#laboratoryTab p + button, #blacklistTab p + button, #bodyContentOnSuccess h3+button {
+    color: #FFFFFF;
+    background-color: #9D0042;
+    border-radius: 16px;
+    border: none;
+    padding: 10px 25px;
+    font-size: 20px;
+    position: absolute;
+    left: 42%;
+    top: 48%;
+}
+
+#searchBlacklistTab input {
+    background-color: rgba(60, 60, 67, 0.18);
+    border-radius: 16px;
+    width: 90%;
+    border: none;
+    padding: 10px 20px; 
+}
+
+#blacklistTab table, #searchBlacklistTabBody table {
+    color: #333333;
+    font-size: 24px;
+    padding-left: 40px;
+}
