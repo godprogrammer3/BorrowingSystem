@@ -182,6 +182,7 @@ function updateRoomDetail(room, firstDateOfWeek, currentSelectedDate) {
     lastDateOfMonth = lastDateOfMonth.getDate();
     nowDate = nowDate.getDate();
     saveFirstDateOfweek = firstDateOfWeek;
+    var userData = JSON.parse(localStorage.getItem('UserData'));
     insideContent += `<span class="material-icons" style="${saveFirstDateOfweek - 1 < nowDate ? 'visibility:hidden;' : ''}"  onclick="updateRoomDetail( { id : ${room.id}, name:  '${room.name}', equipmentName :  '${room.equipmentName}' } , ${saveFirstDateOfweek-7} , ${currentSelectedDate});" >arrow_back_ios</span>`;
     for (var countDay = 0; countDay < 7; countDay++) {
         insideContent += `<span style="margin:5px;"><section><p>`;
