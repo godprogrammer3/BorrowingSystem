@@ -36,7 +36,7 @@ namespace BorrowingSystem.Jwt
             _jwtTokenConfig = configuration.GetSection("jwtTokenConfig").Get<JwtTokenConfig>();
             _usersRefreshTokens = new ConcurrentDictionary<string, RefreshToken>();
             _env = env;
-            if(_env.IsProduction())
+            if(_env.IsProduction() && false)
             {
                 _secret = Encoding.ASCII.GetBytes(configuration.GetValue<string>("BorrowingSystemJwtSecret"));
             }
