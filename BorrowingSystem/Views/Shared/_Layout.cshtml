@@ -24,32 +24,84 @@
     <script src="~/js/Layout.js"></script>
 </head>
 <body class="horizontal-display">
-    <section class="sidenav">
-        <img src="~/img/Logo.png" alt="logo picture" width="100" />
-        <nav>
-            <div class="navbutton">
-                <img src="~/img/Category.png" alt="Dashboard icon" />
-                <a href="/dashboard">Dashboard</a>
-            </div>
-            <div class="navbutton" id="myBorrowNavigation">
-                <img src="~/img/Swap.png" alt="My borrow icon" />
-                <a href="/myborrow" >My borrow</a>
-            </div>
-            <div class="navbutton" id="managementNavigation">
-                <img src="~/img/Graph.png" alt="Management icon" />
-                <a href="/management" >Management</a>
-            </div>      
-            <div class="navbutton">
-                <img src="~/img/Profile.png" alt="Edit profile icon" />
-                <a href="/editprofile">Edit profile</a>
-            </div>
-            <div class="navbutton" logout>
-                <img src="~/img/Logout.png" alt="Log out icon" />
-                <a href="" id="logOut" onclick="logOutHandler(event)">Log out</a>
-            </div>
-            <div class="loader" id="logOutLoader" style="visibility:hidden;"></div>
-        </nav>
-    </section>
+    <nav class="sidenav" style="display:flex;flex-direction:column;">
+        <div id="topImageNav">
+            <img src="~/img/Logo.png" alt="logo picture" width="100" />
+        </div>
+        @if (ViewContext.RouteData.Values["Controller"].ToString().ToLower() == "dashboard")
+        {
+            ViewBag.navButtonColor = "#9d0042";
+            ViewBag.navButtonBackgroundColor = "#FFEFF8";
+        }
+        else
+        {
+            ViewBag.navButtonColor = "white";
+            ViewBag.navButtonBackgroundColor = "transparent";
+        }
+        <div class="navbutton" style="color: @ViewBag.navButtonColor;background-color: @ViewBag.navButtonBackgroundColor;">
+            <span class="material-icons menu-icon">
+                dashboard
+            </span>
+            <a href="/dashboard" style="color:@ViewBag.navButtonColor;">Dashboard</a>
+        </div>
+        @if (ViewContext.RouteData.Values["Controller"].ToString().ToLower() == "myborrow")
+        {
+            ViewBag.navButtonColor = "#9d0042";
+            ViewBag.navButtonBackgroundColor = "#FFEFF8";
+        }
+        else
+        {
+            ViewBag.navButtonColor = "white";
+            ViewBag.navButtonBackgroundColor = "transparent";
+        }
+        <div class="navbutton" id="myBorrowNavigation" style="color: @ViewBag.navButtonColor;background-color: @ViewBag.navButtonBackgroundColor;">
+            <span class="material-icons  menu-icon">
+                swap_vert
+            </span>
+            <a href="/myborrow" style="color:@ViewBag.navButtonColor;">My borrow</a>
+        </div>
+        @if (ViewContext.RouteData.Values["Controller"].ToString().ToLower() == "management")
+        {
+            ViewBag.navButtonColor = "#9d0042";
+            ViewBag.navButtonBackgroundColor = "#FFEFF8";
+        }
+        else
+        {
+            ViewBag.navButtonColor = "white";
+            ViewBag.navButtonBackgroundColor = "transparent";
+        }
+        <div class="navbutton" id="managementNavigation" style="color: @ViewBag.navButtonColor;background-color: @ViewBag.navButtonBackgroundColor;">
+            <span class="material-icons menu-icon">
+                pie_chart
+            </span>
+            <a href="/management" style="color:@ViewBag.navButtonColor;">Management</a>
+        </div>
+        @if (ViewContext.RouteData.Values["Controller"].ToString().ToLower() == "editprofile")
+        {
+            ViewBag.navButtonColor = "#9d0042";
+            ViewBag.navButtonBackgroundColor = "#FFEFF8";
+        }
+        else
+        {
+            ViewBag.navButtonColor = "white";
+            ViewBag.navButtonBackgroundColor = "transparent";
+        }
+        <div class="navbutton"  style="color: @ViewBag.navButtonColor;background-color: @ViewBag.navButtonBackgroundColor;">
+            <span class="material-icons menu-icon">
+                person
+            </span>
+            <a href="/editprofile" style="color:@ViewBag.navButtonColor;">Edit profile</a>
+        </div>
+        <div style="flex: 1;"></div>
+        <div class="loader" id="logOutLoader" style="display:none;"></div>
+        <div class="navbutton" id="logOutSection" style="color:white;">
+            <span class="material-icons menu-icon">
+                logout
+            </span>
+            <a href="" id="logOut" onclick="logOutHandler(event)">Log out</a>
+        </div>
+
+    </nav>
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()

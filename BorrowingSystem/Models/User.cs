@@ -16,7 +16,7 @@ namespace BorrowingSystem.Models
         public enum UserStatus
         {
             normal,
-            banned
+            banned 
         }
         [Key]
         public int Id { get; set; }

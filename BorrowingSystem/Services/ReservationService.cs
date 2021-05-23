@@ -115,13 +115,14 @@ namespace BorrowingSystem.Services
                 availableEquipmentInMonth.Add(availableEquipmentInDay);
             }
             IEnumerable<Reservation> reservations = _db.Reservation.Where(c => (c.StartDateTime.Year == DateTime.Now.Year && c.StartDateTime.Month == DateTime.Now.Month) && c.RoomId == roomId);
-            for(var reservationIndex = 0; reservationIndex < reservations.Count(); reservationIndex ++)
-            {
-                for(var hourIndex = reservations.ElementAt(reservationIndex).StartDateTime.Hour ; hourIndex < reservations.ElementAt(reservationIndex).EndDateTime.Hour; hourIndex++)
-                {
-                    availableEquipmentInMonth[reservations.ElementAt(reservationIndex).StartDateTime.Day-DateTime.Now.Day][hourIndex-9]--;
-                }
-            }
+            _logger.LogInformation(reservations.Count().ToString());
+            //for(var reservationIndex = 0; reservationIndex < reservations.Count(); reservationIndex ++)
+            //{
+            //    for(var hourIndex = reservations.ElementAt(reservationIndex).StartDateTime.Hour ; hourIndex < reservations.ElementAt(reservationIndex).EndDateTime.Hour; hourIndex++)
+            //    {
+            //        availableEquipmentInMonth[reservations.ElementAt(reservationIndex).StartDateTime.Day-DateTime.Now.Day][hourIndex-9]--;
+            //    }
+            //}
             return availableEquipmentInMonth;
         }
 
