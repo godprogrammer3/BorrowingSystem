@@ -14,28 +14,45 @@ namespace BorrowingSystem
 {
     public class Program
     {
+        
         public static void Main(string[] args)
         {
             CreateHostBuilder(args).Build().Run();
         }
+        private static bool IsProduction => Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Production";
 
-        public static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
-                    webBuilder.UseStartup<Startup>();
-                }).ConfigureAppConfiguration(( context , config)=> {
-                    var builtConfig = config.Build();
-                    var valtName = builtConfig["VaultName"];
-                    var keyVaultClient = new KeyVaultClient(async (authority, resource, scope) =>
-                    {
-                        var credential = new DefaultAzureCredential(false);
-                        var token = credential.GetToken(
-                            new Azure.Core.TokenRequestContext(
-                                new[] { "https://vault.azure.net/.default" }));
-                        return token.Token;
-                    });
-                    config.AddAzureKeyVault(valtName, keyVaultClient, new DefaultKeyVaultSecretManager());
-                });
+        public static IHostBuilder CreateHostBuilder(string[] args)
+        {
+           if(IsProduction)
+           {
+             return Host.CreateDefaultBuilder(args)
+                            .ConfigureWebHostDefaults(webBuilder =>
+                            {
+                                webBuilder.UseStartup<Startup>();
+                            }).ConfigureAppConfiguration(( context , config)=> {
+                                var builtConfig = config.Build();
+                                var valtName = builtConfig["VaultName"];
+                                var keyVaultClient = new KeyVaultClient(async (authority, resource, scope) =>
+                                {
+                                    var credential = new DefaultAzureCredential(false);
+                                    var token = credential.GetToken(
+                                        new Azure.Core.TokenRequestContext(
+                                            new[] { "https://vault.azure.net/.default" }));
+                                    return token.Token;
+                                });
+                                config.AddAzureKeyVault(valtName, keyVaultClient, new DefaultKeyVaultSecretManager());
+                            });
+           }
+            else
+            {
+                return Host.CreateDefaultBuilder(args)
+                           .ConfigureWebHostDefaults(webBuilder =>
+                           {
+                               webBuilder.UseStartup<Startup>();
+                           });
+            }
+           
+        }
+          
     }
 }

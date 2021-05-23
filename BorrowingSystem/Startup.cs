@@ -22,9 +22,11 @@ namespace BorrowingSystem
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration )
+        private readonly IWebHostEnvironment _env;
+        public Startup(IConfiguration configuration, IWebHostEnvironment env)
         {
             Configuration = configuration;
+            _env = env;
         }
 
         public IConfiguration Configuration { get; }
@@ -38,28 +40,57 @@ namespace BorrowingSystem
 
             services.AddControllersWithViews();
             var jwtTokenConfig = Configuration.GetSection("jwtTokenConfig").Get<JwtTokenConfig>();
-            var jwtSecret = Configuration.GetValue<string>("BorrowingSystemJwtSecret");
-   
-            services.AddAuthentication(x =>
+            string jwtSecret;
+            if (_env.IsProduction())
             {
-                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            }).AddJwtBearer(x =>
-            {
-                x.RequireHttpsMetadata = true;
-                x.SaveToken = true;
-                x.TokenValidationParameters = new TokenValidationParameters
+                jwtSecret = Configuration.GetValue<string>("BorrowingSystemJwtSecret");
+                services.AddAuthentication(x =>
                 {
-                    ValidateIssuer = true,
-                    ValidIssuer = jwtTokenConfig.Issuer,
-                    ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(jwtSecret)),
-                    ValidAudience = jwtTokenConfig.Audience,
-                    ValidateAudience = true,
-                    ValidateLifetime = true,
-                    ClockSkew = TimeSpan.FromMinutes(1)
-                };
-            });
+                    x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                    x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                }).AddJwtBearer(x =>
+                {
+                    x.RequireHttpsMetadata = true;
+                    x.SaveToken = true;
+                    x.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = true,
+                        ValidIssuer = jwtTokenConfig.Issuer,
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(jwtSecret)),
+                        ValidAudience = jwtTokenConfig.Audience,
+                        ValidateAudience = true,
+                        ValidateLifetime = true,
+                        ClockSkew = TimeSpan.FromMinutes(1)
+                    };
+                });
+            }
+            else
+            {
+                services.AddAuthentication(x =>
+                {
+                    x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                    x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                }).AddJwtBearer(x =>
+                {
+                    x.RequireHttpsMetadata = true;
+                    x.SaveToken = true;
+                    x.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = true,
+                        ValidIssuer = jwtTokenConfig.Issuer,
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(jwtTokenConfig.Secret)),
+                        ValidAudience = jwtTokenConfig.Audience,
+                        ValidateAudience = true,
+                        ValidateLifetime = true,
+                        ClockSkew = TimeSpan.FromMinutes(1)
+                    };
+                });
+            }
+           
+   
+           
             services.AddSingleton<IJwtAuthManager, JwtAuthManager>();
             services.AddHostedService<JwtRefreshTokenCache>(); 
             services.AddScoped<IUserService, UserService>();

@@ -7,7 +7,9 @@ using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json.Serialization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 
 namespace BorrowingSystem.Jwt
@@ -28,12 +30,20 @@ namespace BorrowingSystem.Jwt
         private readonly ConcurrentDictionary<string, RefreshToken> _usersRefreshTokens;  // can store in a database or a distributed cache
         private readonly JwtTokenConfig _jwtTokenConfig;
         private readonly byte[] _secret;
-
-        public JwtAuthManager(IConfiguration configuration)
+        private readonly IWebHostEnvironment _env;
+        public JwtAuthManager(IConfiguration configuration , IWebHostEnvironment env)
         {
             _jwtTokenConfig = configuration.GetSection("jwtTokenConfig").Get<JwtTokenConfig>();
             _usersRefreshTokens = new ConcurrentDictionary<string, RefreshToken>();
-            _secret = Encoding.ASCII.GetBytes(configuration.GetValue<string>("BorrowingSystemJwtSecret"));
+            _env = env;
+            if(_env.IsProduction())
+            {
+                _secret = Encoding.ASCII.GetBytes(configuration.GetValue<string>("BorrowingSystemJwtSecret"));
+            }
+            else
+            {
+                _secret = Encoding.ASCII.GetBytes(_jwtTokenConfig.Secret);
+            }
         }
 
         // optional: clean up expired refresh tokens
