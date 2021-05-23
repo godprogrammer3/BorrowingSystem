@@ -70,12 +70,13 @@ namespace BorrowingSystem.Controllers
                 _logger.LogInformation($"User [{user.FullName}] logged in successfully.");
                 return Ok(new LoginResult
                 {
+                    ProfileImage = user.ProfileImage,
                     FullName = user.FullName,
                     Email = user.Email,
                     Role = user.Role.ToString(),
                     AccessToken = jwtResult.AccessToken,
                     RefreshToken = jwtResult.RefreshToken.TokenString
-                });
+                }); ;
 
             }
             return Forbid();
@@ -255,6 +256,8 @@ namespace BorrowingSystem.Controllers
             public string AccessToken { get; set; }
             [JsonPropertyName("refreshToken")]
             public string RefreshToken { get; set; }
+            [JsonPropertyName("profileImage")]
+            public string ProfileImage { get; set; }
         }
 
         public class RefreshTokenRequest

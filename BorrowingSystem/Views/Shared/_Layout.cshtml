@@ -19,6 +19,10 @@
     {
         <link rel="stylesheet" href="~/css/EditProfile.css" />
     }
+    @if (ViewContext.RouteData.Values["Controller"].ToString().ToLower() == "myborrow")
+    {
+        <link rel="stylesheet" href="~/css/MyBorrow.css"  />
+    }
     <script src="~/js/Utill.js"></script>
     <script src="~/js/Api.js"></script>
     <script src="~/js/Layout.js"></script>
@@ -39,10 +43,12 @@
             ViewBag.navButtonBackgroundColor = "transparent";
         }
         <div class="navbutton" style="color: @ViewBag.navButtonColor;background-color: @ViewBag.navButtonBackgroundColor;">
+            
+            <a href="/dashboard" style="color:@ViewBag.navButtonColor;">
             <span class="material-icons menu-icon">
                 dashboard
             </span>
-            <a href="/dashboard" style="color:@ViewBag.navButtonColor;">Dashboard</a>
+            Dashboard</a>
         </div>
         @if (ViewContext.RouteData.Values["Controller"].ToString().ToLower() == "myborrow")
         {
@@ -55,10 +61,11 @@
             ViewBag.navButtonBackgroundColor = "transparent";
         }
         <div class="navbutton" id="myBorrowNavigation" style="color: @ViewBag.navButtonColor;background-color: @ViewBag.navButtonBackgroundColor;">
+            <a href="/myborrow" style="color:@ViewBag.navButtonColor;">
             <span class="material-icons  menu-icon">
                 swap_vert
             </span>
-            <a href="/myborrow" style="color:@ViewBag.navButtonColor;">My borrow</a>
+            My borrow</a>
         </div>
         @if (ViewContext.RouteData.Values["Controller"].ToString().ToLower() == "management")
         {
@@ -71,10 +78,12 @@
             ViewBag.navButtonBackgroundColor = "transparent";
         }
         <div class="navbutton" id="managementNavigation" style="color: @ViewBag.navButtonColor;background-color: @ViewBag.navButtonBackgroundColor;">
-            <span class="material-icons menu-icon">
-                pie_chart
-            </span>
-            <a href="/management" style="color:@ViewBag.navButtonColor;">Management</a>
+            <a href="/management" style="color:@ViewBag.navButtonColor;">
+                <span class="material-icons menu-icon">
+                    pie_chart
+                </span>
+                Management
+            </a>
         </div>
         @if (ViewContext.RouteData.Values["Controller"].ToString().ToLower() == "editprofile")
         {
@@ -87,23 +96,28 @@
             ViewBag.navButtonBackgroundColor = "transparent";
         }
         <div class="navbutton"  style="color: @ViewBag.navButtonColor;background-color: @ViewBag.navButtonBackgroundColor;">
-            <span class="material-icons menu-icon">
-                person
-            </span>
-            <a href="/editprofile" style="color:@ViewBag.navButtonColor;">Edit profile</a>
+            <a href="/editprofile" style="color:@ViewBag.navButtonColor;">
+                <span class="material-icons menu-icon">
+                    person
+                </span>
+                Edit profile
+            </a>
         </div>
         <div style="flex: 1;"></div>
         <div class="loader" id="logOutLoader" style="display:none;"></div>
         <div class="navbutton" id="logOutSection" style="color:white;">
-            <span class="material-icons menu-icon">
-                logout
-            </span>
-            <a href="" id="logOut" onclick="logOutHandler(event)">Log out</a>
+            
+            <a href="" id="logOut" onclick="logOutHandler(event)">
+                <span class="material-icons menu-icon">
+                    logout
+                </span>
+                Log out
+            </a>
         </div>
 
     </nav>
-    <div class="container">
-        <main role="main" class="pb-3">
+    <div id="mainContainer">
+        <main role="main" class="pb-3" id="layoutMainContent">
             @RenderBody()
         </main>
     </div>
