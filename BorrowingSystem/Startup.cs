@@ -154,7 +154,7 @@ namespace BorrowingSystem
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("./swagger/v1/swagger.json", "Borrowing System Api V1");
-                c.DocumentTitle = "JWT Auth Demo";
+                c.DocumentTitle = "Borrowing System Api";
                 c.RoutePrefix = "api";
             });
 
