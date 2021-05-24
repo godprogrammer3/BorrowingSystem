@@ -13,7 +13,10 @@ function submitFormHandler(event, context) {
     event.preventDefault();
     var email = document.getElementById('email').value;
     var password = document.getElementById('password').value;
-    document.getElementById('logInLoader').style.visibility = "visible";
+
+    document.getElementById('logInLoader').style.display = "block";
+    document.getElementById('submitLoginButton').style.display = "none";
+    
     new Promise((resolve, reject) => {
         try {
             login(email, password, resolve);
@@ -27,15 +30,22 @@ function submitFormHandler(event, context) {
             window.location = "/dashboard";
         } else if (data.status == 403) {
             alert('Email or password is incorrect!');
+            document.getElementById('logInLoader').style.display = "none";
+            document.getElementById('submitLoginButton').style.display = "block";
             return -1;
         }else {
             console.log('Unkonw Error! : status code', data.status);
+            alert('Unkonw Error!');
+            document.getElementById('logInLoader').style.display = "none";
+            document.getElementById('submitLoginButton').style.display = "block";
         }
 
 
     }).catch(error => {
-        document.getElementById('logInLoader').style.visibility = "hidden";
+        document.getElementById('logInLoader').style.display = "none";
+        document.getElementById('submitLoginButton').style.display = "block";
         console.log('Error :', error.message);
+        alert('Unkonw Error!');
     });
 }
 

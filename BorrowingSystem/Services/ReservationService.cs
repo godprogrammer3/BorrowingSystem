@@ -102,7 +102,7 @@ namespace BorrowingSystem.Services
         public List<List<int>> GetAvailableEquipmentInMonth(int roomId)
         {
             
-            IEnumerable<Equipment> equipments = _db.Equipment.Where(c => c.RoomId == roomId );
+            IEnumerable<Equipment> equipments = _db.Equipment.Where(c => c.RoomId == roomId && c.Status == Equipment.EquipmentStatus.available );
             List<List<int>> availableEquipmentInMonth = new ();
             int equipmentQuentity =  equipments.Count();
             for(var dateIndex = DateTime.Now.Day; dateIndex <= DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month); dateIndex++)
@@ -115,11 +115,16 @@ namespace BorrowingSystem.Services
                 availableEquipmentInMonth.Add(availableEquipmentInDay);
             }
             IEnumerable<Reservation> reservations = _db.Reservation.Where(c => (c.StartDateTime.Year == DateTime.Now.Year && c.StartDateTime.Month == DateTime.Now.Month) && c.RoomId == roomId);
-            for(var reservationIndex = 0; reservationIndex < reservations.Count(); reservationIndex ++)
+            int reservationCount = reservations.Count();
+            for (var reservationIndex = 0; reservationIndex < reservationCount; reservationIndex++)
             {
-                for(var hourIndex = reservations.ElementAt(reservationIndex).StartDateTime.Hour ; hourIndex < reservations.ElementAt(reservationIndex).EndDateTime.Hour; hourIndex++)
+                for (var hourIndex = reservations.ElementAt(reservationIndex).StartDateTime.Hour; hourIndex < reservations.ElementAt(reservationIndex).EndDateTime.Hour; hourIndex++)
                 {
-                    availableEquipmentInMonth[reservations.ElementAt(reservationIndex).StartDateTime.Day-DateTime.Now.Day][hourIndex-9]--;
+                    if(reservations.ElementAt(reservationIndex).StartDateTime.Day - DateTime.Now.Day >= 0)
+                    {
+                        availableEquipmentInMonth[reservations.ElementAt(reservationIndex).StartDateTime.Day - DateTime.Now.Day][hourIndex - 9]--;
+                    }
+                    
                 }
             }
             return availableEquipmentInMonth;

@@ -12,13 +12,11 @@ namespace BorrowingSystem.Models
         {
             admin,
             user,
-            third_party_user,
-            third_party_admin,
         }
         public enum UserStatus
         {
             normal,
-            banned
+            banned 
         }
         [Key]
         public int Id { get; set; }

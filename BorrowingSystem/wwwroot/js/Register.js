@@ -7,7 +7,8 @@ async function submitFormHandler(event, context) {
     var fullName = document.getElementById('fullName').value;
     var email = document.getElementById('email').value;
     var password = document.getElementById('password').value;
-    document.getElementById('registerLoader').style.visibility = "visible";
+    document.getElementById('registerLoader').style.display = "block";
+    document.getElementById('registerSubmitButton').style.display = "none";
     new Promise((resolve, reject) => {
         try {
             register(email, password, fullName, resolve);
@@ -21,11 +22,15 @@ async function submitFormHandler(event, context) {
             window.location = "/user";
         } else {
             console.log('Error!');
+            alert('Unknow error!');
+            document.getElementById('registerLoader').style.display = "none";
+            document.getElementById('registerSubmitButton').style.display = "block";
         }
         
-          
     }).catch(error => {
-        document.getElementById('registerLoader').style.visibility = "hidden";
         console.log('Error :', error.message);
+        alert('Unknow error!');
+        document.getElementById('registerLoader').style.display = "none";
+        document.getElementById('registerSubmitButton').style.display = "block";
     });
 }

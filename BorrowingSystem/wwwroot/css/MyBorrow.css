@@ -1,0 +1,160 @@
+﻿#myborrowHeader{
+    display:flex;
+    width:100%;
+}
+#bodySection {
+    display: flex; 
+    justify-content:center; 
+    flex:1;
+}
+
+#bodySectionOnSuccess{
+    width: 80%;
+    box-shadow: 0px 0px 16px rgba(0, 0, 0, 0.16);
+    border-radius: 16px;
+    padding:2em;
+    display:flex;
+    justify-content:center;
+    margin-bottom:5%;
+}
+#myborrowTable {
+    width: 100%;
+    color: #333333;
+    align-self: start;
+}
+
+#layoutMainContent{
+    width:100%;
+    display:flex;
+    flex-direction:column;
+}
+
+#mainContainer{
+    display:flex;
+    justify-content:center;
+}
+.tableHeader{
+    text-align:left;
+}
+#tableHeaderRow {
+    box-shadow: 0px 1px 0px rgba(0, 0, 0, 0.25);
+}
+
+#emptyContentMessage {
+    color: #333333;
+    align-self:center;
+}
+
+#deleteIcon{
+    cursor:pointer;
+}
+
+#deleteIcon:hover {
+    background: rgba(60, 60, 67, 0.18);
+    border-radius: 50px;
+}
+
+#myBrrowHeaderTitle {
+    margin-left: 8%;
+    color: #333333;
+}
+
+#userProfileImage {
+    margin-right: 8%;
+    width:3em;
+    height:3em;
+    border-radius:3em;
+    margin-top:1em;
+}
+
+#currentTime {
+    align-self: center;
+    color: #9D0042;
+    background-color: #FFEFF8;
+    border-radius: 16px;
+    font-size:28px;
+    padding: 10px 20px 10px 20px;
+    margin-right:1em;
+}
+
+#popupConfirmDeleteHeader {
+    color: #333333;
+}
+
+#popupOnInitialBody {
+    color: #333333;
+    
+}
+
+#popupOnInitialCofirmButton {
+    margin: 20px;
+    padding: 10px 20px 10px 20px;
+    font-size: 25px;
+    border: none;
+    color: white;
+    background-color: #9D0042;
+    border-radius: 16px;
+    cursor:pointer;
+}
+
+#popupOnInitialCancelButton {
+    margin: 20px;
+    padding: 10px 20px 10px 20px;
+    font-size: 25px;
+    border: none;
+    color: rgba(60, 60, 67, 0.6);
+    background-color: white;
+    border-radius: 16px;
+    border: 2px solid rgba(60, 60, 67, 0.6);
+    cursor: pointer;
+}
+
+#popupOnInitialBodyDetail{
+    display:flex;
+    justify-content:center;
+}
+
+.popupButton {
+    margin: 20px;
+    padding: 10px 20px 10px 20px;
+    font-size: 25px;
+    border-radius: 16px;
+    cursor: pointer;
+}
+
+.popupButton-primary {
+    border: none;
+    color: white;
+    background-color: #9D0042;
+}
+
+#popupOnSuccess{
+    display:flex;
+    justify-content:center;
+}
+
+#popupOnLoading{
+    display:flex;
+    justify-content:center;
+}
+
+#correctIcon {
+    color: #77dd77;
+    font-size: 100px;
+}
+
+.center-flex {
+    display:flex;
+    justify-content:center;
+}
+
+.popup-header {
+    color: #333333;
+    text-align:center;
+}
+.popupIcon {
+    font-size: 100px;
+}
+#popupFaildIcon {
+    color: #c23b22;
+}

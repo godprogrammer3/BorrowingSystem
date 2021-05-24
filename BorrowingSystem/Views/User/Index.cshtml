@@ -22,11 +22,11 @@
     <section>
         <form id="form">
             <lable for="email">Email address</lable><br>
-            <input id="email" type="text" name="email" value="" /><br>
-            <lable for="password">Password</lable> <lable for="password" style="margin-left:300px;color: #0373B3">Forgot password?</lable><br>
-            <input id="password" type="password" name="password" value="" /><br>
-            <button class="submit" type="submit">Login</button>
-            <div class="loader" id="logInLoader" style="visibility:hidden;"></div>
+            <input id="email" type="email" name="email" value="" required /><br>
+            <lable for="password">Password</lable> <lable for="password" style="margin-left:300px;color: #0373B3;display:none;">Forgot password?</lable><br>
+            <input id="password" type="password" name="password" value="" required/><br>
+            <button class="submit" type="submit" id="submitLoginButton">Login</button>
+            <div class="loader" id="logInLoader" style="display:none;"></div>
         </form>
     </section>
     <footer>

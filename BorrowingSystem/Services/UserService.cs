@@ -25,6 +25,7 @@ namespace BorrowingSystem.Services
         IEnumerable<User> GetAllNormalUser();
         void BanUser(int id);
         void UnBanUser(int id);
+        User GetUserById(int id);
     }
     public class UserService : IUserService
     {
@@ -147,6 +148,16 @@ namespace BorrowingSystem.Services
             _db.User.Update(user);
             _db.SaveChanges();
             return;
+        }
+
+        public User GetUserById(int id)
+        {
+            User user = _db.User.Find(id);
+            if (user != null)
+            {
+                return user;
+            }
+            throw new Exception("Not Found user");
         }
     }
 }
