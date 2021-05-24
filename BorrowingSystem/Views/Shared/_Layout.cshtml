@@ -21,7 +21,11 @@
     }
     @if (ViewContext.RouteData.Values["Controller"].ToString().ToLower() == "myborrow")
     {
-        <link rel="stylesheet" href="~/css/MyBorrow.css"  />
+        <link rel="stylesheet" href="~/css/MyBorrow.css" />
+    }
+    @if (ViewContext.RouteData.Values["Controller"].ToString().ToLower() == "management" && ViewContext.RouteData.Values["Action"].ToString().ToLower() == "room")
+    {
+        <link rel="stylesheet" href="~/css//ManagementRoom.css" />
     }
     <script src="~/js/Utill.js"></script>
     <script src="~/js/Api.js"></script>

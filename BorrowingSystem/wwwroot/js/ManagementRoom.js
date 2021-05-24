@@ -1,6 +1,17 @@
 ﻿window.onload = function () {
     checkDisplayNavigationBar();
     initialBodyContent();
+    var date = new Date();
+    document.getElementById('currentTime').innerHTML = getHHMMTimeFromDate(date);
+    setInterval(function () {
+        document.getElementById('currentTime').innerHTML = getHHMMTimeFromDate(new Date());
+    }, 1000);
+    var userDate = JSON.parse(localStorage.getItem('UserData'));
+    if (userDate.profileImage != null) {
+        document.getElementById('userProfileImage').src = '/img/' + userDate.profileImage;
+    } else {
+        document.getElementById('userProfileImage').src = '/img/user-profile.svg'
+    }
 }
 
 async function initialBodyContent() {
@@ -163,7 +174,7 @@ function initalDeleteEquipmentPopup(equipment) {
     document.getElementById('popupOnSuccess').style.display = 'none';
     document.getElementById('popupOnError').style.display = 'none';
     document.getElementById('popupOnInitial').style.display = 'block';
-    document.getElementById('popupOnInitialHeader').innerHTML = `Remove ${equipment.name} ?`;
+    document.getElementById('popupOnInitialHeader').innerHTML = `<h3 class="popup-header">Remove ${equipment.name} ? <h3>`;
     document.getElementById('popupOnInitialBody').innerHTML = ``;
     document.getElementById('popupOnInitialCofirmButton').innerHTML = 'Remove'
     document.getElementById('popupOnInitialCofirmButton').onclick = function (event) { confirmDeleteEquipmentHandler(equipment); };
@@ -217,20 +228,26 @@ function editEquipmentHandler(equipment) {
 }
 
 function initalEditEquipmentPopup(equipment) {
-    document.getElementById('popupOnInitialHeader').innerHTML = ``;
+    document.getElementById('popupOnInitialHeader').innerHTML = ` <h3 class="popup-header">Edit Equipment</h3>`;
     document.getElementById('popupOnInitialBody').innerHTML = `
-        <label for="popupOnInitialBodyNameInput">Name</lable>
-        <input type="text" id="popupOnInitialBodyNameInput" value = "${equipment.name}" />
-        <label for="popupOnInitialBodyEquipmentNumberInput">Equipment Number</lable>
-        <input type="text" id="popupOnInitialBodyEquipmentNumberInput" value = "${equipment.serialNumber}" />
+    <div class="center-row-flex">
+      <form  id="popupForm"  style="text-align:center;">
+        <input type="text" id="popupOnInitialBodyNameInput" value = "${equipment.name}" placeholder="Enter equipment's name..." class="popup-input" required />
+        <input type="text" id="popupOnInitialBodyEquipmentNumberInput" value = "${equipment.serialNumber}" placeholder="Enter equipment's number..." class="popup-input" required />
         <input type="radio" id="available" name="equipmentStatus" value="0" ${equipment.status == 0 ? 'checked' : ''}>
         <label for="available">Available</label>
         <input type="radio" id="repairing" name="equipmentStatus" value="1" ${equipment.status == 1 ? 'checked' : ''}>
         <label for="repairing">Repairing</label><br>
-        
+        <button id="popupFormButton" type="submit" style="display:none;" ></button>
+       </form>
+    </div> 
     `;
+    document.getElementById('popupForm').onsubmit = function (event) {
+        event.preventDefault();
+        confirmEditEquipmentHandler(equipment);
+    };
     document.getElementById('popupOnInitialCofirmButton').innerHTML = 'Edit'
-    document.getElementById('popupOnInitialCofirmButton').onclick = function (event) { confirmEditEquipmentHandler(equipment) };
+    document.getElementById('popupOnInitialCofirmButton').onclick = function (event) { document.getElementById('popupFormButton').click(); };
     document.getElementById('popup').style.display = "block";
 }
 
@@ -274,4 +291,8 @@ async function confirmEditEquipmentHandler(equipment) {
         document.getElementById('popupOnError').style.display = 'block';
         document.getElementById('popupOnInitial').style.display = 'none';
     }
+}
+
+function getHHMMTimeFromDate(date) {
+    return (date.getHours() < 9 ? '0' + date.getHours() : date.getHours()) + ':' + (date.getMinutes() < 9 ? '0' + date.getMinutes() : date.getMinutes());
 }

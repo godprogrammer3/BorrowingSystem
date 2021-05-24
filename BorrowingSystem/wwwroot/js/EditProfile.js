@@ -8,7 +8,7 @@
         document.getElementById('userPhoneNumber').innerHTML = userData.phoneNumber;
         document.getElementById('newPhoneNumber').value = userData.phoneNumber;
     } else {
-        document.getElementById('userEmail').innerHTML = 'Not already assigned.';
+        document.getElementById('newPhoneNumber').innerHTML = 'Not already assigned.';
     }
     if (userData.profileImage != null) {
         document.getElementById('userProfileImage').src = `/img/` + userData.profileImage;

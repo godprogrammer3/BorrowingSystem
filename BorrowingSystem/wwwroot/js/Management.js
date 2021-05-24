@@ -17,6 +17,21 @@
 
         initialBlacklist();
     });
+    var date = new Date();
+    document.getElementById('currentTime').innerHTML = getHHMMTimeFromDate(date);
+    setInterval(function () {
+        document.getElementById('currentTime').innerHTML = getHHMMTimeFromDate(new Date());
+    }, 1000);
+    var userDate = JSON.parse(localStorage.getItem('UserData'));
+    if (userDate.profileImage != null) {
+        document.getElementById('userProfileImage').src = '/img/' + userDate.profileImage;
+    } else {
+        document.getElementById('userProfileImage').src = '/img/user-profile.svg'
+    }
+}
+
+function getHHMMTimeFromDate(date) {
+    return (date.getHours() < 9 ? '0' + date.getHours() : date.getHours()) + ':' + (date.getMinutes() < 9 ? '0' + date.getMinutes() : date.getMinutes());
 }
 
 function initialRooms(event) {

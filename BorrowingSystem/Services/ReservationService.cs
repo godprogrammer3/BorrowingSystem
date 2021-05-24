@@ -105,7 +105,9 @@ namespace BorrowingSystem.Services
             IEnumerable<Equipment> equipments = _db.Equipment.Where(c => c.RoomId == roomId && c.Status == Equipment.EquipmentStatus.available );
             List<List<int>> availableEquipmentInMonth = new ();
             int equipmentQuentity =  equipments.Count();
-            for(var dateIndex = DateTime.Now.Day; dateIndex <= DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month); dateIndex++)
+            TimeZoneInfo asiaThTimeZone = TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time");
+            DateTime asiaThDateTime = TimeZoneInfo.ConvertTime(DateTime.Now, asiaThTimeZone);
+            for (var dateIndex = asiaThDateTime.Day; dateIndex <= DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month); dateIndex++)
             {
                 List<int> availableEquipmentInDay = new ();
                 for (var hourIndex = 9; hourIndex <= 21; hourIndex++)
@@ -120,9 +122,9 @@ namespace BorrowingSystem.Services
             {
                 for (var hourIndex = reservations.ElementAt(reservationIndex).StartDateTime.Hour; hourIndex < reservations.ElementAt(reservationIndex).EndDateTime.Hour; hourIndex++)
                 {
-                    if(reservations.ElementAt(reservationIndex).StartDateTime.Day - DateTime.Now.Day >= 0)
+                    if(reservations.ElementAt(reservationIndex).StartDateTime.Day - asiaThDateTime.Day >= 0)
                     {
-                        availableEquipmentInMonth[reservations.ElementAt(reservationIndex).StartDateTime.Day - DateTime.Now.Day][hourIndex - 9]--;
+                        availableEquipmentInMonth[reservations.ElementAt(reservationIndex).StartDateTime.Day - asiaThDateTime.Day][hourIndex - 9]--;
                     }
                     
                 }

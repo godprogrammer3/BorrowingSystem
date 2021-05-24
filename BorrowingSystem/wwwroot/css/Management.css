@@ -163,3 +163,7 @@ td button, #bodyContentOnSuccess td button {
     height:45vh;
     overflow-y:scroll;
 }
+
+#userProfileImage {
+    border-radius: 50px;
+}
