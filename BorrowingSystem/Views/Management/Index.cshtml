@@ -11,12 +11,12 @@
 <div class="managementPage">
     <nav id="managementSelect">
         <ul class="tab-ul">
-            <li class="tab-li"><a href="" id="laboratory">Laboratory</a></li>
+            <li class="tab-li"><a href="" id="laboratory" style="color:#9D0042;">Laboratory</a></li>
             <li class="tab-li"><a href="" id="blacklist">Blacklist</a></li>
         </ul>
     </nav>
     <section>
-        <section id="loadingTab" style="display: none;">
+        <section id="loadingTab" style="display: none;" class="center-row-flex">
             <div class="loader" id="loadingTabLoader"></div>
         </section>
         <section id="laboratoryTab" style="display: none;">
@@ -34,42 +34,49 @@
     <section class="popup" id="popup">
         <section class="popup-content">
             <section id="onInitialPopup" style="display:none">
-                <header id="headerOnInitialPopupContent">
+                <header id="headerOnInitialPopupContent" class="popup-header">
                 </header>
                 <section id="bodyOnInitialPopupContent">
                 </section>
-                <footer>
-                    <button onclick="document.getElementById('popup').style.display = 'none';">cancel</button>
-                    <button id="confirmButtonOnInitialPopupContent"></button>
+                <footer class="center-row-flex">
+                    <button onclick="document.getElementById('popup').style.display = 'none';" class="popup-button popup-button-secondary">cancel</button>
+                    <button id="confirmButtonOnInitialPopupContent" class="popup-button popup-button-primary"></button>
                 </footer>
             </section>
             <section id="onLoadingPopup" style="display:none">
                 <hgroup>
-                    <h3>Please wait a moment...</h3>
+                    <h3 class="popup-header">Please wait a moment...</h3>
                 </hgroup>
-                <div class="loader" id="createLaboratoryLoader"></div>
+                <div class="center-row-flex">
+                    <div class="loader" id="createLaboratoryLoader"></div>
+                </div>
             </section>
             <section id="onSuccessPopup" style="display:none;">
                 <hgroup>
-                    <h3>Successed.</h3>
+                    <h3 class="popup-header">Successed.</h3>
                 </hgroup>
-                <span class="material-icons">
-                    check_circle
-                </span>
-                <footer>
-                    <button onclick="postPopupProcess();">ok</button>
+                <div class="center-row-flex">
+                    <span class="material-icons popup-icon correct-icon" >
+                        check_circle
+                    </span>
+                </div>
+                <footer class="center-row-flex">
+                    <button onclick="postPopupProcess();" class="popup-button popup-button-primary">ok</button>
                 </footer>
             </section>
             <section id="onErrorPopup" style="display:none;">
                 <hgroup>
-                    <h3>Failed!</h3>
-                    <h4>Please try again.</h4>
+                    <h3 class="popup-header">Failed!</h3>
+                    <h4 class="popup-header-2">Please try again.</h4>
                 </hgroup>
-                <i class="material-icons">
-                    cancel
-                </i>
-                <footer>
-                    <button onclick="document.getElementById('popup').style.display = 'none';document.getElementById('onErrorPopup').style.display='none'">ok</button>
+                <div class="center-row-flex">
+                    <span class="material-icons popup-icon incorrect-icon">
+                        cancel
+                    </span>
+                </div>
+              
+                <footer class="center-row-flex">
+                    <button onclick="document.getElementById('popup').style.display = 'none';document.getElementById('onErrorPopup').style.display='none'" class="popup-button popup-button-primary">ok</button>
                 </footer>
             </section>
         </section>
@@ -87,14 +94,14 @@
             </section>
             <section id="onSuccessBlacklistPopup" style="display:none;">
                 <header>
-                    <h3>Add people to blacklist</h3>
-                    <input type="text" name="searchNameOrEmailPopup" id="searchNameOrEmailPopup" placeholder="Search for name or email..." value="" />
+                    <h3 class="popup-header">Add people to blacklist</h3>
+                    <input  class="search-input" type="text" name="searchNameOrEmailPopup" id="searchNameOrEmailPopup" placeholder="Search for name or email..." value=""/>
                 </header>
                 <span class="onsuccess-blacklist-popup-content" id="onSuccessBlcklistPopupContent">
 
                 </span>
-                <footer>
-                    <button onclick="document.getElementById('blacklistPopup').style.display = 'none';initialBlacklist();">close</button>
+                <footer class="center-row-flex">
+                    <button onclick="document.getElementById('blacklistPopup').style.display = 'none';initialBlacklist();" class="popup-button popup-button-primary">close</button>
                 </footer>
             </section>
             <section id="onErrorBlacklistPopup" style="display:none;">
@@ -112,7 +119,7 @@
         </section>
     </section>
 </div>
-<script src="~/js/Management.js">
+<script src="/js/Management.js">
 </script>
 
 

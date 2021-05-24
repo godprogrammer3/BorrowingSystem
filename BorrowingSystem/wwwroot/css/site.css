@@ -110,6 +110,7 @@ edit-profile-block {
     padding-bottom:5%;
     display:flex;
    justify-content:center;
+   height:45%;
 }
 
 .verticle-display {
@@ -157,4 +158,96 @@ body {
 #popupOnInitialBodyFooter{
     display:flex;
     justify-content:center;
+}
+
+.popup-header {
+    color: #333333;
+    text-align: center;
+    font-size: 36px;
+}
+.popup-header-2 {
+    color: #333333;
+    text-align: center;
+    font-size: 32px;
+}
+.popup-header-2-error {
+    color: #9D0042;
+    text-align: center;
+    font-size: 32px;
+}
+.popup-input {
+    border: 2px solid #9D0042;
+    box-sizing: border-box;
+    box-shadow: 0px 0px 0px 4px #ffeff8;
+    border-radius: 16px;
+    padding: 10px;
+    font-size: 15px;
+    display:block;
+    margin:15px;
+}
+.popup-button{
+    margin: 20px;
+    padding: 10px 20px 10px 20px;
+    font-size: 25px;
+    border-radius: 16px;
+    cursor: pointer;
+}
+.popup-button-primary {
+    border: none;
+    color: white;
+    background-color: #9D0042;
+}
+.popup-button-secondary {
+    border-radius: 16px;
+    border: 2px solid rgba(60, 60, 67, 0.6);
+    cursor: pointer;
+    color: rgba(60, 60, 67, 0.6);
+    background-color:white;
+}
+.center-row-flex {
+    display: flex;
+    justify-content: center;
+}
+.center-column-flex{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+}
+.popup-icon {
+    font-size: 100px;
+}
+.correct-icon {
+    color: #77dd77;
+    font-size: 100px;
+}
+.incorrect-icon {
+    color: #ec0b00;
+    font-size: 100px;
+}
+.error-text {
+    color: #ec0b00;
+}
+.image-profile-li {
+    width: 60px;
+    height: 60px;
+    border-radius: 60px;
+    margin: 10px;
+}
+.username-li {
+    margin: 10px;
+    position: relative;
+    top: -2em;
+}
+.action-li {
+    position: relative;
+    top: -0.5em;
+    font-size: 40px;
+    cursor:pointer;
+}
+.action-li:hover {
+    background-color: rgba(60, 60, 67, 0.18);
+}
+.popup-ul{
+    height:45%;
+    overflow-y:scroll;
 }

@@ -150,3 +150,16 @@ td button, #bodyContentOnSuccess td button {
     font-size: 24px;
     padding-left: 40px;
 }
+
+.search-input {
+    background: rgba(60, 60, 67, 0.18);
+    border-radius: 16px;
+    width: 100%;
+    font-size: 20px;
+    padding: 5px;
+    border: none;
+}
+#blacklistTab {
+    height:45vh;
+    overflow-y:scroll;
+}

@@ -2,8 +2,21 @@
     checkDisplayNavigationBar();
     document.getElementById('logOut').addEventListener('click', (event) => logOutHandler(event));
     initialRooms();
-    document.getElementById('laboratory').addEventListener('click', initialRooms);
-    document.getElementById('blacklist').addEventListener('click', initialBlacklist);
+    document.getElementById('laboratory').addEventListener('click', function (event) {
+        event.preventDefault();
+        document.getElementById('blacklist').style.color = 'rgba(60, 60, 67, 0.6)';
+
+
+        document.getElementById('laboratory').style.color = '#9D0042';
+        initialRooms();
+    });
+    document.getElementById('blacklist').addEventListener('click', function (event) {
+        event.preventDefault();
+        document.getElementById('blacklist').style.color = '#9D0042';
+        document.getElementById('laboratory').style.color = 'rgba(60, 60, 67, 0.6)';
+
+        initialBlacklist();
+    });
 }
 
 function initialRooms(event) {
@@ -95,20 +108,30 @@ var afterPostPupupProcess = ()=>{
 }
 
 function createRoomHandler() {
-    document.getElementById('headerOnInitialPopupContent').innerHTML = `<h3>New Laboratory</h3>`;
+    document.getElementById('headerOnInitialPopupContent').innerHTML = `<h3 class="popup-header">New Laboratory</h3>`;
     document.getElementById('bodyOnInitialPopupContent').innerHTML = `
-        <input type="text" name="roomName" id="roomName" value="" placeholder="Enter room's name..." />
-        <input type="text" name="equipmentName" id="equipmentName" value="" placeholder="Enter equipment's name..." />                                                      
+    <div class="center-row-flex">
+        <form id="popupForm" onsubmit="confirmCreateRoom(event);" style="text-align:center;">
+            <input type="text" name="roomName" id="roomName" value="" placeholder="Enter room's name..."   class="popup-input" required />
+            <input type="text" name="equipmentName" id="equipmentName" value="" placeholder="Enter equipment's name..."   class="popup-input" required />
+            <button id="popupFormButton" type="submit" style="display:none;" ></button>
+        </form>
+    </div>
 `;
     document.getElementById('confirmButtonOnInitialPopupContent').innerHTML = 'Create';
     document.getElementById('confirmButtonOnInitialPopupContent').onclick = function (event) {
-        confirmCreateRoom(event);
+        document.getElementById("popupFormButton").click();
     };
     document.getElementById('onInitialPopup').style.display = 'block';
     document.getElementById('popup').style.display = 'block';
 }
 
 function confirmCreateRoom(event) {
+    if (event) {
+        event.preventDefault();
+        console.log('Prevent Default!!!');
+    }
+    console.log(event);
     var name = document.getElementById('roomName').value;
     var equipmentName = document.getElementById('equipmentName').value;
     document.getElementById('onInitialPopup').style.display = 'none';
@@ -123,6 +146,7 @@ function confirmCreateRoom(event) {
         if (data.status == 204) {
             document.getElementById('onLoadingPopup').style.display = 'none';
             document.getElementById('onSuccessPopup').style.display = 'block';
+            document.getElementById('onErrorPopup').style.display = 'none';
             afterPostPupupProcess = confirmRoomSuccessHandler;
         } else if (data.status == 401) {
             console.log('Unauthorized! : status code', data.status);
@@ -147,7 +171,7 @@ function confirmRoomSuccessHandler(event) {
 }
 
 function deleteRoomHandler (room){
-    document.getElementById('headerOnInitialPopupContent').innerHTML = `<h3>Remove <strong>${room.name}</strong> Laboratory?</h3>`;
+    document.getElementById('headerOnInitialPopupContent').innerHTML = `<h3>Remove <span class="error-text">${room.name}</span> Laboratory?</h3>`;
     document.getElementById('bodyOnInitialPopupContent').innerHTML = ``;
     document.getElementById('confirmButtonOnInitialPopupContent').innerHTML = 'Remove';
     document.getElementById('confirmButtonOnInitialPopupContent').onclick = function (event) {
@@ -188,12 +212,20 @@ function confirmDeleteRoom(room) {
 function updateRoomHandler(room) {
     document.getElementById('headerOnInitialPopupContent').innerHTML = `<h3>Edit name</h3>`;
     document.getElementById('bodyOnInitialPopupContent').innerHTML = `
-        <input type="text" name="roomName" id="roomName" value="${room.name}" placeholder="Enter room's name..."  required />
-        <input type="text" name="equipmentName" id="equipmentName" value="${room.equipmentName}" placeholder="Enter equipment's name..." required />
+    <div class="center-row-flex">
+        <form id="popupForm" " style="text-align:center;">
+        <input type="text" name="roomName" id="roomName" value="${room.name}" placeholder="Enter room's name..."  class="popup-input" required />
+        <input type="text" name="equipmentName" id="equipmentName" value="${room.equipmentName}" placeholder="Enter equipment's name..." class="popup-input" required />
+        <button id="popupFormButton" type="submit" style="display:none;" ></button>
+      </form>
+    </div>
     `;
     document.getElementById('confirmButtonOnInitialPopupContent').innerHTML = 'Edit';
+    document.getElementById('popupForm').onsubmit = function () {
+            confirmUpdateRoom(room);
+    }
     document.getElementById('confirmButtonOnInitialPopupContent').onclick = function (event) {
-        confirmUpdateRoom(room);
+        document.getElementById("popupFormButton").click();
     };
     document.getElementById('onInitialPopup').style.display = 'block';
     document.getElementById('popup').style.display = 'block';
@@ -328,15 +360,15 @@ function addBannedUserHandler() {
             var users = JSON.parse(data.body);
             globalNormalUsers = users;
             if (users.length > 0) {
-                let insideContent = `<ul style="list-style-type: none;">`;
+                let insideContent = `<ul style="list-style-type: none;" class="popup-ul" >`;
                 users.forEach((user) => {
                     insideContent += `
                      <li>
                        <span>
-                        <img src="img/${user.profileImage??'user-profile.svg'}" width="50px" />
+                        <img src="img/${user.profileImage??'user-profile.svg'}" class="image-profile-li"/>
                        </span>
-                       <span>${user.fullName}</span>
-                       <span class="material-icons" onclick="banUserHandler(${user.id})">
+                       <span class="username-li" >${user.fullName}</span>
+                       <span class="material-icons action-li" onclick="banUserHandler(${user.id})">
                             person_add_alt_1
                        </span>
                      </li>
@@ -380,15 +412,15 @@ function updateOnSuccessBlcklistPopupContent(event) {
             return user.email.toLowerCase().includes(searchEmailOrName.toLowerCase()) || user.fullName.toLowerCase().includes(searchEmailOrName.toLowerCase());
         });
         if (updateNormalUser.length > 0) {
-            let insideContent = `<ul style="list-style-type: none;">`;
+            let insideContent = `<ul style="list-style-type: none;" class="popup-ul" > `;
             updateNormalUser.forEach((user) => {
                 insideContent += `
                      <li>
                        <span>
-                        <img src="img/${user.profileImage ?? 'user-profile.svg'}" width="50px" />
+                        <img src="img/${user.profileImage ?? 'user-profile.svg'}"  class="image-profile-li"  />
                        </span>
-                       <span>${user.fullName}</span>
-                       <span class="material-icons" onclick="banUserHandler(${user.id})">
+                       <span class="username-li" >${user.fullName}</span>
+                       <span class="material-icons action-li" onclick="banUserHandler(${user.id})">
                             person_add_alt_1
                        </span>
                      </li>
@@ -402,21 +434,21 @@ function updateOnSuccessBlcklistPopupContent(event) {
         }
     } else {
         if (globalNormalUsers.length > 0) {
-            let insideContent = `<ol>`;
+            let insideContent = `<ul style="list-style-type: none;" class="popup-ul" >`;
             globalNormalUsers.forEach((user) => {
                 insideContent += `
                                 <li>
                                 <span>
-                                <img src="img/${user.profileImage ?? 'user-profile.svg'}" width="50px" />
+                                <img src="img/${user.profileImage ?? 'user-profile.svg'}"  class="image-profile-li"  />
                                 </span>
-                                <span>${user.fullName}</span>
-                                <span class="material-icons">
+                                <span class="username-li">${user.fullName}</span>
+                                <span class="material-icons action-li "  onclick="banUserHandler(${user.id})">
                                     person_add_alt_1
                                 </span>
                                 </li>
                             `;
             });
-            insideContent += '</ol>';
+            insideContent += '</ul>';
             document.getElementById('onSuccessBlcklistPopupContent').innerHTML = insideContent;
         } else {
             let insideContent = ` <h4>Dont have any normal user.</h4>
@@ -447,15 +479,15 @@ async function banUserHandler(id) {
         });
         let insideContent = '';
         if (globalNormalUsers.length > 0) {
-            insideContent += `<ul style="list-style-type: none;"`;
+            insideContent += `<ul style="list-style-type: none;" class="popup-ul" >`;
             globalNormalUsers.forEach((user) => {
                 insideContent += `
                                 <li>
                                 <span>
-                                <img src="img/${user.profileImage ?? 'user-profile.svg'}" width="50px" />
+                                <img src="img/${user.profileImage ?? 'user-profile.svg'}" class="image-profile-li"/>
                                 </span>
-                                <span>${user.fullName}</span>
-                                <span class="material-icons" onclick="banUserHandler(${user.id})">
+                                <span class="username-li">${user.fullName}</span>
+                                <span class="material-icons action-li" onclick="banUserHandler(${user.id})">
                                     person_add_alt_1
                                 </span>
                                 </li>
