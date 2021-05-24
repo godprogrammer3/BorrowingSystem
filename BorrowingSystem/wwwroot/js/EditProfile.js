@@ -1,6 +1,23 @@
 ﻿window.onload = function () {
     checkDisplayNavigationBar();
-    document.getElementById('form').addEventListener('submit',(event)=>submitFormHandler(event));
+    document.getElementById('form').addEventListener('submit', (event) => submitFormHandler(event));
+    var userData = JSON.parse(localStorage.getItem('UserData'));
+    document.getElementById('userName').innerHTML = userData.fullName;
+    document.getElementById('userEmail').innerHTML = userData.email;
+    if (userData.phoneNumber != null) {
+        document.getElementById('userPhoneNumber').innerHTML = userData.phoneNumber;
+        document.getElementById('newPhoneNumber').value = userData.phoneNumber;
+    } else {
+        document.getElementById('userEmail').innerHTML = 'Not already assigned.';
+    }
+    if (userData.profileImage != null) {
+        document.getElementById('userProfileImage').src = `/img/` + userData.profileImage;
+    } else {
+        document.getElementById('userProfileImage').src = `/img/user-profile.svg`;
+    }
+    document.getElementById('newFullName').value = userData.fullName;
+    document.getElementById('newEmail').value = userData.email;
+
 }
 
 async function submitFormHandler(event) {

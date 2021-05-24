@@ -70,6 +70,7 @@ namespace BorrowingSystem.Controllers
                 _logger.LogInformation($"User [{user.FullName}] logged in successfully.");
                 return Ok(new LoginResult
                 {
+                    PhoneNumber = user.PhoneNumber,
                     ProfileImage = user.ProfileImage,
                     FullName = user.FullName,
                     Email = user.Email,
@@ -258,6 +259,9 @@ namespace BorrowingSystem.Controllers
             public string RefreshToken { get; set; }
             [JsonPropertyName("profileImage")]
             public string ProfileImage { get; set; }
+            [JsonPropertyName("phoneNumber")]
+            public string PhoneNumber { get; set; }
+
         }
 
         public class RefreshTokenRequest

@@ -7,7 +7,7 @@
     <span class="material-icons" id="roomIcon" onclick="window.location = '/management';">
             arrow_back
     </span>
-    <h1 class="roomHeader">Room @ViewBag.name</h1>
+    <h1 class="roomHeader">@ViewBag.name</h1>
     <output>09:22</output>
     <img src="~/img/user-profile.svg" alt="user profile picture" width="50" />
 </header>
@@ -31,39 +31,45 @@
                 </header>
                 <section id="popupOnInitialBody">
                 </section>
-                <footer>
-                    <button onclick="document.getElementById('popup').style.display = 'none';">cancel</button>
-                    <button id="popupOnInitialCofirmButton"></button>
+                <footer class="center-row-flex">
+                    <button onclick="document.getElementById('popup').style.display = 'none';" class="popup-button popup-button-secondary" >cancel</button>
+                    <button id="popupOnInitialCofirmButton" class="popup-button popup-button-primary"></button>
                 </footer>
             </section>
             <section id="popupOnLoading" style="display:none">
                 <header>
-                    <h3>Please wait a moment...</h3>
+                    <h3  class="popup-header">Please wait a moment...</h3>
                 </header>
-                <div class="loader"></div>
+                <div class="center-row-flex">
+                    <div class="loader"></div>
+                </div>
             </section>
             <section id="popupOnSuccess" style="display:none;">
                 <header>
-                    <h3>Successed.</h3>
+                    <h3 class="popup-header">Successed.</h3>
                 </header>
-                <span class="material-icons">
-                    check_circle
-                </span>
-                <footer>
-                    <button id="popupOnSuccessConfirmButton" ;">ok</button>
+                <div class="center-row-flex">
+                    <span class="material-icons popup-icon correct-icon">
+                        check_circle
+                    </span>
+                </div>
+                <footer  class="center-row-flex">
+                    <button id="popupOnSuccessConfirmButton" ;" class="popup-button popup-button-primary">ok</button>
                 </footer>
             </section>
             <section id="popupOnError" style="display:none;">
                 <hader>
-                    <h3>Failed!</h3>
-                    <h4>Please try again.</h4>
+                    <h3 class="popup-header">Failed!</h3>
+                    <h4 class="popup-header-2">Please try again.</h4>
                 </hader>
-                <i class="material-icons">
-                    cancel
-                </i>
-                <footer>
-                    <button onclick="document.getElementById('popup').style.display = 'none';document.getElementById('popupOnError').style.display='none'">ok</button>
-                </footer>
+                <div class="center-row-flex">
+                    <span class="material-icons popup-icon incorrect-icon">
+                        cancel
+                    </span>
+                 </div>
+                    <footer>
+                        <button onclick="document.getElementById('popup').style.display = 'none';document.getElementById('popupOnError').style.display='none'">ok</button>
+                    </footer>
             </section>
         </section>
     </section>

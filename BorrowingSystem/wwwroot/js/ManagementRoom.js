@@ -86,15 +86,26 @@ function addEquipmentHandler(event) {
 }
 
 function initalAddEquipmentPopup() {
-    document.getElementById('popupOnInitialHeader').innerHTML = ``;
-    document.getElementById('popupOnInitialBody').innerHTML = `
-        <label for="popupOnInitialBodyNameInput">Name</lable>
-        <input type="text" id="popupOnInitialBodyNameInput" value = ''/>
-        <label for="popupOnInitialBodyEquipmentNumberInput">Equipment Number</lable>
-        <input type="text" id="popupOnInitialBodyEquipmentNumberInput" value = ''/>
+    document.getElementById('popupOnInitialHeader').innerHTML = `
+        <h3 class="popup-header">Create Equipment</h3>
     `;
+    document.getElementById('popupOnInitialBody').innerHTML = ` 
+     <div class="center-row-flex">
+        <form  id="popupForm"  style="text-align:center;">
+            <input type="text" id="popupOnInitialBodyNameInput" value = '' placeholder="Enter equipment's name..." class="popup-input" required />
+            <input type="text" id="popupOnInitialBodyEquipmentNumberInput" value = '' placeholder="Enter equipment's number..." class="popup-input" required />
+             <button id="popupFormButton" type="submit" style="display:none;" ></button>
+        </form>
+    </div>
+    `;
+    document.getElementById('popupForm').onsubmit = function (event) {
+        event.preventDefault();
+        confirmAddEquipmentHandler(event);
+    };
     document.getElementById('popupOnInitialCofirmButton').innerHTML = 'Add'
-    document.getElementById('popupOnInitialCofirmButton').onclick = confirmAddEquipmentHandler;
+    document.getElementById('popupOnInitialCofirmButton').onclick = function () {
+        document.getElementById('popupFormButton').click();
+    };
     document.getElementById('popup').style.display = "block";
 }
 
