@@ -8,33 +8,43 @@
     <!-- <span>09:22</span>
     <img src="~/img/user-profile.svg" alt="user profile picture" width="50"/> -->
 </header>
-<section class="pre-profile-block">
-    <img src="~/img/user-profile.svg" alt="user profile picture" width="200"/>
-    <div>Saitan Kittibullungkul</div>
-    <div>aomsaitan@gmail.com</div>
-    <div>096-094-3542</div>
-</section>
-<section class="edit-profile-block">
-    <div>Edit</div>
-    <img src="~/img/user-profile.svg" alt="user profile picture" width="100"/>
-    <input type="image" name="profilePicture" value="" />
-    <form id="form">
-        <label for="newFullName">Full Name</label>
-        <input type="text" name="newFullName" id="newFullName" value="" />
-        <label for="newEmail">Email address</label>
-        <input type="email" name="newEmail" id="newEmail" value="" />
-        <label for="newPhoneNumber">Phone number</label>
-        <input type="tel" name="newPhoneNumber" id="newPhoneNumber" value="" />
-        <input type="file" accept="image/png,image/bmp,image/jpeg,image/gif" name="newProfileImage" id="newProfileImage" />
-        <label for="newPasswword">New Password</label>
-        <input type="password" name="newPassword" id="newPassword" value="" />
-        <label for="confirmNewPasswword">Confirm New Password</label>
-        <input type="password" name="confirmNewPassword" id="confirmNewPassword" value="" />
-        <label for="oldPasswword">Current Password</label>
-        <input type="password" name="oldPassword" id="oldPassword" value="" required/>            
-        <button type="submit">Save Profile</button>
-        <div class="loader" id="editProfileLoader" style="visibility:hidden;"></div>
-    </form>
-
-</section>
+<div class="body-profile">
+    <section class="pre-profile-block">
+        <img src="~/img/user-profile.svg" alt="user profile picture" width="200" />
+        <div class="block-img-text">
+            <img src="~/img/ProfileB.png" />
+            <div>Saitan Kittibullungkul</div>
+        </div>
+        <div class="block-img-text">
+            <img src="~/img/Message.png" />
+            <div>aomsaitan@gmail.com</div>
+        </div>
+        <div class="block-img-text">
+            <img src="~/img/Call.png" />
+            <div>096-094-3542</div>
+        </div>     
+    </section>
+    <section class="edit-profile-block">
+        <div>Edit</div>
+        <img src="~/img/user-profile.svg" alt="user profile picture" width="100" /><br />
+        <input type="image" name="profilePicture" value="" /><br />
+        <input type="file" accept="image/png,image/bmp,image/jpeg,image/gif" name="newProfileImage" id="newProfileImage" /><br />
+        <form id="form">
+            <label for="newFullName">Full Name</label><br />
+            <input type="text" name="newFullName" id="newFullName" value="" /><br />
+            <label for="newEmail">Email address</label><br />
+            <input type="email" name="newEmail" id="newEmail" value="" /><br />
+            <label for="newPhoneNumber">Phone number</label><br />
+            <input type="tel" name="newPhoneNumber" id="newPhoneNumber" value="" /><br />
+            <label for="newPasswword">New Password</label><br />
+            <input type="password" name="newPassword" id="newPassword" value="" /><br />
+            <label for="confirmNewPasswword">Confirm New Password</label><br />
+            <input type="password" name="confirmNewPassword" id="confirmNewPassword" value="" /><br />
+            <label for="oldPasswword">Current Password</label><br />
+            <input type="password" name="oldPassword" id="oldPassword" value="" required /><br />
+            <button type="submit">Save Profile</button><br />
+            <div class="loader" id="editProfileLoader" style="visibility:hidden;"></div>
+        </form>
+    </section>
+</div>
 <script src="~/js/EditProfile.js"></script>

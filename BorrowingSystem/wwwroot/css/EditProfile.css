@@ -1,1 +1,127 @@
-﻿
+﻿header > h1 {
+    margin-left: 2vw;
+    margin-top: 2vh;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 36px;
+    line-height: 58px;
+    color: #333333
+}
+
+.pre-profile-block {
+    float: left;
+    width: 31vw;
+    height: 75vh;
+    padding: 15px;
+    background-color: #FFFEFF;
+    box-shadow: 0px 0px 16px rgba(0, 0, 0, 0.16);
+    border-radius: 16px;
+    margin: 2vw 2vw 2vw 2vw;
+    text-align: center;
+    align-items: center;
+    align-content: center;
+}
+
+.pre-profile-block > img[alt="user profile picture"] {
+    margin: 50px;
+    border: solid 5px transparent;
+    border-radius: 120px;
+    background-image: linear-gradient(180deg, #000000 0%, #9D0042 100%);
+    background-clip: border-box;
+    background-origin: border-box;
+}
+
+
+.edit-profile-block {
+    position: relative;
+    float: left;
+    width: 42vw;
+    height: 75vh;
+    padding: 15px;
+    background-color: #FFFEFF;
+    box-shadow: 0px 0px 16px rgba(0, 0, 0, 0.16);
+    border-radius: 16px;
+    margin: 2vw 0 2vw 0;
+}
+
+.edit-profile-block > div{
+    float: left;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 24px;
+    line-height: 44px;
+    color: #333333;
+    margin: 5px;
+}
+
+.edit-profile-block > img{
+    float: left;
+    margin-top: 15%;
+}
+
+.edit-profile-block > input{
+    position: absolute;
+    bottom: 59%;
+    left: 8%;
+}
+
+.body-profile {
+    width: 100%;
+    display: flex;
+    flex-wrap: nowrap;
+    margin-left: auto;
+    margin-right: auto;
+    align-items: center;
+    align-content:center;
+}
+
+.block-img-text {
+    margin: 10px;
+    padding: 20px 30px 40px 25%;
+    display: block;
+    white-space: nowrap;
+}
+
+.block-img-text img {
+    float: left;
+    transform: translateY(5%);
+    margin-right: 20px;
+}
+
+.block-img-text div {
+    float: left;
+}
+
+#form{
+    float:right;
+    margin-right: 10%;
+}
+
+#form input {
+    width: 22vw;
+    height: 37px;
+    border-radius: 16px;
+    font-weight: normal;
+    font-size: 20px;
+    line-height: 24px;
+    text-align: center;
+    background: rgba(60, 60, 67, 0.18);
+    color: white;
+    border: none;
+    margin-bottom: 6%;
+}
+
+#form button{
+    border: 2px solid #9D0042;
+    box-sizing: border-box;
+    border-radius: 16px;
+    color: #9D0042;
+    padding:6px;
+    width: 9vw;
+    height: 5vh;
+    font-size: 16px;
+
+    position: absolute;
+    right: 5%;
+    bottom: 3%;
+}
