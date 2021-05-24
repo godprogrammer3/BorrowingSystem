@@ -1,8 +1,481 @@
-﻿#bodySection{
+﻿#bodySection {
     display: flex;
+    position: relative;
+    width: 120%;
+    height: 100%;
+    top: -50px;
 }
-#roomDetailSection{
+
+#roomSection header {
+    position: relative;
+    font-size: 28px;
+    margin-left: 28%;
+    margin-top: 5%;
+    font-family: Inter;
+    font-style: normal;
+    font-weight: 500;
+}
+
+#roomDetailAvailableSection {
+    position: relative;
+    width: 50%;
+    height: 100%;
+}
+
+#roomReservation {
+    position: relative;
+    width: 50%;
+    height: 100%;
+}
+
+#selectionSpan {
+    position: absolute;
+    width: 290px;
+    height: 80px;
+    left: 20px;
+    /* Light red */
+    background: #FFEFF8;
+    border-radius: 16px;
+}
+
+#roomSection {
+    position: relative;
+    width: 20%;
+    height: 700px;
+    margin-left: 50px;
+    top: 0px;
+    background: #FFFEFF;
+    /* Frame */
+    box-shadow: 0px 0px 16px rgba(0, 0, 0, 0.16);
+    border-radius: 16px;
+}
+#roomDetailSection {
     display: flex;
+    position: relative;
+    width: 1150px;
+    height: 700px;
+    margin-left: 5%;
+    top: 0px;
+    background: #FFFEFF;
+    /* Frame */
+    box-shadow: 0px 0px 16px rgba(0, 0, 0, 0.16);
+    border-radius: 16px;
+}
+
+#roomDetailAvailableSectionOnSuccess {
+    display: flex;
+    width: 95%;
+    height: 100%;
+    box-shadow: 1px 0px 0px rgba(0, 0, 0, 0.25);
+}
+
+#Day0 {
+    position: relative;
+    display: flex;
+    background: white;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    text-align: center;
+    left: -8px;
+    border: 1px solid black;
+    
+}
+
+#Day0 p {
+    position: relative;
+    margin-left: 9px;
+    margin-top: 6px;
+    color: black;
+}
+
+#Day1 {
+    position: relative;
+    display: flex;
+    background: white;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    text-align: center;
+    left: -8px;
+    border: 1px solid black;
+}
+
+#Day1 p {
+    position: relative;
+    margin-left: 9px;
+    margin-top: 6px;
+    color: black;
+}
+
+#Day2 {
+    position: relative;
+    display: flex;
+    background: white;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    text-align: center;
+    left: -8px;
+    border: 1px solid black;
+}
+
+#Day2 p {
+    position: relative;
+    margin-left: 9px;
+    margin-top: 6px;
+    color: black;
+}
+
+#Day3 {
+    position: relative;
+    display: flex;
+    background: white;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    text-align: center;
+    left: -8px;
+    border: 1px solid black;
+}
+
+#Day3 p {
+    position: relative;
+    margin-left: 9px;
+    margin-top: 6px;
+    color: black;
+}
+
+#Day4 {
+    position: relative;
+    display: flex;
+    background: white;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    text-align: center;
+    left: -8px;
+    border: 1px solid black;
+}
+
+#Day4 p {
+    position: relative;
+    margin-left: 9px;
+    margin-top: 6px;
+    color: black;
+}
+
+#Day5 {
+    position: relative;
+    display: flex;
+    background: white;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    text-align: center;
+    left: -8px;
+    border: 1px solid black;
+}
+
+#Day5 p {
+    position: relative;
+    margin-left: 9px;
+    margin-top: 6px;
+    color: black;
+}
+
+#Day6 {
+    position: relative;
+    display: flex;
+    background: white;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    text-align: center;
+    left: -8px;
+    border: 1px solid black;
+}
+
+#Day6 p {
+    position: relative;
+    margin-left: 9px;
+    margin-top: 6px;
+    color: black;
+}
+
+#todayText {
+    position: relative;
+    color: rgba(60, 60, 67, 0.6);
+    font-size: 15px;
+    margin-left: 7%;
+    
+}
+
+#timeDisplay {
+    position: relative;
+    overflow: auto;
+    width: 90%;
+    height: 400px;
+}
+
+#time0 {
+    position: relative;
+    background: #CDFFDE;
+    border-radius: 8px;
+    left: 10%;
+    height: 30px;
+    padding-top: 8px;
+    width: 55%;
+    text-align: center;
+}
+
+#time1 {
+    position: relative;
+    background: #CDFFDE;
+    border-radius: 8px;
+    left: 10%;
+    height: 30px;
+    padding-top: 8px;
+    width: 55%;
+    text-align: center;
+}
+
+#time2 {
+    position: relative;
+    background: #CDFFDE;
+    border-radius: 8px;
+    left: 10%;
+    height: 30px;
+    padding-top: 8px;
+    width: 55%;
+    text-align: center;
+}
+
+#time3 {
+    position: relative;
+    background: #CDFFDE;
+    border-radius: 8px;
+    left: 10%;
+    height: 30px;
+    padding-top: 8px;
+    width: 55%;
+    text-align: center;
+}
+
+#time4 {
+    position: relative;
+    background: #CDFFDE;
+    border-radius: 8px;
+    left: 10%;
+    height: 30px;
+    padding-top: 8px;
+    width: 55%;
+    text-align: center;
+}
+
+#time5 {
+    position: relative;
+    background: #CDFFDE;
+    border-radius: 8px;
+    left: 10%;
+    height: 30px;
+    padding-top: 8px;
+    width: 55%;
+    text-align: center;
+}
+
+#time6 {
+    position: relative;
+    background: #CDFFDE;
+    border-radius: 8px;
+    left: 10%;
+    height: 30px;
+    padding-top: 8px;
+    width: 55%;
+    text-align: center;
+}
+
+#time7 {
+    position: relative;
+    background: #CDFFDE;
+    border-radius: 8px;
+    left: 10%;
+    height: 30px;
+    padding-top: 8px;
+    width: 55%;
+    text-align: center;
+}
+
+#time8 {
+    position: relative;
+    background: #CDFFDE;
+    border-radius: 8px;
+    left: 10%;
+    height: 30px;
+    padding-top: 8px;
+    width: 55%;
+    text-align: center;
+}
+
+#time9 {
+    position: relative;
+    background: #CDFFDE;
+    border-radius: 8px;
+    left: 10%;
+    height: 30px;
+    padding-top: 8px;
+    width: 55%;
+    text-align: center;
+}
+
+#time10 {
+    position: relative;
+    background: #CDFFDE;
+    border-radius: 8px;
+    left: 10%;
+    height: 30px;
+    padding-top: 8px;
+    width: 55%;
+    text-align: center;
+}
+
+#time11 {
+    position: relative;
+    background: #CDFFDE;
+    border-radius: 8px;
+    left: 10%;
+    height: 30px;
+    padding-top: 8px;
+    width: 55%;
+    text-align: center;
+}
+
+#time12 {
+    position: relative;
+    background: #CDFFDE;
+    border-radius: 8px;
+    left: 10%;
+    height: 30px;
+    padding-top: 8px;
+    width: 55%;
+    text-align: center;
+}
+
+#roomReservationOnSuccessUser > h4 {
+    position: relative;
+    font-size: 28px;
+    margin-top: 90px;
+
+}
+.displayTimeSection li {
+    position: relative;
+    margin-left: 20px;
+    margin-top: 20px;
+    font-size: 18px;
+    line-height: 22px;
+    /* identical to box height */
+    display: flex;
+    align-items: center;
+    font-feature-settings: 'tnum' on, 'lnum' on;
+    /* Gray 1 */
+    color: #333333;
+}
+.room1 {
+    position: relative;
+    font-size: 22px;
+    top: 15px;
+    margin-left: 15px;
+}
+
+.room2 {
+    position: relative;
+    font-size: 22px;
+    top: 15px;
+    margin-left: 15px;
+}
+
+.room3 {
+    position: relative;
+    font-size: 22px;
+    top: 15px;
+    margin-left: 15px;
+}
+
+.room4 {
+    position: relative;
+    font-size: 22px;
+    top: 15px;
+    margin-left: 15px;
+}
+
+.room5 {
+    position: relative;
+    font-size: 22px;
+    top: 15px;
+    margin-left: 15px;
+}
+
+.equipment1 {
+    position: relative;
+    font-size: 15px;
+    top: 25px;
+    margin-left: 15px;
+    color: rgba(60, 60, 67, 0.6);
+}
+
+.equipment2 {
+    position: relative;
+    font-size: 15px;
+    top: 25px;
+    margin-left: 15px;
+    color: rgba(60, 60, 67, 0.6);
+}
+
+.equipment3 {
+    position: relative;
+    font-size: 15px;
+    top: 25px;
+    margin-left: 15px;
+    color: rgba(60, 60, 67, 0.6);
+}
+
+.equipment4 {
+    position: relative;
+    font-size: 15px;
+    top: 25px;
+    margin-left: 15px;
+    color: rgba(60, 60, 67, 0.6);
+}
+
+.equipment5 {
+    position: relative;
+    font-size: 15px;
+    top: 25px;
+    margin-left: 15px;
+    color: rgba(60, 60, 67, 0.6);
+}
+
+.equipment_name {
+    position: relative;
+    margin-left: 2%;
+    top: 5%;
+    /* Header 36 */
+    font-size: 25px;
+    /* identical to box height */
+    /* Gray 1 */
+    color: #9D0042;
+}
+
+.displayDate {
+    position: relative;
+    margin-left: 7%;
+    top: 2%;
+    margin-bottom: 15px;
+    /* Sub title 28 */
+    font-size: 25px;
+    line-height: 34px;
+    /* Gray 1 */
+    color: #333333;
 }
 .dropDownActionMenu {
     z-index: 1;
@@ -10,4 +483,96 @@
     background-color: grey;
     top: -10px;
     left: -70px;
+}
+
+header img {
+    position: relative;
+    z-index: -1;
+    left: 1325px;
+    top: -70px;
+}
+
+header h1 {
+    position: relative;
+    left: 50px;
+    top: 35px;
+    font-size: 50px;
+}
+
+header span {
+    position: relative;
+    left: 1280px;
+    top: -115px;
+    font-size: 25px;
+    color: #9D0042;
+}
+
+header output {
+    position: absolute;
+    width: 70px;
+    height: 32px;
+    left: 468px;
+    top: 87px;
+    /* Light red */
+    background: #FFEFF8;
+    border-radius: 14%;
+    text-align: center;
+    color: #9D0042;
+    font-size: 23px;
+}
+.roomSectionList {
+    width: 90%;
+    height: 90px;
+    margin-left: 15px;
+    margin-right: 15px;
+    margin-top: 30px;
+    /* Light red */
+    border-radius: 16px;
+    
+}
+
+.room_name {
+    position: relative;
+    margin-left: 7%;
+    top: 5%;
+    /* Header 36 */
+    font-size: 36px;
+    /* identical to box height */
+    /* Gray 1 */
+    color: #333333;
+}
+
+.displayCalender {
+    position: relative;
+    margin-left: 20px;
+    margin-top: 15px;
+}
+
+.material-icons {
+    position: relative;
+    margin-top: 10px;
+    
+}
+
+form > label {
+    position: relative;
+    font-size: 20px;
+    margin-top: 30px;
+    align-items: center;
+    /* Gray 1 */
+    color: #333333;
+    margin-left: 8%;
+}
+
+#startDate {
+    position: relative;
+    background: #FFFFFF;
+    /* Secondary Label Colo */
+    border: 1px solid rgba(60, 60, 67, 0.6);
+    box-sizing: border-box;
+    border-radius: 16px;
+    width: 150px;
+    height: 50px;
+    margin-left: 25%;
+    text-align: center;
 }
