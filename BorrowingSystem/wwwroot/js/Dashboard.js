@@ -27,14 +27,20 @@ async function initialMainRoom(event) {
             if (rooms.length > 0) {
                 insideContent = '<ul style="list-style-type:none;">'
                 rooms.forEach((room) => {
-                    insideContent += `<li onclick="initialRoomDetail({  id:  ${room.id}, name: '${room.name}', equipmentName : '${room.equipmentName}'})"
-
-                    >${room.name}</li>`;
+                    insideContent += `<div id="spanRoom${room.id}"  class="roomSectionList">
+                    <span onclick="initialRoomDetail({  id:  ${room.id}, name: '${room.name}', equipmentName : '${room.equipmentName}'})"
+                    class = 'room${room.id}'>${room.name}</span><br>
+                    <span class = 'equipment${room.id}'>${room.equipmentName}</span>
+                    </div>`;
                 });
                 insideContent += '</ul>';
             } else {
                 insideContent = `<h3>Don't already have any room.</h3>`;
             }
+            document.getElementById('roomSectionOnSuccess').innerHTML = insideContent;
+            document.getElementById('roomSectionOnLoading').style.display = 'none';
+            document.getElementById('roomSectionOnSuccess').style.display = 'block';
+            document.getElementById('roomSectionOnError').style.display = 'none';
             if (rooms.length > 0) {
                 globalCurrentRoom = rooms[0];
                 initialRoomDetail(globalCurrentRoom);
@@ -44,11 +50,7 @@ async function initialMainRoom(event) {
                 document.getElementById('roomDetailAvailableSectionOnLoading').style.display = 'none';
                 document.getElementById('roomDetailAvailableSectionOnSuccess').style.display = 'none';
                 document.getElementById('roomDetailAvailableSectionOnError').style.display = 'none';
-            }
-            document.getElementById('roomSectionOnSuccess').innerHTML = insideContent;
-            document.getElementById('roomSectionOnLoading').style.display = 'none';
-            document.getElementById('roomSectionOnSuccess').style.display = 'block';
-            document.getElementById('roomSectionOnError').style.display = 'none';   
+            }  
         } else if (result.status == 401) {
             window.location = "/user";
         } else {
@@ -67,6 +69,18 @@ async function initialMainRoom(event) {
 var globalAvailableAllDay = null;
 var globalCurrentHourSelect = null;
 async function initialRoomDetail(room) {
+    setTimeout(() => {
+        document.getElementById('roomSectionOnSuccess').innerHTML = insideContent;
+    }, 100)
+    globalRoom.forEach((thisRoom) => {
+        if (thisRoom.id == room.id) {
+            document.getElementById('spanRoom' + thisRoom.id).style.background = '#FFEFF8';
+        }
+        else {
+            document.getElementById('spanRoom' + thisRoom.id).style.background = 'white';
+        }
+    });
+    const mountNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
     globalCurrentRoom = room;
     document.getElementById('roomDetailAvailableSectionOnLoading').style.display = 'block';
     document.getElementById('roomDetailAvailableSectionOnSuccess').style.display = 'none';
@@ -82,6 +96,7 @@ async function initialRoomDetail(room) {
             reject(null);
         }
     });
+    let initalDate = new Date();
     if (result) {
         if (result.status == 200) {
             var days = JSON.parse(result.body);
@@ -89,10 +104,10 @@ async function initialRoomDetail(room) {
             let insideContent;
             if (days.length > 0) {
                 insideContent = `
-                <span>${room.name}</span>
-                <span>${room.equipmentName}</span>
-                <h4>${new Date().toLocaleDateString("en-US")}</h4>
-                <section style="display:flex;">
+                <span class = "room_name">${room.name}</span>
+                <span class = "equipment_name">${room.equipmentName}</span>
+                <h4 class = "displayDate">${initalDate.getDate()}   ${mountNames[initalDate.getMonth()]}   ${initalDate.getFullYear()}</h4>
+                <section style="display:flex;" class = "displayCalender">
             `;
                 var userData = JSON.parse(localStorage.getItem('UserData'));
                 var nowDate = new Date();
@@ -103,9 +118,9 @@ async function initialRoomDetail(room) {
                 var saveFirstDateOfweek = firstDateOfWeek;
                 insideContent += `<span class="material-icons" style="visibility:hidden;">arrow_back_ios</span>`;
                 for (var countDay = 0; countDay < 7; countDay++) {
-                    insideContent += `<span style="margin:5px;"><section><p>`;
+                    insideContent += `<span style="margin:10px;"><section><p style = "font-size:15px;">`;
                     insideContent += dayOfWeekToString(countDay) + '</p>';
-                    insideContent += `<p style="${firstDateOfWeek < nowDate || firstDateOfWeek > lastDateOfMonth ? 'visibility:hidden;' : ''}${firstDateOfWeek == nowDate ? 'color:red;' : ''}"   onclick="updateRoomDetail( { id : ${room.id}, name:  '${room.name}', equipmentName :  '${room.equipmentName}' } , ${saveFirstDateOfweek} , ${firstDateOfWeek});">${firstDateOfWeek}</p>`;
+                    insideContent += `<div id = "Day${countDay}" style = "${firstDateOfWeek < nowDate || firstDateOfWeek > lastDateOfMonth ? 'visibility:hidden;' : ''}"><p style = "${firstDateOfWeek == nowDate ? 'color:red;' : ''}"   onclick="updateRoomDetail( { id : ${room.id}, name:  '${room.name}', equipmentName :  '${room.equipmentName}' } , ${saveFirstDateOfweek} , ${firstDateOfWeek});" >${firstDateOfWeek}</p></div>`;
                     insideContent += `</section></span>`;
                     firstDateOfWeek++;
                 }
@@ -117,14 +132,14 @@ async function initialRoomDetail(room) {
                 for (var timeIndex = 9; timeIndex <= 21; timeIndex++) {
                     insideContent += `<li id="hourSelect${timeIndex}"  ${userData.role == 'admin' ? 'onclick="adminSelectHour('+  room.id  +',' + nowDate  +','+ timeIndex + ');"' : ''}   style="${(userData.role == 'admin' && timeIndex == globalCurrentHourSelect) ? 'color:red;' : ''}" >`
                     insideContent += `<span>${(timeIndex == 9) ? '09' : timeIndex}:00-${timeIndex + 1}:00</span>`;
-                    insideContent += `<span style="margin-left:10px;">${availableQuantityToString(days[0][timeIndex - 9])}</span>`;
+                    insideContent += `<span id = "time${timeIndex - 9}" style="margin-left:10px;">${availableQuantityToString(days[0][timeIndex - 9])}</span>`;
                     insideContent += '</li>'
                 }
                 insideContent += `</section></ul>`;
             } else {
                 insideContent = `<h3>Error Empty content !</h3>`
             }
-           
+            var userData = JSON.parse(localStorage.getItem('UserData'));
             if (userData.role == 'admin') {
                 document.getElementById('roomReservationOnSuccessUser').style.display = 'none';
                 document.getElementById('roomReservationOnSuccessAdmin').style.display = 'block';
@@ -145,6 +160,11 @@ async function initialRoomDetail(room) {
             document.getElementById('roomReservationOnLoading').style.display = 'none';
             document.getElementById('roomReservationOnSuccess').style.display = 'block';
             document.getElementById('roomReservationOnError').style.display = 'none';
+            for (var timeIndex = 0; timeIndex <= 12; timeIndex++) {
+                if (days[0][timeIndex] == 0) {
+                    document.getElementById("time" + timeIndex).style.background = "#FFD6D0";
+                }
+            }
         } else {
             console.log('Unknown error ! : status code', result.status);
             document.getElementById('roomDetailAvailableSectionOnErrorMessage').innerHTML = 'Unknow Error !';
@@ -171,12 +191,15 @@ async function initialRoomDetail(room) {
 }
 
 function updateRoomDetail(room, firstDateOfWeek, currentSelectedDate) {
+    let initalDate = new Date();
     let days = globalAvailableAllDay;
-    let insideContent = ` 
-     <span>${room.name}</span>
-     <span>${room.equipmentName}</span>
-     <h4>${new Date().toLocaleDateString("en-US")}</h4>
-     <section style="display:flex;">`;
+    const mountNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    let insideContent = `
+    <span class = "room_name">${room.name}</span>
+    <span class = "equipment_name">${room.equipmentName}</span>
+    <h4 class = "displayDate">${initalDate.getDate()}   ${mountNames[initalDate.getMonth()]}   ${initalDate.getFullYear()}</h4>
+    <section style="display:flex;" class = "displayCalender">
+        `;
     var nowDate = new Date();
     var lastDateOfMonth = new Date(nowDate.getFullYear(), nowDate.getMonth() + 1, 0);
     lastDateOfMonth = lastDateOfMonth.getDate();
@@ -185,15 +208,15 @@ function updateRoomDetail(room, firstDateOfWeek, currentSelectedDate) {
     var userData = JSON.parse(localStorage.getItem('UserData'));
     insideContent += `<span class="material-icons" style="${saveFirstDateOfweek - 1 < nowDate ? 'visibility:hidden;' : ''}"  onclick="updateRoomDetail( { id : ${room.id}, name:  '${room.name}', equipmentName :  '${room.equipmentName}' } , ${saveFirstDateOfweek-7} , ${currentSelectedDate});" >arrow_back_ios</span>`;
     for (var countDay = 0; countDay < 7; countDay++) {
-        insideContent += `<span style="margin:5px;"><section><p>`;
+        insideContent += `<span style="margin:10px;"><section><p style = "font-size:15px;">`;
         insideContent += dayOfWeekToString(countDay)+`</p>`;
-        insideContent += `<p style="${firstDateOfWeek < nowDate || firstDateOfWeek > lastDateOfMonth ? 'visibility:hidden;' : ''}${firstDateOfWeek == currentSelectedDate ? 'color:red;' : ''}"  onclick="updateRoomDetail( { id : ${room.id}, name:  '${room.name}', equipmentName :  '${room.equipmentName}' } , ${saveFirstDateOfweek} , ${firstDateOfWeek});">${firstDateOfWeek}</p>`;
+        insideContent += `<div id = "Day${countDay}" style = "${firstDateOfWeek < nowDate || firstDateOfWeek > lastDateOfMonth ? 'visibility:hidden;' : ''}" ><p style="${firstDateOfWeek == currentSelectedDate ? 'color:red;' : ''}"  onclick="updateRoomDetail( { id : ${room.id}, name:  '${room.name}', equipmentName :  '${room.equipmentName}' } , ${saveFirstDateOfweek} , ${firstDateOfWeek});">${firstDateOfWeek}</p></div>`;
         insideContent += `</section></span>`;
         firstDateOfWeek++;
     }
     insideContent += `<span class="material-icons" style="${(firstDateOfWeek > lastDateOfMonth) ? 'visibility:hidden;' : ''}"  onclick="updateRoomDetail( { id : ${room.id}, name:  '${room.name}', equipmentName :  '${room.equipmentName}' } , ${firstDateOfWeek} , ${currentSelectedDate});">arrow_forward_ios</span>`;
     insideContent += '</section>'
-    insideContent += `<p>Today</p>`
+    insideContent += `<p id = "todayText">Today</p>`
     insideContent += `<section><ul style="list-style-type:none;" >`;
     globalCurrentHourSelect = 9; 
     for (var timeIndex = 9; timeIndex <= 21; timeIndex++) {
