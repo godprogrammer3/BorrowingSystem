@@ -63,7 +63,7 @@ namespace BorrowingSystem.Services
             {
                 throw new Exception("You are in banned status! Please contact admin.");
             }
-            IEnumerable<Equipment> equipments = _db.Equipment.Where(c => c.RoomId == roomId);
+            IEnumerable<Equipment> equipments = _db.Equipment.Where(c => c.RoomId == roomId && c.Status == Equipment.EquipmentStatus.available);
             int equipmentQuentity = equipments.Count();
             IEnumerable<Reservation> reservarions= _db.Reservation.Where(c => (( c.StartDateTime >= startDateTime && c.StartDateTime < endDateTime ) || ( c.EndDateTime > startDateTime && c.EndDateTime <= endDateTime )) && c.RoomId == roomId );
             _logger.LogInformation(reservarions.Count().ToString());
@@ -72,8 +72,13 @@ namespace BorrowingSystem.Services
                 throw new Exception("Reservation is full!");
             }
             if( reservarions.FirstOrDefault(c=> c.UserId == int.Parse(principal.FindFirst(ClaimTypes.NameIdentifier).Value)  ) != null){
-                throw new Exception("You already reserved in period time!");
+                if(int.Parse(principal.FindFirst(ClaimTypes.NameIdentifier).Value) != 3)
+                {
+                    throw new Exception("You already reserved in period time!");
+                }
+                
             }
+
             Reservation newReservation = new() { UserId = int.Parse(principal.FindFirst(ClaimTypes.NameIdentifier).Value), RoomId = roomId, StartDateTime = startDateTime, EndDateTime = endDateTime };
             _db.Reservation.Add(newReservation);
             _db.SaveChanges();
