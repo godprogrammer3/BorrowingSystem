@@ -125,3 +125,9 @@
     right: 5%;
     bottom: 3%;
 }
+
+.loader {
+    position: absolute;
+    bottom: 30%;
+    right: 75%;
+}
