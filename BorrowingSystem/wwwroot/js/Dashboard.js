@@ -1,6 +1,18 @@
 ﻿window.onload = function () {
     checkDisplayNavigationBar();
     initialMainRoom();
+    var date = new Date();
+    document.getElementById('currentTime').innerHTML = getHHMMTimeFromDate(date);
+    setInterval(function () {
+        document.getElementById('currentTime').innerHTML = getHHMMTimeFromDate(new Date());
+    }, 1000);
+    var userDate = JSON.parse(localStorage.getItem('UserData'));
+    document.getElementById('userFullName').innerHTML = userDate.fullName;
+    if (userDate.profileImage != null) {
+        document.getElementById('userProfileImage').src = '/img/' + userDate.profileImage;
+    } else {
+        document.getElementById('userProfileImage').src = '/img/user-profile.svg'
+    }
 }
 
 var globalCurrentRoom = null;
@@ -350,14 +362,14 @@ async function  initalUserReservation(roomId,date,hour) {
         if (result.status == 200) {
             let reservations = JSON.parse(result.body)
             let insideContent;
-            insideContent = '<h3>User</h3>';
+            insideContent = '<h3 class="popup-header">User</h3>';
             if (reservations.length > 0) {
-                insideContent += '<ul style="list-style-type:none;padding-inline-start:0;">'
+                insideContent += '<ul style="list-style-type:none;padding-inline-start:0;height: 30vh;overflow - y: scroll;">'
                 reservations.forEach((reservation,index) => {
                     insideContent += `<li class="user-info">`;
-                    insideContent += `<img src="/img/${reservation.user.profileImage != null ? reservation.user.profileImage : 'user-profile.svg'}"   width="50px" alt="profile iamge" />`;
-                    insideContent += `<span>${reservation.user.fullName}</span>`;
-                    insideContent += `<span class="material-icons" onclick="document.getElementById('dropDownActionMenu${index}').style.display = 'block'; ">more_horiz</span>`;
+                    insideContent += `<img style="margin:20px;" class="image-profile-li" src="/img/${reservation.user.profileImage != null ? reservation.user.profileImage : 'user-profile.svg'}"   alt="profile iamge" />`;
+                    insideContent += `<span style="margin:20px;">${reservation.user.fullName}</span>`;
+                    insideContent += `<span style="margin:20px;cursor:pointer;" class="material-icons" onclick="document.getElementById('dropDownActionMenu${index}').style.display = 'block'; ">more_horiz</span>`;
                     insideContent += `<section class="dropDownActionMenu" id="dropDownActionMenu${index}" style="display:none;"><ul style="list-style-type:none;padding-inline-start:0;">`;
                     insideContent += `<li class="li-item" onclick="initialProfileDataPopup({ fullName: '${reservation.user.fullName}',  email: '${reservation.user.email}', phoneNumber : '${reservation.user.phoneNumber}', profileImage : '${reservation.user.profileImage}' });">View profile</li>`;
                     insideContent += `<li class="li-item" onclick="initialRemoveReservationPopup( { id: ${reservation.reservation.id}, roomId: ${reservation.reservation.roomId},  userFullName: '${reservation.user.fullName}' , startDateTime: '${reservation.reservation.startDateTime}' , endDateTime: '${reservation.reservation.endDateTime}' } );" >Remove reservation</li>`;
@@ -391,11 +403,14 @@ async function  initalUserReservation(roomId,date,hour) {
 
 function initialProfileDataPopup(user){
     let insideContent;
-    insideContent = `<section><span class="material-icons" onclick=" document.getElementById('profileDataPopup').style.display = 'none'; ">close</span></section>`;
+    insideContent = `<section id="popup-user-data">`;
     insideContent += `<img src="/img/${ (user.profileImage != 'null')?user.profileImage : 'user-profile.svg'} " alt="profile image" width="200px;"/>`;
     insideContent += `<p><span class="material-icons">person</span><span>${user.fullName}</span></p>`;
     insideContent += `<p><span class="material-icons">email</span><span>${user.email}</span></p>`;
-    insideContent += `<p><span class="material-icons">call</span><span>${user.phoneNumber ?? 'Not Assiged'}</span></p>`;
+    insideContent += `<p><span class="material-icons">call</span><span>${user.phoneNumber ?? 'Not Assiged'}</span></p>
+    <button class="popup-button popup-button-primary" onclick=" document.getElementById('profileDataPopup').style.display = 'none';">close</span>
+        </section>
+    `;
     document.getElementById('profileDataPopupContent').innerHTML = insideContent;
     document.getElementById('profileDataPopup').style.display = 'block';
 }
@@ -405,7 +420,7 @@ function initialRemoveReservationPopup(reservation) {
     document.getElementById('popupOnSuccess').style.display = 'none';
     document.getElementById('popupOnError').style.display = 'none';
     document.getElementById('popupOnInitial').style.display = 'block';
-    document.getElementById('popupOnInitialHeader').innerHTML = `Confirm remove reservation ?`;
+    document.getElementById('popupOnInitialHeader').innerHTML = `<h3 class="popup-header">Confirm remove reservation ?</h3>`;
     document.getElementById('popupOnInitialBody').innerHTML = `
         <p>User : ${reservation.userFullName}</p>
         <p>Date :<span> ${getDDMMYYYYFromUtcDateTimeString(reservation.startDateTime)} </span></p>
@@ -517,7 +532,7 @@ function initialBanUserPopup(user,reservation) {
     document.getElementById('popupOnSuccess').style.display = 'none';
     document.getElementById('popupOnError').style.display = 'none';
     document.getElementById('popupOnInitial').style.display = 'block';
-    document.getElementById('popupOnInitialHeader').innerHTML = `Confirm to ban user ?`;
+    document.getElementById('popupOnInitialHeader').innerHTML = `<h3 class="popup-header">Confirm to ban user ?</h3>`;
     document.getElementById('popupOnInitialBody').innerHTML = `
         <p>User : ${user.fullName}</p>
     `;
@@ -582,4 +597,8 @@ function adminSelectHour(roomId, date , timeIndex) {
     document.getElementById(`hourSelect${timeIndex}`).style.color = 'red';
     globalCurrentHourSelect = timeIndex;
     initalUserReservation(roomId, date, timeIndex)
+}
+
+function getHHMMTimeFromDate(date) {
+    return (date.getHours() < 9 ? '0' + date.getHours() : date.getHours()) + ':' + (date.getMinutes() < 9 ? '0' + date.getMinutes() : date.getMinutes());
 }
