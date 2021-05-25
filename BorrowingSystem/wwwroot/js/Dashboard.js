@@ -27,7 +27,7 @@ async function initialMainRoom(event) {
             if (rooms.length > 0) {
                 insideContent = '<ul style="list-style-type:none;padding-inline-start: 0;" >'
                 rooms.forEach((room) => {
-                    insideContent += `<div id="spanRoom${room.id}"  class="room-list">
+                    insideContent += `<div class="room-list">
                     <span onclick="initialRoomDetail({  id:  ${room.id}, name: '${room.name}', equipmentName : '${room.equipmentName}'})"
                       >${room.name}</span><br>
                     <span class = 'equipment${room.id}'>${room.equipmentName}</span>
@@ -105,7 +105,7 @@ async function initialRoomDetail(room) {
                 nowDate = nowDate.getDate();
                 var firstDateOfWeek = nowDate - (new Date()).getDay() + 1;
                 var saveFirstDateOfweek = firstDateOfWeek;
-                insideContent += `<span class="material-icons" style="visibility:hidden;">arrow_back_ios</span>`;
+                insideContent += `<span class="material-icons" style="visibility:hidden;cursor:pointer;">arrow_back_ios</span>`;
                 for (var countDay = 0; countDay < 7; countDay++) {
                     insideContent += `<span style="margin:10px;"><section><p style = "font-size:15px;">`;
                     insideContent += dayOfWeekToString(countDay) + '</p>';
@@ -113,12 +113,12 @@ async function initialRoomDetail(room) {
                     insideContent += `</section></span>`;
                     firstDateOfWeek++;
                 }
-                insideContent += `<span class="material-icons" style="${(firstDateOfWeek > lastDateOfMonth) ? 'visibility:hidden;' : ''}" onclick="updateRoomDetail( { id : ${room.id}, name:  '${room.name}', equipmentName :  '${room.equipmentName}' } , ${firstDateOfWeek} , ${nowDate});">arrow_forward_ios</span>`;
+                insideContent += `<span class="material-icons" style="cursor:pointer;  ${(firstDateOfWeek > lastDateOfMonth) ? 'visibility:hidden;' : ''}" onclick="updateRoomDetail( { id : ${room.id}, name:  '${room.name}', equipmentName :  '${room.equipmentName}' } , ${firstDateOfWeek} , ${nowDate}); ">arrow_forward_ios</span>`;
                 insideContent += '</section>'
                 insideContent += `<p>Today</p>`
                 insideContent += `<section><ul style="list-style-type:none;" >`;
-                globalCurrentHourSelect = 9;
-                for (var timeIndex = 9; timeIndex <= 21; timeIndex++) {
+                globalCurrentHourSelect = new Date().getHours(); timeIndex;
+                for (var timeIndex = globalCurrentHourSelect; timeIndex <= 21; timeIndex++) {
                     insideContent += `<li id="hourSelect${timeIndex}"  ${userData.role == 'admin' ? 'onclick="adminSelectHour('+  room.id  +',' + nowDate  +','+ timeIndex + ');"' : ''}   style="${(userData.role == 'admin' && timeIndex == globalCurrentHourSelect) ? 'color:red;' : ''}" >`
                     insideContent += `<span>${(timeIndex == 9) ? '09' : timeIndex}:00-${timeIndex + 1}:00</span>`;
                     insideContent += `<span id = "time${timeIndex - 9}" style="margin-left:10px;">${availableQuantityToString(days[0][timeIndex - 9])}</span>`;
@@ -149,11 +149,6 @@ async function initialRoomDetail(room) {
             document.getElementById('roomReservationOnLoading').style.display = 'none';
             document.getElementById('roomReservationOnSuccess').style.display = 'block';
             document.getElementById('roomReservationOnError').style.display = 'none';
-            for (var timeIndex = 0; timeIndex <= 12; timeIndex++) {
-                if (days[0][timeIndex] == 0) {
-                    document.getElementById("time" + timeIndex).style.background = "#FFD6D0";
-                }
-            }
         } else {
             console.log('Unknown error ! : status code', result.status);
             document.getElementById('roomDetailAvailableSectionOnErrorMessage').innerHTML = 'Unknow Error !';
@@ -195,7 +190,7 @@ function updateRoomDetail(room, firstDateOfWeek, currentSelectedDate) {
     nowDate = nowDate.getDate();
     saveFirstDateOfweek = firstDateOfWeek;
     var userData = JSON.parse(localStorage.getItem('UserData'));
-    insideContent += `<span class="material-icons" style="${saveFirstDateOfweek - 1 < nowDate ? 'visibility:hidden;' : ''}"  onclick="updateRoomDetail( { id : ${room.id}, name:  '${room.name}', equipmentName :  '${room.equipmentName}' } , ${saveFirstDateOfweek-7} , ${currentSelectedDate});" >arrow_back_ios</span>`;
+    insideContent += `<span class="material-icons" style="cursor:pointer;  ${saveFirstDateOfweek - 1 < nowDate ? 'visibility:hidden;' : ''}"  onclick="updateRoomDetail( { id : ${room.id}, name:  '${room.name}', equipmentName :  '${room.equipmentName}' } , ${saveFirstDateOfweek-7} , ${currentSelectedDate});" >arrow_back_ios</span>`;
     for (var countDay = 0; countDay < 7; countDay++) {
         insideContent += `<span style="margin:10px;"><section><p style = "font-size:15px;">`;
         insideContent += dayOfWeekToString(countDay) + `</p>`;
@@ -204,13 +199,13 @@ function updateRoomDetail(room, firstDateOfWeek, currentSelectedDate) {
         insideContent += `</section></span>`;
         firstDateOfWeek++;
     }
-    insideContent += `<span class="material-icons" style="${(firstDateOfWeek > lastDateOfMonth) ? 'visibility:hidden;' : ''}"  onclick="updateRoomDetail( { id : ${room.id}, name:  '${room.name}', equipmentName :  '${room.equipmentName}' } , ${firstDateOfWeek} , ${currentSelectedDate});">arrow_forward_ios</span>`;
+    insideContent += `<span class="material-icons" style="cursor:pointer;   ${(firstDateOfWeek > lastDateOfMonth) ? 'visibility:hidden;' : ''}"  onclick="updateRoomDetail( { id : ${room.id}, name:  '${room.name}', equipmentName :  '${room.equipmentName}' } , ${firstDateOfWeek} , ${currentSelectedDate});">arrow_forward_ios</span>`;
     insideContent += '</section>'
     insideContent += `<p id = "todayText">Today</p>`
     insideContent += `<section><ul style="list-style-type:none;" >`;
-    globalCurrentHourSelect = 9; 
-    for (var timeIndex = 9; timeIndex <= 21; timeIndex++) {
-        insideContent += `<li id="hourSelect${timeIndex}"  ${userData.role == 'admin' ? 'onclick="adminSelectHour(' + room.id + ',' + nowDate + ',' + timeIndex + ');"' : ''}   style="${(userData.role == 'admin' && timeIndex == globalCurrentHourSelect) ? 'color:red;' : ''}" >`
+    globalCurrentHourSelect = new Date().getHours() 
+    for (var timeIndex = new Date().getHours(); timeIndex <= 21; timeIndex++) {
+        insideContent += `<li id="hourSelect${timeIndex}"  ${userData.role == 'admin' ? 'onclick="adminSelectHour(' + room.id + ',' + currentSelectedDate + ',' + timeIndex + ');"' : ''}   style="${(userData.role == 'admin' && timeIndex == globalCurrentHourSelect) ? 'color:red;' : ''}" >`
         insideContent += `<span>${(timeIndex == 9) ? '09' : timeIndex}:00-${timeIndex + 1}:00</span>`;
         insideContent += `<span style="margin-left:10px;">${availableQuantityToString(days[currentSelectedDate - nowDate][timeIndex - 9])}</span>`;
         insideContent += '</li>'
@@ -265,12 +260,14 @@ function initialCreateReservationPopupContent(requestParameter) {
     document.getElementById('popupOnSuccess').style.display = 'none';
     document.getElementById('popupOnError').style.display = 'none';
     document.getElementById('popupOnInitial').style.display = 'block';
-    document.getElementById('popupOnInitialHeader').innerHTML = `Confirm reservation?`;
+    document.getElementById('popupOnInitialHeader').innerHTML = `<h3 class="popup-header">Confirm reservation?</h3>`;
     document.getElementById('popupOnInitialBody').innerHTML = `
+     <div id="createPopupContent">
         <p><span> ${globalCurrentRoom.name} </span><span> ${globalCurrentRoom.equipmentName} </span></p>
         <p>Date :<span> ${requestParameter.startDateTime.toLocaleDateString('en-US')} </span></p>
         <p>Start at :<span> ${(requestParameter.startDateTime.getHours() == 9) ? '0'+requestParameter.startDateTime.getHours(): requestParameter.startDateTime.getHours()}:00</span></p>
-        <p>Untill :<span> ${requestParameter.startDateTime.getHours()+requestParameter.hourPeriod}:00 </span></p>
+        <p>Untill :<span> ${requestParameter.startDateTime.getHours() + requestParameter.hourPeriod}:00 </span></p>
+     </div>
     `;
     document.getElementById('popupOnInitialCofirmButton').innerHTML = 'Confirm'
     document.getElementById('popupOnInitialCofirmButton').onclick = function (event) { confirmCreateReservationPopupHandler(requestParameter); };

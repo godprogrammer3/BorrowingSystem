@@ -11,6 +11,7 @@
     flex: 1;
     justify-content: space-around;
     padding: 20px;
+    margin-right:10%;
 }
 #roomSection {
     box-shadow: 0px 0px 16px rgba(0, 0, 0, 0.16);
@@ -29,11 +30,18 @@
 }
 .room-list {
     border-radius: 16px;
-    margin:10px
+    margin:10px;
+    padding:30px;
+    cursor:pointer;
+
 }
+.room-list:hover {
+    background-color: #FFEFF8;
+}
+
 #roomName {
     font-size: 25px;
-    color:#333333;
+    color: #333333;
 }
 
 #equipmentName {
@@ -56,4 +64,27 @@
     position: relative;
     top: -0.5em;
     left: 0.27em;
+}
+#roomDetailAvailableSection {
+    box-shadow: 1px 0px 0px rgba(0, 0, 0, 0.25);
+}
+
+#selectDate{
+    display:flex;
+    justify-content:space-between;
+}
+
+#selectTime{
+    display:flex;
+    justify-content:space-between;
+}
+#durationTimeSection {
+    display:flex;
+    justify-content:center;
+}
+#createPopupContent {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size:20px;
 }
