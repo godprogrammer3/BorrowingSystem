@@ -179,7 +179,7 @@ namespace BorrowingSystem.Services
                    reservation,
                    user,
                             }
-               ).Where(c => c.reservation.RoomId == roomId && c.reservation.StartDateTime.Day == date && c.reservation.StartDateTime.Hour == hour)
+               ).Where(c => c.reservation.RoomId == roomId && c.reservation.StartDateTime.Day == date && ( hour >= c.reservation.StartDateTime.Hour && hour <= c.reservation.EndDateTime.Hour))
                .Select( c => new ReservationUser() { User = c.user , Reservation = c.reservation} )
                .ToList() ;
         }
