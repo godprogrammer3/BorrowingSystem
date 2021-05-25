@@ -204,6 +204,7 @@ function updateRoomDetail(room, firstDateOfWeek, currentSelectedDate) {
     insideContent += `<p id = "todayText">Today</p>`
     insideContent += `<section><ul style="list-style-type:none;" >`;
     globalCurrentHourSelect = new Date().getHours() 
+    adminSelectHour(room.id, currentSelectedDate, globalCurrentHourSelect);
     for (var timeIndex = new Date().getHours(); timeIndex <= 21; timeIndex++) {
         insideContent += `<li id="hourSelect${timeIndex}"  ${userData.role == 'admin' ? 'onclick="adminSelectHour(' + room.id + ',' + currentSelectedDate + ',' + timeIndex + ');"' : ''}   style="${(userData.role == 'admin' && timeIndex == globalCurrentHourSelect) ? 'color:red;' : ''}" >`
         insideContent += `<span>${(timeIndex == 9) ? '09' : timeIndex}:00-${timeIndex + 1}:00</span>`;
@@ -351,17 +352,17 @@ async function  initalUserReservation(roomId,date,hour) {
             let insideContent;
             insideContent = '<h3>User</h3>';
             if (reservations.length > 0) {
-                insideContent += '<ul style="list-style-type:none;">'
+                insideContent += '<ul style="list-style-type:none;padding-inline-start:0;">'
                 reservations.forEach((reservation,index) => {
-                    insideContent += `<li>`;
+                    insideContent += `<li class="user-info">`;
                     insideContent += `<img src="/img/${reservation.user.profileImage != null ? reservation.user.profileImage : 'user-profile.svg'}"   width="50px" alt="profile iamge" />`;
                     insideContent += `<span>${reservation.user.fullName}</span>`;
                     insideContent += `<span class="material-icons" onclick="document.getElementById('dropDownActionMenu${index}').style.display = 'block'; ">more_horiz</span>`;
-                    insideContent += `<section class="dropDownActionMenu" id="dropDownActionMenu${index}" style="display:none;"><ul style="list-style-type:none;">`;
-                    insideContent += `<li onclick="initialProfileDataPopup({ fullName: '${reservation.user.fullName}',  email: '${reservation.user.email}', phoneNumber : '${reservation.user.phoneNumber}', profileImage : '${reservation.user.profileImage}' });">View profile</li>`;
-                    insideContent += `<li onclick="initialRemoveReservationPopup( { id: ${reservation.reservation.id}, roomId: ${reservation.reservation.roomId},  userFullName: '${reservation.user.fullName}' , startDateTime: '${reservation.reservation.startDateTime}' , endDateTime: '${reservation.reservation.endDateTime}' } );" >Remove reservation</li>`;
-                    insideContent += `<li onclick="initialBanUserPopup({ id:${ reservation.user.id } ,  fullName: '${reservation.user.fullName}',  email: '${reservation.user.email}', phoneNumber : '${reservation.user.phoneNumber}', profileImage : '${reservation.user.profileImage}' } ,  { id: ${reservation.reservation.id}, roomId: ${reservation.reservation.roomId},  userFullName: '${reservation.user.fullName}' , startDateTime: '${reservation.reservation.startDateTime}' , endDateTime: '${reservation.reservation.endDateTime}' })">Add to blacklist</li>`;
-                    insideContent += `<li onclick=" document.getElementById('dropDownActionMenu${index}').style.display = 'none'; ">Close</li>`;
+                    insideContent += `<section class="dropDownActionMenu" id="dropDownActionMenu${index}" style="display:none;"><ul style="list-style-type:none;padding-inline-start:0;">`;
+                    insideContent += `<li class="li-item" onclick="initialProfileDataPopup({ fullName: '${reservation.user.fullName}',  email: '${reservation.user.email}', phoneNumber : '${reservation.user.phoneNumber}', profileImage : '${reservation.user.profileImage}' });">View profile</li>`;
+                    insideContent += `<li class="li-item" onclick="initialRemoveReservationPopup( { id: ${reservation.reservation.id}, roomId: ${reservation.reservation.roomId},  userFullName: '${reservation.user.fullName}' , startDateTime: '${reservation.reservation.startDateTime}' , endDateTime: '${reservation.reservation.endDateTime}' } );" >Remove reservation</li>`;
+                    insideContent += `<li class="li-item" onclick="initialBanUserPopup({ id:${ reservation.user.id } ,  fullName: '${reservation.user.fullName}',  email: '${reservation.user.email}', phoneNumber : '${reservation.user.phoneNumber}', profileImage : '${reservation.user.profileImage}' } ,  { id: ${reservation.reservation.id}, roomId: ${reservation.reservation.roomId},  userFullName: '${reservation.user.fullName}' , startDateTime: '${reservation.reservation.startDateTime}' , endDateTime: '${reservation.reservation.endDateTime}' })">Add to blacklist</li>`;
+                    insideContent += `<li class="li-item" onclick=" document.getElementById('dropDownActionMenu${index}').style.display = 'none'; ">Close</li>`;
                     insideContent += `</ul></section>`;
                     insideContent += `</li>`;
                 });
